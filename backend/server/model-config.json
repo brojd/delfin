@@ -31,5 +31,17 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "competition": {
+    "dataSource": "db",
+    "public": true
+  },
+  "race": {
+    "dataSource": "db",
+    "public": true
+  },
+  "swimmer": {
+    "dataSource": "db",
+    "public": true
   }
 }

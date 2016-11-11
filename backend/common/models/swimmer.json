@@ -1,0 +1,30 @@
+{
+  "name": "swimmer",
+  "plural": "swimmers",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "surname": {
+      "type": "string"
+    },
+    "times": {
+      "type": "object"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "race": {
+      "type": "belongsTo",
+      "model": "race",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

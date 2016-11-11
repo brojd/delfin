@@ -1,0 +1,35 @@
+{
+  "name": "race",
+  "plural": "races",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "sex": {
+      "type": "string"
+    },
+    "style": {
+      "type": "string"
+    },
+    "age": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "swimmers": {
+      "type": "hasMany",
+      "model": "swimmer",
+      "foreignKey": ""
+    },
+    "competition": {
+      "type": "belongsTo",
+      "model": "competition",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

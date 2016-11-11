@@ -1,0 +1,28 @@
+{
+  "name": "competition",
+  "plural": "competitions",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "default": "Zawody"
+    },
+    "date": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "races": {
+      "type": "hasMany",
+      "model": "race",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
