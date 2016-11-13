@@ -6,6 +6,7 @@
     "custom-react-scripts": "0.0.17"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-router": "2.5.0"

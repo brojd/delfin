@@ -1,1 +1,20 @@
-.example{}
+.NavWrapper {
+  height: 100vh;
+  overflow-y: hidden;
+  background: linear-gradient(to bottom right, #282c37, #282c37);
+  left: 0;
+  position: absolute;
+}
+
+.Nav {
+  height: 400px;
+  margin-top: 100px;
+}
+
+.Nav__link {
+  color: #646b7f;
+}
+
+.Nav__link:hover {
+  color: #d8d8d8;
+}
