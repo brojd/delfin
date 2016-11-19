@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import styles from './Competitions.stylesheet.css';
 
-class Nav extends Component {
+class Competitions extends Component {
   constructor() {
     super();
     this._setCurrentCompetition = this._setCurrentCompetition.bind(this);
@@ -47,9 +47,17 @@ class Nav extends Component {
           })}
         </ul>
       </div>
-
     )
   }
 }
 
-export default Nav;
+Competitions.propTypes = {
+  competitionChanged: PropTypes.func,
+  competitions: PropTypes.array,
+  currentCompetitionId: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ])
+};
+
+export default Competitions;
