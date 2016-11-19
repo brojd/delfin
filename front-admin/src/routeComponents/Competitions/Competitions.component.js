@@ -11,8 +11,7 @@ class Nav extends Component {
     this._displayDate = this._displayDate.bind(this);
     this._isChosen = this._isChosen.bind(this);
     this.state = {
-      competitions: [],
-      currentCompetitionId: localStorage.getItem('currentCompetitionId')
+      competitions: []
     };
   }
   _setCurrentCompetition(e, id) {
@@ -32,6 +31,12 @@ class Nav extends Component {
     axios.get(`${CONFIG.API_URL}/competitions`)
       .then((response) => this.setState({competitions: response.data}))
       .catch((error) => console.error(error))
+    if (!localStorage.getItem('currentCompetitionId')) {
+      localStorage.setItem('currentCompetitionId', CONFIG.DEFAULT_COMPETITION_ID);
+      this.setState({currentCompetitionId: CONFIG.DEFAULT_COMPETITION_ID})
+    } else {
+      this.setState({currentCompetitionId: localStorage.getItem('currentCompetitionId')});
+    }
   }
   render() {
     return (
