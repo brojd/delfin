@@ -25,9 +25,9 @@ class Competitions extends Component {
   render() {
     return (
       <div className={classNames('uk-align-center uk-width-9-10', styles.Competitions)}>
-        <h2 className='uk-text-center '>
+        <h3 className='uk-text-center '>
           Wybierz zawody
-        </h2>
+        </h3>
         <ul className='uk-list uk-margin-large-top'>
           {this.props.competitions.map((competition, i) => {
             return (

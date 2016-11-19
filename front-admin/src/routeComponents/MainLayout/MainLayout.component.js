@@ -10,12 +10,16 @@ class MainLayout extends Component {
   constructor() {
     super();
     this._passCompetitionId = this._passCompetitionId.bind(this);
+    this._getCurrentCompetition = this._getCurrentCompetition.bind(this);
     this.state = {
       competitions: []
     }
   }
   _passCompetitionId(id) {
     this.setState({ currentCompetitionId: id });
+  }
+  _getCurrentCompetition(id, array) {
+    return array.filter((n) => n.id == id)[0];
   }
   componentDidMount() {
     axios.get(`${CONFIG.API_URL}/competitions`)
@@ -30,9 +34,10 @@ class MainLayout extends Component {
   }
 
   render() {
+    let currentCompetition = this._getCurrentCompetition(this.state.currentCompetitionId, this.state.competitions);
     return (
       <div className={classNames(styles.MainLayout)}>
-        <Header/>
+        <Header currentCompetition={currentCompetition} />
         <Nav/>
         {this.props.children && React.cloneElement(this.props.children, {
           passCompetitionId: this._passCompetitionId,
