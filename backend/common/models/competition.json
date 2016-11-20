@@ -21,6 +21,11 @@
       "type": "hasMany",
       "model": "race",
       "foreignKey": ""
+    },
+    "swimmers": {
+      "type": "hasMany",
+      "model": "swimmer",
+      "foreignKey": ""
     }
   },
   "acls": [],

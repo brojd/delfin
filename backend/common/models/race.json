@@ -20,7 +20,7 @@
   "validations": [],
   "relations": {
     "swimmers": {
-      "type": "hasMany",
+      "type": "hasAndBelongsToMany",
       "model": "swimmer",
       "foreignKey": ""
     },
