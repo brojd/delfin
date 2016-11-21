@@ -43,27 +43,27 @@ class ChooseRace extends Component {
   }
   render() {
     return (
-      <form>
+      <form className='uk-width-7-10 uk-align-center'>
         <Select
           name='sex'
           value={this.state.sex}
           options={this.sexOptions}
           onChange={this._handleSexChange}
-          className='uk-width-2-10 uk-display-inline-block uk-margin-large-right'
+          className='uk-width-3-10 uk-display-inline-block uk-margin-large-right'
         />
         <Select
           name='style'
           value={this.state.style}
           options={this.styleOptions}
           onChange={this._handleStyleChange}
-          className='uk-width-2-10 uk-display-inline-block uk-margin-large-right'
+          className='uk-width-3-10 uk-display-inline-block uk-margin-large-right'
         />
         <Select
           name='age'
           value={this.state.age}
           options={this.ageOptions}
           onChange={this._handleAgeChange}
-          className='uk-width-2-10 uk-display-inline-block'
+          className='uk-width-3-10 uk-display-inline-block'
         />
       </form>
     );

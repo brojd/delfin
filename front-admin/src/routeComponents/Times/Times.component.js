@@ -1,12 +1,19 @@
 import React, {Component} from 'react';
 import ChooseRace from '../../components/ChooseRace/ChooseRace.component';
+import RaceSwimmersList from '../../components/RaceSwimmersList/RaceSwimmersList.component';
+import axios from 'axios';
+import CONFIG from '../../config';
+import Select from 'react-select';
 
 class Times extends Component {
   constructor() {
     super();
     this._getCategory = this._getCategory.bind(this);
+    this._handleSwimmerChosen = this._handleSwimmerChosen.bind(this);
     this.state = {
-      raceId: 1
+      raceId: 1,
+      competitionSwimmers: [],
+      raceSwimmers: []
     };
   }
   _getCategory(sex, style, age) {
@@ -37,11 +44,39 @@ class Times extends Component {
       this.setState({ raceId: 12 });
     }
   }
+  _handleSwimmerChosen(val) {
+    let raceSwimmers = this.state.raceSwimmers;
+    if (raceSwimmers.filter((n) => n.value == val.value).length > 0) {
+      alert('Swimmer already added');
+    } else {
+      raceSwimmers.push(val);
+      this.setState({ raceSwimmers: raceSwimmers });
+    }
+  }
+  componentDidMount() {
+    let currentCompetitionId = localStorage.getItem('currentCompetitionId');
+    this.setState({ currentCompetitionId: currentCompetitionId });
+    axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/swimmers`)
+      .then((res) => this.setState({ competitionSwimmers: res.data }))
+      .catch((error) => console.error(error));
+  }
   render() {
+    let swimmerChoices = this.state.competitionSwimmers.map((n) => {
+      return {
+        value: n,
+        label: `${n.name} ${n.surname}`
+      };
+    });
     return (
       <div>
         <ChooseRace getCategory={this._getCategory}/>
-        Race {this.state.raceId}
+        <RaceSwimmersList swimmers={this.state.raceSwimmers} />
+        <Select
+          name='swimmer'
+          options={swimmerChoices}
+          onChange={this._handleSwimmerChosen}
+          className='uk-width-2-10 uk-display-inline-block uk-margin-large-right'
+        />
       </div>
     );
   }
