@@ -45,19 +45,32 @@ class Times extends Component {
     }
   }
   _handleSwimmerChosen(val) {
-    let raceSwimmers = this.state.raceSwimmers;
-    if (raceSwimmers.filter((n) => n.value == val.value).length > 0) {
+    let raceSwimmers = this.state.competitionSwimmers.filter((n) => n.raceIds.includes(this.state.raceId));
+    if (raceSwimmers.filter((n) => n == val.value).length > 0) {
       alert('Swimmer already added');
     } else {
-      raceSwimmers.push(val);
-      this.setState({ raceSwimmers: raceSwimmers });
+      let swimmerToSave = val.value;
+      swimmerToSave.raceIds.push(this.state.raceId);
+      axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}`, swimmerToSave)
+        .then(() => {
+          raceSwimmers.push(swimmerToSave);
+          this.setState({ raceSwimmers: raceSwimmers });
+        })
+        .catch((err) => console.error(err));
+
     }
   }
   componentDidMount() {
     let currentCompetitionId = localStorage.getItem('currentCompetitionId');
     this.setState({ currentCompetitionId: currentCompetitionId });
     axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/swimmers`)
-      .then((res) => this.setState({ competitionSwimmers: res.data }))
+      .then((res) => {
+        let raceSwimmers = res.data.filter((n) => n.raceIds.includes(this.state.raceId));
+        this.setState({
+          competitionSwimmers: res.data,
+          raceSwimmers: raceSwimmers
+        });
+      })
       .catch((error) => console.error(error));
   }
   render() {
@@ -67,10 +80,11 @@ class Times extends Component {
         label: `${n.name} ${n.surname}`
       };
     });
+    let swimmersToDisplay = this.state.raceSwimmers.filter((n) => n.raceIds.includes(this.state.raceId) );
     return (
       <div>
         <ChooseRace getCategory={this._getCategory}/>
-        <RaceSwimmersList swimmers={this.state.raceSwimmers} />
+        <RaceSwimmersList swimmers={swimmersToDisplay} />
         <Select
           name='swimmer'
           options={swimmerChoices}

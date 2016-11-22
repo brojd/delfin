@@ -15,6 +15,10 @@
     },
     "times": {
       "type": "object"
+    },
+    "raceIds": {
+      "type": ["number"],
+      "default": []
     }
   },
   "validations": [],

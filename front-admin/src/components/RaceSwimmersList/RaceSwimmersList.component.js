@@ -9,8 +9,8 @@ class RaceSwimmersList extends Component {
     console.log(this.props.swimmers);
     return (
       <ul>
-        {this.props.swimmers.map((swimmer) => (
-          <li>{swimmer.label}</li>
+        {this.props.swimmers.map((swimmer, i) => (
+          <li key={i}>{swimmer.name} {swimmer.surname}</li>
         ))}
       </ul>
     );
