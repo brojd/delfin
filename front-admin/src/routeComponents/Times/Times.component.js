@@ -4,12 +4,14 @@ import RaceSwimmersList from '../../components/RaceSwimmersList/RaceSwimmersList
 import axios from 'axios';
 import CONFIG from '../../config';
 import Select from 'react-select';
+import _remove from 'lodash/remove';
 
 class Times extends Component {
   constructor() {
     super();
     this._getCategory = this._getCategory.bind(this);
     this._handleSwimmerChosen = this._handleSwimmerChosen.bind(this);
+    this._deleteSwimmer = this._deleteSwimmer.bind(this);
     this.state = {
       raceId: 1,
       competitionSwimmers: [],
@@ -60,6 +62,17 @@ class Times extends Component {
 
     }
   }
+  _deleteSwimmer(id) {
+    let raceSwimmers = this.state.raceSwimmers;
+    for (let swimmer of raceSwimmers) {
+      if (swimmer.id == id) {
+        _remove(swimmer.raceIds, (n) => n === this.state.raceId);
+        axios.put(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/${id}`, swimmer)
+          .then(() => this.setState({ raceSwimmers: raceSwimmers }))
+          .catch((err) => console.error(err));
+      }
+    }
+  }
   componentDidMount() {
     let currentCompetitionId = localStorage.getItem('currentCompetitionId');
     this.setState({ currentCompetitionId: currentCompetitionId });
@@ -84,7 +97,7 @@ class Times extends Component {
     return (
       <div>
         <ChooseRace getCategory={this._getCategory}/>
-        <RaceSwimmersList swimmers={swimmersToDisplay} />
+        <RaceSwimmersList swimmers={swimmersToDisplay} deleteSwimmer={this._deleteSwimmer} />
         <Select
           name='swimmer'
           options={swimmerChoices}
