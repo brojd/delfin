@@ -36,10 +36,6 @@
     "dataSource": "delfin-db",
     "public": true
   },
-  "race": {
-    "dataSource": "delfin-db",
-    "public": true
-  },
   "swimmer": {
     "dataSource": "delfin-db",
     "public": true

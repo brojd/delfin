@@ -13,6 +13,71 @@
     },
     "date": {
       "type": "date"
+    },
+    "races": {
+      "type": ["object"],
+      "default": [
+        {
+          "raceId": 1,
+          "sex": "Mężczyźni",
+          "age": "Klasy 1-4",
+          "style": "Dowolny"
+        },
+        {
+          "raceId": 2,
+          "sex": "Mężczyźni",
+          "age": "Klasy 1-4",
+          "style": "Grzbietowy"
+        },
+        {
+          "raceId": 3,
+          "sex": "Mężczyźni",
+          "age": "Klasy 1-4",
+          "style": "Klasyczny"
+        },
+        {
+          "raceId": 4,
+          "sex": "Kobiety",
+          "age": "Klasy 1-4",
+          "style": "Dowolny"
+        },
+        {
+          "raceId": 5,
+          "sex": "Kobiety",
+          "age": "Klasy 1-4",
+          "style": "Grzbietowy"
+        },
+        {
+          "raceId": 6,
+          "sex": "Kobiety",
+          "age": "Klasy 1-4",
+          "style": "Klasyczny"
+        },
+        {
+          "raceId": 7,
+          "sex": "Mężczyźni",
+          "age": "Klasy 4-6",
+          "style": "Dowolny"
+        },
+        {
+          "raceId": 8,
+          "sex": "Mężczyźni",
+          "age": "Klasy 4-6",
+          "style": "Grzbietowy"
+        },
+        {
+          "raceId": 9,
+          "sex": "Mężczyźni",
+          "age": "Klasy 4-6",
+          "style": "Klasyczny"
+        },
+        {
+          "raceId": 10,
+          "sex": "Kobiety",
+          "age": "Klasy 4-6",
+          "style": "Dowolny"
+        }
+      ]
     }
   },
   "validations": [],
