@@ -12,38 +12,46 @@ class Times extends Component {
     this._getCategory = this._getCategory.bind(this);
     this._handleSwimmerChosen = this._handleSwimmerChosen.bind(this);
     this._deleteSwimmer = this._deleteSwimmer.bind(this);
+    this._saveTime = this._saveTime.bind(this);
+    this._updateRaceId = this._updateRaceId.bind(this);
     this.state = {
       raceId: 1,
       competitionSwimmers: [],
       raceSwimmers: []
     };
   }
+  _updateRaceId(raceId) {
+    let raceSwimmers = this.state.competitionSwimmers.filter((n) => n.raceIds.includes(raceId));
+    this.setState({
+      raceId: raceId,
+      raceSwimmers: raceSwimmers
+    });
+  }
   _getCategory(sex, style, age) {
-    console.log(sex.value, style.value, age.value);
     if (age.value == 'W1' && sex.value == 'P1' && style.value == 'S1') {
-      this.setState({ raceId: 1 });
+      this._updateRaceId(1);
     } else if (age.value == 'W1' && sex.value == 'P1' && style.value == 'S2') {
-      this.setState({ raceId: 2 });
+      this._updateRaceId(2);
     } else if (age.value == 'W1' && sex.value == 'P1' && style.value == 'S3') {
-      this.setState({ raceId: 3 });
+      this._updateRaceId(3);
     } else if (age.value == 'W1' && sex.value == 'P2' && style.value == 'S1') {
-      this.setState({ raceId: 4 });
+      this._updateRaceId(4);
     } else if (age.value == 'W1' && sex.value == 'P2' && style.value == 'S2') {
-      this.setState({ raceId: 5 });
+      this._updateRaceId(5);
     } else if (age.value == 'W1' && sex.value == 'P2' && style.value == 'S3') {
-      this.setState({ raceId: 6 });
+      this._updateRaceId(6);
     } else if (age.value == 'W2' && sex.value == 'P1' && style.value == 'S1') {
-      this.setState({ raceId: 7 });
+      this._updateRaceId(7);
     } else if (age.value == 'W2' && sex.value == 'P1' && style.value == 'S2') {
-      this.setState({ raceId: 8 });
+      this._updateRaceId(8);
     } else if (age.value == 'W2' && sex.value == 'P1' && style.value == 'S3') {
-      this.setState({ raceId: 9 });
+      this._updateRaceId(9);
     } else if (age.value == 'W2' && sex.value == 'P2' && style.value == 'S1') {
-      this.setState({ raceId: 10 });
+      this._updateRaceId(10);
     } else if (age.value == 'W2' && sex.value == 'P2' && style.value == 'S2') {
-      this.setState({ raceId: 11 });
+      this._updateRaceId(11);
     } else if (age.value == 'W2' && sex.value == 'P2' && style.value == 'S3') {
-      this.setState({ raceId: 12 });
+      this._updateRaceId(12);
     }
   }
   _handleSwimmerChosen(val) {
@@ -73,6 +81,36 @@ class Times extends Component {
       }
     }
   }
+  _saveTime(time, swimmerId) {
+    let raceSwimmers = this.state.raceSwimmers;
+    let swimmerToSave = this.state.raceSwimmers.filter((n) => n.id == swimmerId)[0];
+    if (swimmerToSave.times.filter((n) => n.raceId == this.state.raceId).length > 0) {
+      let timeIndex;
+      let timeToSave = swimmerToSave.times.filter((n, i) => {
+        if (n.raceId == this.state.raceId) {
+          timeIndex = i;
+        }
+        return n.raceId == this.state.raceId;
+      })[0];
+      timeToSave.time = Number(time);
+      swimmerToSave.times[timeIndex] = timeToSave;
+      axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}`, swimmerToSave)
+        .then(() => this.setState({ raceSwimmers: raceSwimmers }))
+        .catch((err) => console.error(err));
+    } else {
+      let objToSave = {
+        raceId: this.state.raceId,
+        time: Number(time)
+      };
+      swimmerToSave.times.push(objToSave);
+      axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}`, swimmerToSave)
+        .then(() => {
+          swimmerToSave.times.push(objToSave);
+          this.setState({ raceSwimmers: raceSwimmers });
+        })
+        .catch((err) => console.error(err));
+    }
+  }
   componentDidMount() {
     let currentCompetitionId = localStorage.getItem('currentCompetitionId');
     this.setState({ currentCompetitionId: currentCompetitionId });
@@ -93,11 +131,13 @@ class Times extends Component {
         label: `${n.name} ${n.surname}`
       };
     });
-    let swimmersToDisplay = this.state.raceSwimmers.filter((n) => n.raceIds.includes(this.state.raceId) );
     return (
       <div>
         <ChooseRace getCategory={this._getCategory}/>
-        <RaceSwimmersList swimmers={swimmersToDisplay} deleteSwimmer={this._deleteSwimmer} />
+        <RaceSwimmersList swimmers={this.state.raceSwimmers}
+                          deleteSwimmer={this._deleteSwimmer}
+                          raceId={this.state.raceId}
+                          saveTime={this._saveTime}/>
         <Select
           name='swimmer'
           options={swimmerChoices}

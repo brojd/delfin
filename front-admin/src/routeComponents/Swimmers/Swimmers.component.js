@@ -18,7 +18,8 @@ class Nav extends Component {
     let swimmerToAdd = {
       name: name,
       surname: surname,
-      competitionId: this.props.currentCompetitionId
+      competitionId: this.props.currentCompetitionId,
+      times: []
     };
     axios.post(`${CONFIG.API_URL}/swimmers`, swimmerToAdd)
       .then((response) => {

@@ -14,7 +14,8 @@
       "type": "string"
     },
     "times": {
-      "type": "object"
+      "type": ["object"],
+      "default": []
     },
     "raceIds": {
       "type": ["number"],
