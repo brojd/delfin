@@ -15,7 +15,9 @@
       "type": "date"
     },
     "races": {
-      "type": ["object"],
+      "type": [
+        "object"
+      ],
       "default": [
         {
           "raceId": 1,
@@ -90,6 +92,11 @@
     "swimmers": {
       "type": "hasMany",
       "model": "swimmer",
+      "foreignKey": ""
+    },
+    "schools": {
+      "type": "hasMany",
+      "model": "school",
       "foreignKey": ""
     }
   },

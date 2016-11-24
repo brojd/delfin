@@ -7,8 +7,10 @@ class RaceSwimmersList extends Component {
     this._handleSaveTime = this._handleSaveTime.bind(this);
     this._getRaceTime = this._getRaceTime.bind(this);
     this._handleTimeChange = this._handleTimeChange.bind(this);
+    this._getCurrentSchoolName = this._getCurrentSchoolName.bind(this);
     this.state = {
-      swimmers: []
+      swimmers: [],
+      schools: []
     };
   }
   _handleDelete(e, id) {
@@ -37,6 +39,14 @@ class RaceSwimmersList extends Component {
     swimmers[swimmerIndex] = swimmerToChange;
     this.setState({ swimmers: swimmers });
   }
+  _getCurrentSchoolName(swimmerId) {
+    if (this.props.schools.length > 0) {
+      let currentSwimmer = this.props.swimmers.filter((n) => n.id === swimmerId)[0];
+      let currentSchool = this.props.schools.filter((n) => n.id === currentSwimmer.schoolId)[0];
+      return currentSchool.name;
+    }
+    return null;
+  }
   componentDidMount() {
     let swimmers = this.props.swimmers;
     if (swimmers.length > 0) {
@@ -60,7 +70,7 @@ class RaceSwimmersList extends Component {
       <ol>
         {this.state.swimmers.map((swimmer, i) => (
           <li key={i}>
-            {swimmer.name} {swimmer.surname}
+            {swimmer.name} {swimmer.surname} ({this._getCurrentSchoolName(swimmer.id)})
             <input type='number'
                    onBlur={(e) => this._handleSaveTime(e, swimmer.id)}
                    onChange={(e) => this._handleTimeChange(e, swimmer.id)}

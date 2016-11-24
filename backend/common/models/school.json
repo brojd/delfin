@@ -1,0 +1,29 @@
+{
+  "name": "school",
+  "plural": "schools",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "competition": {
+      "type": "belongsTo",
+      "model": "competition",
+      "foreignKey": ""
+    },
+    "swimmers": {
+      "type": "hasMany",
+      "model": "swimmer",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

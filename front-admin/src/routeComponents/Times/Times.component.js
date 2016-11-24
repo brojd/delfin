@@ -114,14 +114,18 @@ class Times extends Component {
   componentDidMount() {
     let currentCompetitionId = localStorage.getItem('currentCompetitionId');
     this.setState({ currentCompetitionId: currentCompetitionId });
-    axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/swimmers`)
-      .then((res) => {
-        let raceSwimmers = res.data.filter((n) => n.raceIds.includes(this.state.raceId));
+    axios.all([
+        axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/swimmers`),
+        axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/schools`)
+      ])
+      .then(axios.spread((swimmersRes, schoolsRes) => {
+        let raceSwimmers = swimmersRes.data.filter((n) => n.raceIds.includes(this.state.raceId));
         this.setState({
-          competitionSwimmers: res.data,
-          raceSwimmers: raceSwimmers
+          competitionSwimmers: swimmersRes.data,
+          raceSwimmers: raceSwimmers,
+          schools: schoolsRes.data
         });
-      })
+      }))
       .catch((error) => console.error(error));
   }
   render() {
@@ -135,6 +139,7 @@ class Times extends Component {
       <div>
         <ChooseRace getCategory={this._getCategory}/>
         <RaceSwimmersList swimmers={this.state.raceSwimmers}
+                          schools={this.state.schools}
                           deleteSwimmer={this._deleteSwimmer}
                           raceId={this.state.raceId}
                           saveTime={this._saveTime}/>

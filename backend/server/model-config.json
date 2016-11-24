@@ -39,5 +39,9 @@
   "swimmer": {
     "dataSource": "delfin-db",
     "public": true
+  },
+  "school": {
+    "dataSource": "delfin-db",
+    "public": true
   }
 }
