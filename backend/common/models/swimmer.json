@@ -14,14 +14,33 @@
       "type": "string"
     },
     "times": {
-      "type": "object"
+      "type": [
+        "object"
+      ],
+      "default": []
+    },
+    "raceIds": {
+      "type": [
+        "number"
+      ],
+      "default": []
     }
   },
   "validations": [],
   "relations": {
-    "race": {
-      "type": "belongsTo",
+    "races": {
+      "type": "hasAndBelongsToMany",
       "model": "race",
+      "foreignKey": ""
+    },
+    "competition": {
+      "type": "belongsTo",
+      "model": "competition",
+      "foreignKey": ""
+    },
+    "school": {
+      "type": "belongsTo",
+      "model": "school",
       "foreignKey": ""
     }
   },

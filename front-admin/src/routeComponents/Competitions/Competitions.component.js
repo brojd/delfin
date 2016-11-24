@@ -1,10 +1,8 @@
-import React, {Component} from 'react';
-import axios from 'axios';
-import CONFIG from '../../config';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import styles from './Competitions.stylesheet.css';
 
-class Nav extends Component {
+class Competitions extends Component {
   constructor() {
     super();
     this._setCurrentCompetition = this._setCurrentCompetition.bind(this);
@@ -16,43 +14,32 @@ class Nav extends Component {
   }
   _setCurrentCompetition(e, id) {
     localStorage.setItem('currentCompetitionId', id);
-    this.setState({
-      currentCompetitionId: id
-    });
   }
   _displayDate(date) {
     let dateToReturn = new Date(date);
     return dateToReturn.toLocaleDateString();
   }
   _isChosen(competitionId) {
-    return this.state.currentCompetitionId == competitionId;
-  }
-  componentDidMount() {
-    axios.get(`${CONFIG.API_URL}/competitions`)
-      .then((response) => this.setState({competitions: response.data}))
-      .catch((error) => console.error(error))
-    if (!localStorage.getItem('currentCompetitionId')) {
-      localStorage.setItem('currentCompetitionId', CONFIG.DEFAULT_COMPETITION_ID);
-      this.setState({currentCompetitionId: CONFIG.DEFAULT_COMPETITION_ID})
-    } else {
-      this.setState({currentCompetitionId: localStorage.getItem('currentCompetitionId')});
-    }
+    return this.props.currentCompetitionId == competitionId;
   }
   render() {
     return (
       <div className={classNames('uk-align-center uk-width-9-10', styles.Competitions)}>
-        <h2 className='uk-text-center '>
+        <h3 className='uk-text-center '>
           Wybierz zawody
-        </h2>
+        </h3>
         <ul className='uk-list uk-margin-large-top'>
-          {this.state.competitions.map((competition, i) => {
+          {this.props.competitions.map((competition, i) => {
             return (
             <li className={classNames(styles.competitionListElem, {[styles.chosen]: this._isChosen(competition.id)})}
                 key={i}>
               <h3 className={styles.competitionListElem__date}>{this._displayDate(competition.date)}</h3>
               <div className={styles.competitionListElem__name}>{competition.name}</div>
               <button className='uk-button'
-                      onClick={(e) => this._setCurrentCompetition(e, competition.id)}>
+                      onClick={(e) => {
+                        this._setCurrentCompetition(e, competition.id);
+                        this.props.competitionChanged(e, competition.id);
+                      }}>
                 Wybierz
               </button>
             </li>
@@ -60,9 +47,17 @@ class Nav extends Component {
           })}
         </ul>
       </div>
-
     )
   }
 }
 
-export default Nav;
+Competitions.propTypes = {
+  competitionChanged: PropTypes.func,
+  competitions: PropTypes.array,
+  currentCompetitionId: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ])
+};
+
+export default Competitions;
