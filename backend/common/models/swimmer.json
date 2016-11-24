@@ -14,11 +14,15 @@
       "type": "string"
     },
     "times": {
-      "type": ["object"],
+      "type": [
+        "object"
+      ],
       "default": []
     },
     "raceIds": {
-      "type": ["number"],
+      "type": [
+        "number"
+      ],
       "default": []
     }
   },
@@ -32,6 +36,11 @@
     "competition": {
       "type": "belongsTo",
       "model": "competition",
+      "foreignKey": ""
+    },
+    "school": {
+      "type": "belongsTo",
+      "model": "school",
       "foreignKey": ""
     }
   },
