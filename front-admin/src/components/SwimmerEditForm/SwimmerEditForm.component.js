@@ -8,6 +8,7 @@ class SwimmerEditForm extends Component {
     this._handleNameChange = this._handleNameChange.bind(this);
     this._handleSurnameChange = this._handleSurnameChange.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this);
+    this._handleSelectChange = this._handleSelectChange.bind(this);
     this.state = {
       formVisible: false,
       currentSwimmer: {}
@@ -19,16 +20,21 @@ class SwimmerEditForm extends Component {
   _handleSurnameChange(e) {
     this.setState({ surname: e.target.value });
   }
+  _handleSelectChange(e) {
+    console.log(this.state.selectValue);
+    this.setState({ schoolId: e.target.value });
+  }
   _handleSubmit(e) {
     e.preventDefault();
-    this.props.saveSwimmer(this.state.name, this.state.surname);
+    this.props.saveSwimmer(this.state.name, this.state.surname, this.state.schoolId);
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
       formVisible: nextProps.editFormVisible,
       currentSwimmer: nextProps.clickedSwimmer,
       name: nextProps.clickedSwimmer.name,
-      surname: nextProps.clickedSwimmer.surname
+      surname: nextProps.clickedSwimmer.surname,
+      schoolId: nextProps.clickedSwimmer.schoolId
     });
   }
   render() {
@@ -50,6 +56,16 @@ class SwimmerEditForm extends Component {
         </div>
         <div>
           {this.state.name} {this.state.surname}
+        </div>
+        <div>
+          Szkoła:
+          <select value={this.state.schoolId} onChange={this._handleSelectChange}>
+            {this.props.schools.map((n, i) => {
+              return (
+                <option key={i} value={n.id}>{n.name}</option>
+              )
+            })}
+          </select>
         </div>
         <div>
           <button className='uk-button'

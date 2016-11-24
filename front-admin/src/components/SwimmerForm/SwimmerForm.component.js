@@ -5,10 +5,12 @@ class SwimmerForm extends Component {
     super();
     this._handleNameChange = this._handleNameChange.bind(this);
     this._handleSurnameChange = this._handleSurnameChange.bind(this);
+    this._handleSelectChange = this._handleSelectChange.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this);
     this.state = {
       name: '',
-      surname: ''
+      surname: '',
+      schoolId: ''
     };
   }
   _handleNameChange(e) {
@@ -17,9 +19,18 @@ class SwimmerForm extends Component {
   _handleSurnameChange(e) {
     this.setState({ surname: e.target.value });
   }
+  _handleSelectChange(e) {
+    this.setState({ schoolId: e.target.value });
+  }
   _handleSubmit(e) {
     e.preventDefault();
-    this.props.addSwimmer(this.state.name, this.state.surname);
+    debugger;
+    this.props.addSwimmer(this.state.name, this.state.surname, this.state.schoolId);
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.schools.length > 0) {
+      this.setState({ schoolId: nextProps.schools[0].id })
+    }
   }
   render() {
     return (
@@ -33,6 +44,16 @@ class SwimmerForm extends Component {
           Nazwisko: <input type='text'
                           name='surname'
                           onChange={this._handleSurnameChange} />
+        </div>
+        <div>
+          Szkoła:
+          <select value={this.state.selectValue} onChange={this._handleSelectChange}>
+            {this.props.schools.map((n, i) => {
+              return (
+                <option key={i} value={n.id}>{n.name}</option>
+              )
+            })}
+          </select>
         </div>
         <div>
           {this.state.name} {this.state.surname}
@@ -51,6 +72,10 @@ class SwimmerForm extends Component {
 
 SwimmerForm.propTypes = {
   addSwimmer: PropTypes.func
+};
+
+SwimmerForm.defaultProps = {
+  schools: []
 };
 
 export default SwimmerForm;
