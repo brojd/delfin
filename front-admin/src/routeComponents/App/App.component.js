@@ -5,6 +5,7 @@ import Competitions from '../../routeComponents/Competitions/Competitions.compon
 import Swimmers from '../../routeComponents/Swimmers/Swimmers.component';
 import Times from '../../routeComponents/Times/Times.component';
 import Classifications from '../../routeComponents/Classifications/Classifications.component';
+import Schools from '../../routeComponents/Schools/Schools.component';
 import MainLayout from '../MainLayout/MainLayout.component';
 
 class App extends Component {
@@ -17,6 +18,7 @@ class App extends Component {
             <Route path='/swimmers' component={Swimmers} />
             <Route path='/times' component={Times} />
             <Route path='/classifications' component={Classifications} />
+            <Route path='/schools' component={Schools} />
           </Route>
         </Route>
       </Router>

@@ -1,32 +1,26 @@
 {
-  "name": "race",
-  "plural": "races",
+  "name": "school",
+  "plural": "schools",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "sex": {
-      "type": "string"
-    },
-    "style": {
-      "type": "string"
-    },
-    "age": {
+    "name": {
       "type": "string"
     }
   },
   "validations": [],
   "relations": {
-    "swimmers": {
-      "type": "hasMany",
-      "model": "swimmer",
-      "foreignKey": ""
-    },
     "competition": {
       "type": "belongsTo",
       "model": "competition",
+      "foreignKey": ""
+    },
+    "swimmers": {
+      "type": "hasMany",
+      "model": "swimmer",
       "foreignKey": ""
     }
   },
