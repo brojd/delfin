@@ -14,11 +14,13 @@ class Nav extends Component {
       swimmers: []
     };
   }
-  _addSwimmer(name, surname) {
+  _addSwimmer(name, surname, schoolId) {
     let swimmerToAdd = {
       name: name,
       surname: surname,
-      competitionId: this.props.currentCompetitionId
+      competitionId: this.props.currentCompetitionId,
+      schoolId: schoolId,
+      times: []
     };
     axios.post(`${CONFIG.API_URL}/swimmers`, swimmerToAdd)
       .then((response) => {
@@ -40,16 +42,26 @@ class Nav extends Component {
       .catch((error) => console.error(error));
   }
   componentDidMount() {
-    axios.get(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers`)
-      .then((response) => this.setState({ swimmers: response.data }))
+    axios.all([
+      axios.get(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers`),
+      axios.get(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/schools`)
+    ])
+      .then(axios.spread((swimmersRes, schoolsRes) => {
+        this.setState({
+          swimmers: swimmersRes.data,
+          schools: schoolsRes.data
+        })
+      }))
       .catch((error) => console.error(error));
   }
   render() {
     return (
       <div>
-        <SwimmerForm addSwimmer={this._addSwimmer} />
+        <SwimmerForm addSwimmer={this._addSwimmer}
+                     schools={this.state.schools} />
         <SwimmersList swimmers={this.state.swimmers}
-                      deleteSwimmer={this._deleteSwimmer} />
+                      deleteSwimmer={this._deleteSwimmer}
+                      schools={this.state.schools} />
       </div>
     );
   }

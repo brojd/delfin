@@ -10,6 +10,7 @@ class SwimmerList extends Component {
     this._handleDelete = this._handleDelete.bind(this);
     this._displayEditForm = this._displayEditForm.bind(this);
     this._saveSwimmer = this._saveSwimmer.bind(this);
+    this._getCurrentSchoolName = this._getCurrentSchoolName.bind(this);
     this.state = {
       editFormVisible: false,
       swimmers: []
@@ -24,10 +25,11 @@ class SwimmerList extends Component {
       clickedSwimmerId: id
     });
   }
-  _saveSwimmer(name, surname) {
+  _saveSwimmer(name, surname, schoolId) {
     let swimmerToSave = {
       name: name,
-      surname: surname
+      surname: surname,
+      schoolId: schoolId
     };
     axios.put(`${CONFIG.API_URL}/swimmers/${this.state.clickedSwimmerId}`, swimmerToSave)
       .then((response) => {
@@ -37,7 +39,14 @@ class SwimmerList extends Component {
         this.setState({ swimmers: currentSwimmers });
       })
       .catch((error) => console.error(error));
-    console.log(name, surname);
+  }
+  _getCurrentSchoolName(swimmerId) {
+    if (this.props.schools.length > 0) {
+      let currentSwimmer = this.props.swimmers.filter((n) => n.id === swimmerId)[0];
+      let currentSchool = this.props.schools.filter((n) => n.id === currentSwimmer.schoolId)[0];
+      return currentSchool.name;
+    }
+    return null;
   }
   componentDidMount() {
     this.setState({
@@ -52,11 +61,12 @@ class SwimmerList extends Component {
   render() {
     let clickedSwimmer = this.props.swimmers.filter((n) => n.id == this.state.clickedSwimmerId)[0];
     return (
-      <div>
+      <div className='uk-margin-large-top'>
+        <h2>Lista zawodników</h2>
         <ol>
           {this.state.swimmers.map((n, i) =>
             <li key={i}>
-              {n.name} {n.surname}
+              {n.name} {n.surname} ({this._getCurrentSchoolName(n.id)})
               <i onClick={(e, id) => this._displayEditForm(e, n.id)} className="uk-icon-pencil uk-margin-left"></i>
               <i onClick={(e, id) => this._handleDelete(e, n.id)} className="uk-icon-trash uk-margin-small-left"></i>
             </li>
@@ -64,7 +74,8 @@ class SwimmerList extends Component {
         </ol>
         <SwimmerEditForm editFormVisible={this.state.editFormVisible}
                          clickedSwimmer={clickedSwimmer}
-                         saveSwimmer={this._saveSwimmer} />
+                         saveSwimmer={this._saveSwimmer}
+                         schools={this.props.schools} />
       </div>
     );
   }
@@ -73,6 +84,10 @@ class SwimmerList extends Component {
 SwimmerList.propTypes = {
   deleteSwimmer: PropTypes.func,
   swimmers: PropTypes.array
+};
+
+SwimmerList.defaultProps = {
+  schools: []
 };
 
 export default SwimmerList;

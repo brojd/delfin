@@ -19,6 +19,16 @@ class Nav extends Component {
             </Link>
           </li>
           <li className='uk-margin-large-bottom'>
+            <Link to='/schools' className={styles.Nav__link}>
+              <div className='uk-text-center'>
+                <i className="uk-icon-building uk-icon-large"></i>
+              </div>
+              <div className='uk-text-center'>
+                SZKOŁY
+              </div>
+            </Link>
+          </li>
+          <li className='uk-margin-large-bottom'>
             <Link to='/swimmers' className={styles.Nav__link}>
               <div className='uk-text-center'>
                 <i className="uk-icon-group uk-icon-large"></i>
