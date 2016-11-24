@@ -1,0 +1,29 @@
+.Competitions {
+  padding-top: 30px;
+}
+
+.competitionListElem {
+  padding: 20px;
+  text-align: center;
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(to bottom right, #ffffff, #d8d8d8);;
+  color: #61687d;
+  display: inline-block;
+  margin-left: 60px;
+  margin-bottom: 60px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+}
+
+.competitionListElem__name {
+
+}
+
+.competitionListElem__date {
+
+}
+
+.chosen {
+  background: linear-gradient(to bottom right, rgb(147, 239, 191), rgb(63, 152, 78));
+}

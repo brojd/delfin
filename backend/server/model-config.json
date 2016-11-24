@@ -14,7 +14,7 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "delfin-db"
   },
   "AccessToken": {
     "dataSource": "db",
@@ -33,15 +33,15 @@
     "public": false
   },
   "competition": {
-    "dataSource": "db",
-    "public": true
-  },
-  "race": {
-    "dataSource": "db",
+    "dataSource": "delfin-db",
     "public": true
   },
   "swimmer": {
-    "dataSource": "db",
+    "dataSource": "delfin-db",
+    "public": true
+  },
+  "school": {
+    "dataSource": "delfin-db",
     "public": true
   }
 }

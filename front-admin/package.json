@@ -6,8 +6,12 @@
     "custom-react-scripts": "0.0.17"
   },
   "dependencies": {
+    "axios": "^0.15.2",
+    "classnames": "^2.2.5",
     "react": "^15.3.2",
-    "react-dom": "^15.3.2"
+    "react-dom": "^15.3.2",
+    "react-router": "2.5.0",
+    "react-select": "^1.0.0-rc.2"
   },
   "scripts": {
     "start": "react-scripts start",
