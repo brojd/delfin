@@ -91,7 +91,7 @@
     },
     "schools": {
       "type": "hasAndBelongsToMany",
-      "model": "swimmer",
+      "model": "school",
       "foreignKey": ""
     }
   },
