@@ -4,6 +4,7 @@ import styles from './Competitions.stylesheet.css';
 import Select from 'react-select';
 import axios from 'axios';
 import CONFIG from '../../config';
+import CompetitionSettings from '../../components/CompetitionSettings/CompetitionSettings.component';
 
 class Competitions extends Component {
   constructor() {
@@ -20,9 +21,11 @@ class Competitions extends Component {
     };
   }
   _setCurrentCompetition(e, id) {
+    let currentCompetition = this.state.competitions.filter((n) => n.id === id)[0];
     localStorage.setItem('currentCompetitionId', id);
     axios.get(`${CONFIG.API_URL}/competitions/${id}/swimmers`)
-      .then((competitionSwimmers) => this.setState({ competitionSwimmers: competitionSwimmers.data }))
+      .then((competitionSwimmers) => this.setState({ competitionSwimmers: competitionSwimmers.data,
+                                                     currentCompetition: currentCompetition }))
   }
   _displayDate(date) {
     let dateToReturn = new Date(date);
@@ -69,13 +72,16 @@ class Competitions extends Component {
     axios.all([
         axios.get(`${CONFIG.API_URL}/swimmers`),
         axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/swimmers`),
-        axios.get(`${CONFIG.API_URL}/schools`)
+        axios.get(`${CONFIG.API_URL}/schools`),
+        axios.get(`${CONFIG.API_URL}/competitions`)
       ])
-      .then(axios.spread((swimmersRes, competitionSwimmers, schoolsRes) => {
+      .then(axios.spread((swimmersRes, competitionSwimmers, schoolsRes, competitionsRes) => {
         this.setState({
           allSwimmers: swimmersRes.data,
           competitionSwimmers: competitionSwimmers.data,
-          allSchools: schoolsRes.data
+          allSchools: schoolsRes.data,
+          competitions: competitionsRes.data,
+          currentCompetition: competitionsRes.data.filter((n) => n.id === currentCompetitionId)[0]
         });
       }))
       .catch((error) => console.error(error));
@@ -127,6 +133,10 @@ class Competitions extends Component {
             </li>
           )}
         </ol>
+        <h3 className='uk-text-center '>
+          Ustawienia zawodów
+        </h3>
+        <CompetitionSettings currentCompetition={this.state.currentCompetition} />
       </div>
     )
   }
