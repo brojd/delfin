@@ -72,6 +72,7 @@ class RaceSwimmersList extends Component {
           <li key={i}>
             {swimmer.name} {swimmer.surname} ({this._getCurrentSchoolName(swimmer.id)})
             <input type='number'
+                   step='any'
                    onBlur={(e) => this._handleSaveTime(e, swimmer.id)}
                    onChange={(e) => this._handleTimeChange(e, swimmer.id)}
                    value={swimmer.time} />

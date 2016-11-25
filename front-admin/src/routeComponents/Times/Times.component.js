@@ -140,6 +140,7 @@ class Times extends Component {
     });
     return (
       <div>
+        <h3 className='uk-text-center uk-margin-top uk-margin-bottom'>Wyniki</h3>
         <ChooseRace getCategory={this._getCategory}/>
         <RaceSwimmersList swimmers={this.state.raceSwimmers}
                           schools={this.state.competitionSchools}
