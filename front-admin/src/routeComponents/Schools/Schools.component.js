@@ -16,8 +16,7 @@ class Schools extends Component {
   }
   _addSchool(name) {
     let schoolToAdd = {
-      name: name,
-      competitionId: this.props.currentCompetitionId
+      name: name
     };
     axios.post(`${CONFIG.API_URL}/schools`, schoolToAdd)
       .then((response) => {
@@ -39,7 +38,7 @@ class Schools extends Component {
       .catch((error) => console.error(error));
   }
   componentDidMount() {
-    axios.get(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/schools`)
+    axios.get(`${CONFIG.API_URL}/schools`)
       .then((response) => this.setState({ schools: response.data }))
       .catch((error) => console.error(error));
   }

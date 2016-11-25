@@ -84,19 +84,14 @@
   },
   "validations": [],
   "relations": {
-    "races": {
-      "type": "hasMany",
-      "model": "race",
-      "foreignKey": ""
-    },
     "swimmers": {
-      "type": "hasMany",
+      "type": "hasAndBelongsToMany",
       "model": "swimmer",
       "foreignKey": ""
     },
     "schools": {
-      "type": "hasMany",
-      "model": "school",
+      "type": "hasAndBelongsToMany",
+      "model": "swimmer",
       "foreignKey": ""
     }
   },

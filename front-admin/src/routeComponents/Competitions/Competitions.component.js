@@ -46,6 +46,9 @@ class Competitions extends Component {
             )
           })}
         </ul>
+        <h3 className='uk-text-center '>
+          Lista uczestników
+        </h3>
       </div>
     )
   }

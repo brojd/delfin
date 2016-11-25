@@ -123,7 +123,7 @@ class Times extends Component {
         this.setState({
           competitionSwimmers: swimmersRes.data,
           raceSwimmers: raceSwimmers,
-          schools: schoolsRes.data
+          competitionSchools: schoolsRes.data
         });
       }))
       .catch((error) => console.error(error));
@@ -139,7 +139,7 @@ class Times extends Component {
       <div>
         <ChooseRace getCategory={this._getCategory}/>
         <RaceSwimmersList swimmers={this.state.raceSwimmers}
-                          schools={this.state.schools}
+                          schools={this.state.competitionSchools}
                           deleteSwimmer={this._deleteSwimmer}
                           raceId={this.state.raceId}
                           saveTime={this._saveTime}/>

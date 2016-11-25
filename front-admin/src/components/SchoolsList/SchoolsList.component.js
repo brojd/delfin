@@ -24,7 +24,7 @@ class SchoolList extends Component {
       clickedSchoolId: id
     });
   }
-  _saveSchool(name, surname) {
+  _saveSchool(name) {
     let schoolToSave = {
       name: name
     };
