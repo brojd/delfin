@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ChooseRace from '../../components/ChooseRace/ChooseRace.component';
+import ClassificationSwimmersList from '../../components/ClassificationSwimmersList/ClassificationSwimmersList.component';
 import axios from 'axios';
 import CONFIG from '../../config';
 
@@ -69,7 +70,8 @@ class Classifications extends Component {
     return (
       <div>
         <ChooseRace getCategory={this._getCategory}/>
-        {this.state.raceId}
+        <ClassificationSwimmersList swimmers={this.state.raceSwimmers}
+                                    raceId={this.state.raceId} />
       </div>
     )
   }
