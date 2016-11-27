@@ -25,62 +25,110 @@
         {
           "raceId": 1,
           "sex": "Mężczyźni",
-          "age": "Klasy 1-4",
+          "age": "Klasy 1-2",
           "style": "Dowolny"
         },
         {
           "raceId": 2,
           "sex": "Mężczyźni",
-          "age": "Klasy 1-4",
+          "age": "Klasy 1-2",
           "style": "Grzbietowy"
         },
         {
           "raceId": 3,
           "sex": "Mężczyźni",
-          "age": "Klasy 1-4",
+          "age": "Klasy 1-2",
           "style": "Klasyczny"
         },
         {
           "raceId": 4,
           "sex": "Kobiety",
-          "age": "Klasy 1-4",
+          "age": "Klasy 1-2",
           "style": "Dowolny"
         },
         {
           "raceId": 5,
           "sex": "Kobiety",
-          "age": "Klasy 1-4",
+          "age": "Klasy 1-2",
           "style": "Grzbietowy"
         },
         {
           "raceId": 6,
           "sex": "Kobiety",
-          "age": "Klasy 1-4",
+          "age": "Klasy 1-2",
           "style": "Klasyczny"
         },
         {
           "raceId": 7,
           "sex": "Mężczyźni",
-          "age": "Klasy 4-6",
+          "age": "Klasy 3-4",
           "style": "Dowolny"
         },
         {
           "raceId": 8,
           "sex": "Mężczyźni",
-          "age": "Klasy 4-6",
+          "age": "Klasy 3-4",
           "style": "Grzbietowy"
         },
         {
           "raceId": 9,
           "sex": "Mężczyźni",
-          "age": "Klasy 4-6",
+          "age": "Klasy 3-4",
           "style": "Klasyczny"
         },
         {
           "raceId": 10,
           "sex": "Kobiety",
+          "age": "Klasy 3-4",
+          "style": "Dowolny"
+        },
+        {
+          "raceId": 11,
+          "sex": "Kobiety",
+          "age": "Klasy 3-4",
+          "style": "Grzbietowy"
+        },
+        {
+          "raceId": 12,
+          "sex": "Kobiety",
+          "age": "Klasy 3-4",
+          "style": "Klasyczny"
+        },
+        {
+          "raceId": 13,
+          "sex": "Mężczyźni",
           "age": "Klasy 4-6",
           "style": "Dowolny"
+        },
+        {
+          "raceId": 14,
+          "sex": "Mężczyźni",
+          "age": "Klasy 4-6",
+          "style": "Grzbietowy"
+        },
+        {
+          "raceId": 15,
+          "sex": "Mężczyźni",
+          "age": "Klasy 4-6",
+          "style": "Klasyczny"
+        },
+        {
+          "raceId": 16,
+          "sex": "Kobiety",
+          "age": "Klasy 4-6",
+          "style": "Dowolny"
+        },
+        {
+          "raceId": 17,
+          "sex": "Kobiety",
+          "age": "Klasy 4-6",
+          "style": "Grzbietowy"
+        },
+        {
+          "raceId": 18,
+          "sex": "Kobiety",
+          "age": "Klasy 4-6",
+          "style": "Klasyczny"
         }
       ]
     }

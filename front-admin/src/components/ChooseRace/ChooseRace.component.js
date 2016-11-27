@@ -17,13 +17,14 @@ class ChooseRace extends Component {
       { value: 'S3', label: 'Klasyczny' }
     ];
     this.ageOptions = [
-      { value: 'W1', label: 'Klasy 1-4' },
-      { value: 'W2', label: 'Klasy 5-6' }
+      { value: 'W1', label: 'Klasy 1-2' },
+      { value: 'W2', label: 'Klasy 3-4' },
+      { value: 'W3', label: 'Klasy 5-6' }
     ];
     this.state = {
       sex: { value: 'P1', label: 'Mężczyźni' },
       style: { value: 'S1', label: 'Dowolny' },
-      age: { value: 'W1', label: 'Klasy 1-4' }
+      age: { value: 'W1', label: 'Klasy 1-2' }
     };
   }
   _handleSexChange(val) {

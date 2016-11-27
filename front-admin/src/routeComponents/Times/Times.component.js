@@ -52,6 +52,18 @@ class Times extends Component {
       this._updateRaceId(11);
     } else if (age.value == 'W2' && sex.value == 'P2' && style.value == 'S3') {
       this._updateRaceId(12);
+    } else if (age.value == 'W3' && sex.value == 'P1' && style.value == 'S1') {
+      this._updateRaceId(7);
+    } else if (age.value == 'W3' && sex.value == 'P1' && style.value == 'S2') {
+      this._updateRaceId(8);
+    } else if (age.value == 'W3' && sex.value == 'P1' && style.value == 'S3') {
+      this._updateRaceId(9);
+    } else if (age.value == 'W3' && sex.value == 'P2' && style.value == 'S1') {
+      this._updateRaceId(10);
+    } else if (age.value == 'W3' && sex.value == 'P2' && style.value == 'S2') {
+      this._updateRaceId(11);
+    } else if (age.value == 'W3' && sex.value == 'P2' && style.value == 'S3') {
+      this._updateRaceId(12);
     }
   }
   _handleSwimmerChosen(val) {
