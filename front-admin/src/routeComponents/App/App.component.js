@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Main from '../Main/Main.component';
-import { Router, Route, IndexRoute } from 'react-router';
+import { Router, Route } from 'react-router';
 import Competitions from '../../routeComponents/Competitions/Competitions.component';
 import Swimmers from '../../routeComponents/Swimmers/Swimmers.component';
 import Times from '../../routeComponents/Times/Times.component';

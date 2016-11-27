@@ -14,6 +14,9 @@
     "date": {
       "type": "date"
     },
+    "ranks": {
+      "type": "object"
+    },
     "races": {
       "type": [
         "object"
@@ -84,18 +87,13 @@
   },
   "validations": [],
   "relations": {
-    "races": {
-      "type": "hasMany",
-      "model": "race",
-      "foreignKey": ""
-    },
     "swimmers": {
-      "type": "hasMany",
+      "type": "hasAndBelongsToMany",
       "model": "swimmer",
       "foreignKey": ""
     },
     "schools": {
-      "type": "hasMany",
+      "type": "hasAndBelongsToMany",
       "model": "school",
       "foreignKey": ""
     }

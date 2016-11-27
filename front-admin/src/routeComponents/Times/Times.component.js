@@ -76,7 +76,10 @@ class Times extends Component {
       if (swimmer.id == id) {
         _remove(swimmer.raceIds, (n) => n === this.state.raceId);
         axios.put(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/${id}`, swimmer)
-          .then(() => this.setState({ raceSwimmers: raceSwimmers }))
+          .then(() => {
+            let newRaceSwimmers = raceSwimmers.filter((n) => n.id !== id);
+            this.setState({ raceSwimmers: newRaceSwimmers});
+          })
           .catch((err) => console.error(err));
       }
     }
@@ -116,14 +119,14 @@ class Times extends Component {
     this.setState({ currentCompetitionId: currentCompetitionId });
     axios.all([
         axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/swimmers`),
-        axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/schools`)
+        axios.get(`${CONFIG.API_URL}/schools`)
       ])
       .then(axios.spread((swimmersRes, schoolsRes) => {
         let raceSwimmers = swimmersRes.data.filter((n) => n.raceIds.includes(this.state.raceId));
         this.setState({
           competitionSwimmers: swimmersRes.data,
           raceSwimmers: raceSwimmers,
-          schools: schoolsRes.data
+          competitionSchools: schoolsRes.data
         });
       }))
       .catch((error) => console.error(error));
@@ -137,9 +140,10 @@ class Times extends Component {
     });
     return (
       <div>
+        <h3 className='uk-text-center uk-margin-top uk-margin-bottom'>Wyniki</h3>
         <ChooseRace getCategory={this._getCategory}/>
         <RaceSwimmersList swimmers={this.state.raceSwimmers}
-                          schools={this.state.schools}
+                          schools={this.state.competitionSchools}
                           deleteSwimmer={this._deleteSwimmer}
                           raceId={this.state.raceId}
                           saveTime={this._saveTime}/>

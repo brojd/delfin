@@ -18,11 +18,9 @@ class Nav extends Component {
     let swimmerToAdd = {
       name: name,
       surname: surname,
-      competitionId: this.props.currentCompetitionId,
-      schoolId: schoolId,
       times: []
     };
-    axios.post(`${CONFIG.API_URL}/swimmers`, swimmerToAdd)
+    axios.post(`${CONFIG.API_URL}/schools/${schoolId}/swimmers`, swimmerToAdd)
       .then((response) => {
         let currentSwimmers = this.state.swimmers;
         currentSwimmers.push(response.data);
@@ -43,8 +41,8 @@ class Nav extends Component {
   }
   componentDidMount() {
     axios.all([
-      axios.get(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers`),
-      axios.get(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/schools`)
+      axios.get(`${CONFIG.API_URL}/swimmers`),
+      axios.get(`${CONFIG.API_URL}/schools`)
     ])
       .then(axios.spread((swimmersRes, schoolsRes) => {
         this.setState({

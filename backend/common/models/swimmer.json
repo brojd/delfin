@@ -28,13 +28,8 @@
   },
   "validations": [],
   "relations": {
-    "races": {
-      "type": "hasAndBelongsToMany",
-      "model": "race",
-      "foreignKey": ""
-    },
     "competition": {
-      "type": "belongsTo",
+      "type": "hasAndBelongsToMany",
       "model": "competition",
       "foreignKey": ""
     },

@@ -10,7 +10,7 @@ class Header extends Component {
     return (
       <header className={classNames(styles.Header, 'uk-width-9-10 uk-float-right uk-text-center')}>
         <h2 className={classNames(styles.Header__heading, 'uk-text-center')}>
-          {this.props.currentCompetition.name}
+          {this.props.textToDisplay}
         </h2>
       </header>
     )

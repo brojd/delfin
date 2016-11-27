@@ -24,7 +24,6 @@ class SwimmerForm extends Component {
   }
   _handleSubmit(e) {
     e.preventDefault();
-    debugger;
     this.props.addSwimmer(this.state.name, this.state.surname, this.state.schoolId);
   }
   componentWillReceiveProps(nextProps) {

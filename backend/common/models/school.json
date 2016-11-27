@@ -14,7 +14,7 @@
   "validations": [],
   "relations": {
     "competition": {
-      "type": "belongsTo",
+      "type": "hasAndBelongsToMany",
       "model": "competition",
       "foreignKey": ""
     },
