@@ -75,6 +75,7 @@ class Times extends Component {
     for (let swimmer of raceSwimmers) {
       if (swimmer.id == id) {
         _remove(swimmer.raceIds, (n) => n === this.state.raceId);
+        _remove(swimmer.times, (n) => n.raceId === this.state.raceId);
         axios.put(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/${id}`, swimmer)
           .then(() => {
             let newRaceSwimmers = raceSwimmers.filter((n) => n.id !== id);
@@ -118,9 +119,9 @@ class Times extends Component {
     let currentCompetitionId = localStorage.getItem('currentCompetitionId');
     this.setState({ currentCompetitionId: currentCompetitionId });
     axios.all([
-        axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/swimmers`),
-        axios.get(`${CONFIG.API_URL}/schools`)
-      ])
+      axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/swimmers`),
+      axios.get(`${CONFIG.API_URL}/schools`)
+    ])
       .then(axios.spread((swimmersRes, schoolsRes) => {
         let raceSwimmers = swimmersRes.data.filter((n) => n.raceIds.includes(this.state.raceId));
         this.setState({
