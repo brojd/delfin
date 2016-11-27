@@ -75,7 +75,7 @@ class RaceSwimmersList extends Component {
                    step='any'
                    onBlur={(e) => this._handleSaveTime(e, swimmer.id)}
                    onChange={(e) => this._handleTimeChange(e, swimmer.id)}
-                   value={swimmer.time} />
+                   value={swimmer.time} />s
             <i onClick={(e) => this._handleDelete(e, swimmer.id)}
                className="uk-icon-trash uk-margin-small-left">
             </i>

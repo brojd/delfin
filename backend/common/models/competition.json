@@ -15,7 +15,42 @@
       "type": "date"
     },
     "ranks": {
-      "type": "object"
+      "type": "object",
+      "default": {
+        "1": {
+          "points": "25"
+        },
+        "2": {
+          "points": "20"
+        },
+        "3": {
+          "points": "17"
+        },
+        "4": {
+          "points": "15"
+        },
+        "5": {
+          "points": "13"
+        },
+        "6": {
+          "points": "11"
+        },
+        "7": {
+          "points": "9"
+        },
+        "8": {
+          "points": "7"
+        },
+        "9": {
+          "points": "5"
+        },
+        "10": {
+          "points": "3"
+        },
+        "11": {
+          "points": "1"
+        }
+      }
     },
     "races": {
       "type": [
