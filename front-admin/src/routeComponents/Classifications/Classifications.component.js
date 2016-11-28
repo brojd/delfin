@@ -13,7 +13,7 @@ class Classifications extends Component {
       raceId: '',
       raceSwimmers: [],
       competitionSwimmers: []
-    }
+    };
   }
   _updateRaceId(raceId) {
     let raceSwimmers = this.state.competitionSwimmers.filter((n) => n.raceIds.includes(raceId));
@@ -53,9 +53,9 @@ class Classifications extends Component {
     let currentCompetitionId = localStorage.getItem('currentCompetitionId');
     this.setState({ currentCompetitionId: currentCompetitionId });
     axios.all([
-        axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/swimmers`),
-        axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/schools`)
-      ])
+      axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/swimmers`),
+      axios.get(`${CONFIG.API_URL}/schools`)
+    ])
       .then(axios.spread((swimmersRes, schoolsRes) => {
         let raceSwimmers = swimmersRes.data.filter((n) => n.raceIds.includes(this.state.raceId));
         this.setState({
@@ -71,9 +71,10 @@ class Classifications extends Component {
       <div>
         <ChooseRace getCategory={this._getCategory}/>
         <ClassificationSwimmersList swimmers={this.state.raceSwimmers}
-                                    raceId={this.state.raceId} />
+                                    raceId={this.state.raceId}
+                                    schools={this.state.schools}/>
       </div>
-    )
+    );
   }
 }
 
