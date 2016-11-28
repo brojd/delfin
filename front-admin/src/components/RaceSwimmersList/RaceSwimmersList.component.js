@@ -20,7 +20,9 @@ class RaceSwimmersList extends Component {
     this.props.saveTime(e.target.value, swimmerId);
   }
   _getRaceTime(swimmer, raceId) {
-    let timeObj = swimmer.times.filter((n) => n.raceId === raceId);
+    let timeObj = swimmer.times.filter(
+      (n) => (n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId'))
+    );
     if (timeObj.length > 0) {
       return Number(timeObj[0].time);
     }

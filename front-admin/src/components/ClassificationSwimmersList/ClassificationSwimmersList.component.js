@@ -10,7 +10,9 @@ class ClassificationSwimmersList extends Component {
     this._getSchoolName = this._getSchoolName.bind(this);
   }
   _getRaceTime(swimmer, raceId) {
-    let timeObj = swimmer.times.filter((n) => n.raceId === raceId);
+    let timeObj = swimmer.times.filter(
+      (n) => n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId')
+    );
     if (timeObj.length > 0) {
       return Number(timeObj[0].time);
     }
@@ -36,7 +38,7 @@ class ClassificationSwimmersList extends Component {
         <ol>
           {this.state.sortedSwimmers.map((n, i) => (
             <li key={i}>
-              {n.name} {n.surname} {this._getSchoolName(this.state.schools, n.schoolId)} {this._getRaceTime(n, this.props.raceId)}s
+              {n.name} {n.surname} ({this._getSchoolName(this.state.schools, n.schoolId)}) {this._getRaceTime(n, this.props.raceId)}s
             </li>
           ))}
         </ol>

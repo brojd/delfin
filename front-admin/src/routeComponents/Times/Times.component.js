@@ -100,7 +100,9 @@ class Times extends Component {
   _saveTime(time, swimmerId) {
     let raceSwimmers = this.state.raceSwimmers;
     let swimmerToSave = this.state.raceSwimmers.filter((n) => n.id == swimmerId)[0];
-    if (swimmerToSave.times.filter((n) => n.raceId == this.state.raceId).length > 0) {
+    if (swimmerToSave.times.filter((n) => {
+      return (n.raceId == this.state.raceId && n.competitionId == localStorage.getItem('currentCompetitionId'));
+    }).length > 0) {
       let timeIndex;
       let timeToSave = swimmerToSave.times.filter((n, i) => {
         if (n.raceId == this.state.raceId) {
@@ -110,12 +112,14 @@ class Times extends Component {
       })[0];
       timeToSave.time = Number(time);
       swimmerToSave.times[timeIndex] = timeToSave;
+      swimmerToSave.times['competitionId'] = localStorage.getItem('currentCompetitionId');
       axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}`, swimmerToSave)
         .then(() => this.setState({ raceSwimmers: raceSwimmers }))
         .catch((err) => console.error(err));
     } else {
       let objToSave = {
         raceId: this.state.raceId,
+        competitionId: localStorage.getItem('currentCompetitionId'),
         time: Number(time)
       };
       swimmerToSave.times.push(objToSave);
