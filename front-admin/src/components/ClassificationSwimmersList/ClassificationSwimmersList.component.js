@@ -22,7 +22,9 @@ class ClassificationSwimmersList extends Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    let sortedSwimmers = nextProps.swimmers.sort((a, b) => a.time - b.time);
+    let sortedSwimmers = nextProps.swimmers.sort((a, b) =>
+      this._getRaceTime(a, nextProps.raceId) - this._getRaceTime(b, nextProps.raceId)
+    );
     this.setState({
       sortedSwimmers: sortedSwimmers,
       schools: nextProps.schools
