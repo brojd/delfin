@@ -42,7 +42,7 @@ class ClassificationSwimmersList extends Component {
             </li>
           ))}
         </ol>
-        <button className='uk-button'>Przypisz punkty</button>
+        <button onClick={this.props.saveSwimmersPoints} className='uk-button'>Przypisz punkty</button>
       </div>
     );
   }
