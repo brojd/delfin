@@ -69,7 +69,11 @@ class Times extends Component {
   _handleSwimmerChosen(val) {
     let raceSwimmers = this.state.competitionSwimmers.filter((n) => n.raceIds.includes(this.state.raceId));
     if (raceSwimmers.filter((n) => n == val.value).length > 0) {
-      alert('Swimmer already added');
+      alert('Zawodnik został już dodany');
+      return false;
+    } else if (val.value.times.filter((n) => n.competitionId === localStorage.getItem('currentCompetitionId')).length >=2) {
+      alert('Zawodnik bierze udział w dwóch wyścigach');
+      return false;
     } else {
       let swimmerToSave = val.value;
       swimmerToSave.raceIds.push(this.state.raceId);
