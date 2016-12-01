@@ -83,7 +83,6 @@ class Times extends Component {
           this.setState({ raceSwimmers: raceSwimmers });
         })
         .catch((err) => console.error(err));
-
     }
   }
   _deleteSwimmer(id) {
