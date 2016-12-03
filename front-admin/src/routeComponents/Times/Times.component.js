@@ -172,7 +172,6 @@ class Times extends Component {
       swimmerToSave.times.push(objToSave);
       axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}`, swimmerToSave)
         .then(() => {
-          swimmerToSave.times.push(objToSave);
           this.setState({ raceSwimmers: raceSwimmers });
         })
         .catch((err) => console.error(err));

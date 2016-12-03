@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ChooseRace from '../../components/ChooseRace/ChooseRace.component';
 import ClassificationSwimmersList from '../../components/ClassificationSwimmersList/ClassificationSwimmersList.component';
+import ClassificationSchoolsList from '../../components/ClassificationSchoolsList/ClassificationSchoolsList.component';
 import axios from 'axios';
 import CONFIG from '../../config';
 
@@ -87,12 +88,14 @@ class Classifications extends Component {
   render() {
     return (
       <div>
-        <h3 className='uk-text-center uk-margin-top'>Ranking zawodników w zawodach</h3>
+        <h3 className='uk-text-center uk-margin-top'>Ranking zawodników wg kategorii</h3>
         <ChooseRace getCategory={this._getCategory}/>
         <ClassificationSwimmersList swimmers={this.state.raceSwimmers}
                                     raceId={this.state.raceId}
                                     schools={this.state.schools} />
         <h3 className='uk-text-center uk-margin-large-top'>Ranking szkół w zawodach</h3>
+        <ClassificationSchoolsList schools={this.state.schools}
+                                   swimmers={this.state.competitionSwimmers} />
       </div>
     );
   }
