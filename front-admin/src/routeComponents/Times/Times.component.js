@@ -5,6 +5,7 @@ import axios from 'axios';
 import CONFIG from '../../config';
 import Select from 'react-select';
 import _remove from 'lodash/remove';
+import _uniqBy from 'lodash/uniqBy';
 
 class Times extends Component {
   constructor() {
@@ -14,6 +15,7 @@ class Times extends Component {
     this._deleteSwimmer = this._deleteSwimmer.bind(this);
     this._saveTime = this._saveTime.bind(this);
     this._updateRaceId = this._updateRaceId.bind(this);
+    this._saveSwimmersPoints = this._saveSwimmersPoints.bind(this);
     this.state = {
       raceId: 1,
       competitionSwimmers: [],
@@ -66,12 +68,51 @@ class Times extends Component {
       this._updateRaceId(12);
     }
   }
+  _getRaceTime(swimmer, raceId) {
+    let timeObj = swimmer.times.filter(
+      (n) => n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId')
+    );
+    if (timeObj.length > 0) {
+      return Number(timeObj[0].time);
+    }
+    return 0;
+  }
+  _saveSwimmersPoints(raceId) {
+    let raceSwimmers = this.state.raceSwimmers;
+    let ranks = this.state.competitions.filter((n) => n.id === localStorage.getItem('currentCompetitionId'))[0].ranks;
+    let sortedSwimmers = raceSwimmers.sort((a, b) =>
+      this._getRaceTime(a, raceId) - this._getRaceTime(b, raceId)
+    );
+    sortedSwimmers.forEach((swimmer, i) => {
+      swimmer.times.forEach(
+        (n, index) => {
+          if (n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId')) {
+            if (swimmer.times[index].time > 0) {
+              if (i > 10) {
+                swimmer.times[index].points = Number(ranks.slice(-1).points);
+              } else {
+                swimmer.times[index].points = Number(ranks[i + 1].points);
+              }
+            }
+          }
+        }
+      );
+    });
+    axios.all([
+      sortedSwimmers.map((n, i) => axios.put(`${CONFIG.API_URL}/swimmers`, sortedSwimmers[i]))
+    ])
+      .then(() => this.setState({ raceSwimmers: sortedSwimmers }))
+      .catch((err) => console.error(err));
+  }
   _handleSwimmerChosen(val) {
     let raceSwimmers = this.state.competitionSwimmers.filter((n) => n.raceIds.includes(this.state.raceId));
+    let competitionTimes = val.value.times.filter(
+      (n) => n.competitionId === localStorage.getItem('currentCompetitionId')
+    );
     if (raceSwimmers.filter((n) => n == val.value).length > 0) {
       alert('Zawodnik został już dodany');
       return false;
-    } else if (val.value.times.filter((n) => n.competitionId === localStorage.getItem('currentCompetitionId')).length >=2) {
+    } else if (_uniqBy(competitionTimes, 'raceId').length >= 2) {
       alert('Zawodnik bierze udział w dwóch wyścigach');
       return false;
     } else {
@@ -101,11 +142,12 @@ class Times extends Component {
     }
   }
   _saveTime(time, swimmerId) {
+    const alreadyHasRaceTime = (swimmer, nb) => swimmer.times.filter((n) => {
+      return (n.raceId == this.state.raceId && n.competitionId == localStorage.getItem('currentCompetitionId'));
+    }).length > nb;
     let raceSwimmers = this.state.raceSwimmers;
     let swimmerToSave = this.state.raceSwimmers.filter((n) => n.id == swimmerId)[0];
-    if (swimmerToSave.times.filter((n) => {
-      return (n.raceId == this.state.raceId && n.competitionId == localStorage.getItem('currentCompetitionId'));
-    }).length > 0) {
+    if (alreadyHasRaceTime(swimmerToSave, 0)) {
       let timeIndex;
       let timeToSave = swimmerToSave.times.filter((n, i) => {
         if (n.raceId == this.state.raceId) {
@@ -115,7 +157,6 @@ class Times extends Component {
       })[0];
       timeToSave.time = Number(time);
       swimmerToSave.times[timeIndex] = timeToSave;
-      swimmerToSave.times['competitionId'] = localStorage.getItem('currentCompetitionId');
       axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}`, swimmerToSave)
         .then(() => this.setState({ raceSwimmers: raceSwimmers }))
         .catch((err) => console.error(err));
@@ -133,20 +174,23 @@ class Times extends Component {
         })
         .catch((err) => console.error(err));
     }
+    this._saveSwimmersPoints(this.state.raceId);
   }
   componentDidMount() {
     let currentCompetitionId = localStorage.getItem('currentCompetitionId');
     this.setState({ currentCompetitionId: currentCompetitionId });
     axios.all([
       axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/swimmers`),
-      axios.get(`${CONFIG.API_URL}/schools`)
+      axios.get(`${CONFIG.API_URL}/schools`),
+      axios.get(`${CONFIG.API_URL}/competitions`)
     ])
-      .then(axios.spread((swimmersRes, schoolsRes) => {
+      .then(axios.spread((swimmersRes, schoolsRes, competitionsRes) => {
         let raceSwimmers = swimmersRes.data.filter((n) => n.raceIds.includes(this.state.raceId));
         this.setState({
           competitionSwimmers: swimmersRes.data,
           raceSwimmers: raceSwimmers,
-          competitionSchools: schoolsRes.data
+          competitionSchools: schoolsRes.data,
+          competitions: competitionsRes.data
         });
       }))
       .catch((error) => console.error(error));

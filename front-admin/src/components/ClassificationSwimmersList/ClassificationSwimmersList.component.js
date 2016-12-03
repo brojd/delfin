@@ -17,7 +17,7 @@ class ClassificationSwimmersList extends Component {
     if (timeObj.length > 0) {
       return Number(timeObj[0].time);
     }
-    return 'brak';
+    return 0;
   }
   _getRacePoints(swimmer, raceId) {
     let timeObj = swimmer.times.filter(

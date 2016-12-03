@@ -9,7 +9,6 @@ class Classifications extends Component {
     super();
     this._getCategory = this._getCategory.bind(this);
     this._updateRaceId = this._updateRaceId.bind(this);
-    this._saveSwimmersPoints = this._saveSwimmersPoints.bind(this);
     this._getRaceTime = this._getRaceTime.bind(this);
     this.state = {
       raceId: '',
@@ -24,28 +23,7 @@ class Classifications extends Component {
     if (timeObj.length > 0) {
       return Number(timeObj[0].time);
     }
-    return 'brak';
-  }
-  _saveSwimmersPoints(raceId) {
-    let raceSwimmers = this.state.raceSwimmers;
-    let ranks = this.state.competitions.filter((n) => n.id === localStorage.getItem('currentCompetitionId'))[0].ranks;
-    let sortedSwimmers = raceSwimmers.sort((a, b) =>
-      this._getRaceTime(a, raceId) - this._getRaceTime(b, raceId)
-    );
-    sortedSwimmers.forEach((swimmer, i) => {
-      swimmer.times.forEach(
-        (n, index) => {
-          if (n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId')) {
-            swimmer.times[index].points = Number(ranks[i + 1].points);
-          }
-        }
-      );
-    });
-    axios.all([
-      sortedSwimmers.map((n, i) => axios.put(`${CONFIG.API_URL}/swimmers`, sortedSwimmers[i]))
-    ])
-      .then(() => this.setState({ raceSwimmers: sortedSwimmers }))
-      .catch((err) => console.error(err));
+    return 0;
   }
   _updateRaceId(raceId) {
     let raceSwimmers = this.state.competitionSwimmers.filter((n) => n.raceIds.includes(raceId));
@@ -56,9 +34,6 @@ class Classifications extends Component {
       raceId: raceId,
       raceSwimmers: sortedSwimmers
     });
-    /*if (raceId !== 1) {
-      this._saveSwimmersPoints(raceId);
-    }*/
   }
   _getCategory(sex, style, age) {
     if (age.value == 'W1' && sex.value == 'P1' && style.value == 'S1') {
@@ -106,18 +81,18 @@ class Classifications extends Component {
           schools: schoolsRes.data,
           competitions: competitionsRes.data
         });
-        this._saveSwimmersPoints(1);
       }))
       .catch((error) => console.error(error));
   }
   render() {
     return (
       <div>
+        <h3 className='uk-text-center uk-margin-top'>Ranking zawodników w zawodach</h3>
         <ChooseRace getCategory={this._getCategory}/>
         <ClassificationSwimmersList swimmers={this.state.raceSwimmers}
                                     raceId={this.state.raceId}
                                     schools={this.state.schools} />
-        <button onClick={() => this._saveSwimmersPoints(this.state.raceId)}>zapisz wyniki</button>
+        <h3 className='uk-text-center uk-margin-large-top'>Ranking szkół w zawodach</h3>
       </div>
     );
   }
