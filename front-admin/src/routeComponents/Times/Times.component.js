@@ -24,9 +24,12 @@ class Times extends Component {
   }
   _updateRaceId(raceId) {
     let raceSwimmers = this.state.competitionSwimmers.filter((n) => n.raceIds.includes(raceId));
+    let sortedSwimmers = raceSwimmers.sort((a, b) =>
+      this._getRaceTime(a, raceId) - this._getRaceTime(b, raceId)
+    );
     this.setState({
       raceId: raceId,
-      raceSwimmers: raceSwimmers
+      raceSwimmers: sortedSwimmers
     });
   }
   _getCategory(sex, style, age) {
@@ -186,9 +189,12 @@ class Times extends Component {
     ])
       .then(axios.spread((swimmersRes, schoolsRes, competitionsRes) => {
         let raceSwimmers = swimmersRes.data.filter((n) => n.raceIds.includes(this.state.raceId));
+        let sortedSwimmers = raceSwimmers.sort((a, b) =>
+          this._getRaceTime(a, this.state.raceId) - this._getRaceTime(b, this.state.raceId)
+        );
         this.setState({
           competitionSwimmers: swimmersRes.data,
-          raceSwimmers: raceSwimmers,
+          raceSwimmers: sortedSwimmers,
           competitionSchools: schoolsRes.data,
           competitions: competitionsRes.data
         });
