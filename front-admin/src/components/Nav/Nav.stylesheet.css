@@ -1,6 +1,5 @@
 .NavWrapper {
-  height: 100vh;
-  overflow-y: hidden;
+  min-height: 900px;
   background: linear-gradient(to bottom right, #282c37, #282c37);
   left: 0;
   position: absolute; }

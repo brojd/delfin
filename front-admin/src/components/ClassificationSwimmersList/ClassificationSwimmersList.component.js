@@ -3,50 +3,34 @@ import React, {Component} from 'react';
 class ClassificationSwimmersList extends Component {
   constructor() {
     super();
-    this.state = {
-      sortedSwimmers: []
-    };
-    this._getRaceTime = this._getRaceTime.bind(this);
-    this._getRacePoints = this._getRacePoints.bind(this);
     this._getSchoolName = this._getSchoolName.bind(this);
-  }
-  _getRaceTime(swimmer, raceId) {
-    let timeObj = swimmer.times.filter(
-      (n) => n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId')
-    );
-    if (timeObj.length > 0) {
-      return Number(timeObj[0].time);
-    }
-    return 0;
-  }
-  _getRacePoints(swimmer, raceId) {
-    let timeObj = swimmer.times.filter(
-      (n) => n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId')
-    );
-    if (timeObj.length > 0) {
-      return Number(timeObj[0].points);
-    }
-    return 0;
+    this._getSwimmerPoints = this._getSwimmerPoints.bind(this);
+    this.state = {};
   }
   _getSchoolName(schools, schoolId) {
     if (schools.length > 0) {
       return schools.filter((n) => n.id === schoolId)[0].name;
     }
   }
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      sortedSwimmers: nextProps.swimmers,
-      schools: nextProps.schools
+  _getSwimmerPoints(swimmer) {
+    let result = 0;
+    swimmer.times.forEach((timeObj) => {
+      if (timeObj.competitionId === localStorage.getItem('currentCompetitionId')) {
+        result += timeObj.points;
+      }
     });
+    return result;
   }
   render() {
+    let sortedSwimmers = this.props.swimmers.slice().sort(
+      (a, b) => this._getSwimmerPoints(b) - this._getSwimmerPoints(a)
+    );
     return (
       <div>
         <ol>
-          {this.state.sortedSwimmers.map((n, i) => (
+          {sortedSwimmers.map((n, i) => (
             <li key={i}>
-              {n.name} {n.surname} ({this._getSchoolName(this.state.schools, n.schoolId)})
-              {this._getRaceTime(n, this.props.raceId)}s {this._getRacePoints(n, this.props.raceId)} points
+              {n.name} {n.surname} ({this._getSchoolName(this.props.schools, n.schoolId)}) {this._getSwimmerPoints(n)} points
             </li>
           ))}
         </ol>
@@ -54,5 +38,10 @@ class ClassificationSwimmersList extends Component {
     );
   }
 }
+
+ClassificationSwimmersList.defaultProps = {
+  schools: [],
+  swimmers: []
+};
 
 export default ClassificationSwimmersList;

@@ -16,7 +16,6 @@ class ClassificationSchoolsList extends Component {
         }
       });
     });
-
     return result;
   }
   render() {
