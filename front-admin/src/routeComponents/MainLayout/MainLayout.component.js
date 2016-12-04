@@ -15,7 +15,7 @@ class MainLayout extends Component {
     this.state = {
       competitions: [],
       headerText: ''
-    }
+    };
   }
   _passCompetitionId(id) {
     this.setState({ currentCompetitionId: id });
@@ -27,11 +27,17 @@ class MainLayout extends Component {
   _setHeaderText(competitionId) {
     let schoolsRouteString = new RegExp('schools');
     let swimmersRouteString = new RegExp('swimmers');
+    let generalRouteString = new RegExp('general');
+    let recordsRouteString = new RegExp('records');
     let currentCompetition = this._getCurrentCompetition(competitionId, this.state.competitions);
     if (schoolsRouteString.test(window.location.hash)) {
       this.setState({ headerText: 'Szkoły'});
     } else if (swimmersRouteString.test(window.location.hash)) {
       this.setState({ headerText: 'Zawodnicy'});
+    } else if (generalRouteString.test(window.location.hash)) {
+      this.setState({ headerText: 'Klasyfikacja generalna'});
+    } else if (recordsRouteString.test(window.location.hash)) {
+      this.setState({ headerText: 'Rekordy'});
     } else {
       this.setState({ headerText: currentCompetition.name});
     }
@@ -42,10 +48,10 @@ class MainLayout extends Component {
         this.setState({competitions: response.data});
         this._setHeaderText(this.state.currentCompetitionId);
       })
-      .catch((error) => console.error(error))
+      .catch((error) => console.error(error));
     if (!localStorage.getItem('currentCompetitionId')) {
       localStorage.setItem('currentCompetitionId', CONFIG.DEFAULT_COMPETITION_ID);
-      this.setState({currentCompetitionId: CONFIG.DEFAULT_COMPETITION_ID})
+      this.setState({currentCompetitionId: CONFIG.DEFAULT_COMPETITION_ID});
     } else {
       this.setState({currentCompetitionId: localStorage.getItem('currentCompetitionId')});
     }
@@ -64,7 +70,7 @@ class MainLayout extends Component {
           currentCompetitionId: this.state.currentCompetitionId
         })}
       </div>
-    )
+    );
   }
 }
 

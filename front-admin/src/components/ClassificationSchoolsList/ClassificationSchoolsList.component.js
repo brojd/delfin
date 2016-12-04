@@ -11,7 +11,11 @@ class ClassificationSchoolsList extends Component {
     let schoolSwimmers = this.props.swimmers.filter((n) => n.schoolId === schoolId);
     schoolSwimmers.forEach((swimmer) => {
       swimmer.times.forEach((timeObj) => {
-        if (timeObj.competitionId === localStorage.getItem('currentCompetitionId')) {
+        if (!this.props.isGeneral) {
+          if (timeObj.competitionId === localStorage.getItem('currentCompetitionId')) {
+            result += timeObj.points;
+          }
+        } else {
           result += timeObj.points;
         }
       });

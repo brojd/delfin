@@ -61,7 +61,7 @@ class Nav extends Component {
           </li>
           <hr className='uk-margin-large-bottom'/>
           <li className='uk-margin-large-bottom'>
-            <Link to='/classifications' className={styles.Nav__link}>
+            <Link to='/general-rankings' className={styles.Nav__link}>
               <div className='uk-text-center'>
                 <i className="uk-icon-trophy uk-icon-medium"></i>
               </div>
@@ -71,7 +71,7 @@ class Nav extends Component {
             </Link>
           </li>
           <li className='uk-margin-large-bottom'>
-            <Link to='/classifications' className={styles.Nav__link}>
+            <Link to='/records' className={styles.Nav__link}>
               <div className='uk-text-center'>
                 <i className="uk-icon-clock-o uk-icon-medium"></i>
               </div>
