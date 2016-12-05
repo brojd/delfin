@@ -4,6 +4,7 @@ class ClassificationSchoolsList extends Component {
   constructor() {
     super();
     this._getSchoolPoints = this._getSchoolPoints.bind(this);
+    this._getPlace = this._getPlace.bind(this);
     this.state = {};
   }
   _getSchoolPoints(schoolId) {
@@ -22,15 +23,24 @@ class ClassificationSchoolsList extends Component {
     });
     return result;
   }
+  _getPlace(school, upperSchool, index) {
+    if (index > 0 && this._getSchoolPoints(school.id) === this._getSchoolPoints(upperSchool.id)) {
+      return index;
+    }
+    return index + 1;
+  }
   render() {
     let sortedSchools = this.props.schools.slice().sort(
       (a, b) => this._getSchoolPoints(b.id) - this._getSchoolPoints(a.id)
     );
     return (
       <div>
-        <ol>
-          {sortedSchools.map((school, i) => <li key={i}>{school.name} {this._getSchoolPoints(school.id)} points</li>)}
-        </ol>
+        <ul>
+          {sortedSchools.map((school, i) =>
+            <li key={i}>
+              {this._getPlace(school, sortedSchools[i-1], i)} {school.name} {this._getSchoolPoints(school.id)} points
+            </li>)}
+        </ul>
       </div>
     );
   }

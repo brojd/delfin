@@ -21,7 +21,6 @@ class SwimmerEditForm extends Component {
     this.setState({ surname: e.target.value });
   }
   _handleSelectChange(e) {
-    console.log(this.state.selectValue);
     this.setState({ schoolId: e.target.value });
   }
   _handleSubmit(e) {
@@ -63,7 +62,7 @@ class SwimmerEditForm extends Component {
             {this.props.schools.map((n, i) => {
               return (
                 <option key={i} value={n.id}>{n.name}</option>
-              )
+              );
             })}
           </select>
         </div>

@@ -8,6 +8,7 @@ class GeneralRankingByRace extends Component {
     };
     this._getRacePoints = this._getRacePoints.bind(this);
     this._getSchoolName = this._getSchoolName.bind(this);
+    this._getPlace = this._getPlace.bind(this);
   }
   _getRacePoints(swimmer, raceId) {
     let points = 0;
@@ -18,6 +19,12 @@ class GeneralRankingByRace extends Component {
       points += n.points;
     });
     return points;
+  }
+  _getPlace(swimmer, upperSwimmer, index) {
+    if (index > 0 && this._getRacePoints(swimmer, this.props.raceId) === this._getRacePoints(upperSwimmer, this.props.raceId)) {
+      return index;
+    }
+    return index + 1;
   }
   _getSchoolName(schools, schoolId) {
     if (schools.length > 0) {
@@ -36,14 +43,15 @@ class GeneralRankingByRace extends Component {
     );
     return (
       <div>
-        <ol>
+        <ul>
           {sortedSwimmers.map((n, i) => (
             <li key={i}>
+              {this._getPlace(n, sortedSwimmers[i-1], i)}
               {n.name} {n.surname} ({this._getSchoolName(this.state.schools, n.schoolId)})
               {this._getRacePoints(n, this.props.raceId)} points
             </li>
           ))}
-        </ol>
+        </ul>
       </div>
     );
   }

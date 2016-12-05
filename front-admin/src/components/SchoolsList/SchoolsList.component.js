@@ -55,12 +55,12 @@ class SchoolList extends Component {
           {this.state.schools.map((n, i) =>
             <li key={i}>
               {n.name} {n.surname}
-              <i onClick={(e, id) => this._displayEditForm(e, n.id)} className="uk-icon-pencil uk-margin-left"></i>
-              <i onClick={(e, id) => this._handleDelete(e, n.id)} className="uk-icon-trash uk-margin-small-left"></i>
+              <i onClick={(e) => this._displayEditForm(e, n.id)} className="uk-icon-pencil uk-margin-left"></i>
+              <i onClick={(e) => this._handleDelete(e, n.id)} className="uk-icon-trash uk-margin-small-left"></i>
             </li>
           )}
         </ol>
-        <SchoolEditForm editFormVisible={this.state.editFormVisible}
+        <SchoolEditForm  editFormVisible={this.state.editFormVisible}
                          clickedSchool={clickedSchool}
                          saveSchool={this._saveSchool} />
       </div>
