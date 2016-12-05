@@ -148,15 +148,15 @@ class Times extends Component {
     const alreadyHasRaceTime = (swimmer, nb) => swimmer.times.filter((n) => {
       return (n.raceId == this.state.raceId && n.competitionId == localStorage.getItem('currentCompetitionId'));
     }).length > nb;
-    let raceSwimmers = this.state.raceSwimmers;
-    let swimmerToSave = this.state.raceSwimmers.filter((n) => n.id == swimmerId)[0];
+    let raceSwimmers = this.state.raceSwimmers.slice();
+    let swimmerToSave = raceSwimmers.filter((n) => n.id == swimmerId)[0];
     if (alreadyHasRaceTime(swimmerToSave, 0)) {
       let timeIndex;
       let timeToSave = swimmerToSave.times.filter((n, i) => {
-        if (n.raceId == this.state.raceId) {
+        if (n.raceId == this.state.raceId && n.competitionId == localStorage.getItem('currentCompetitionId')) {
           timeIndex = i;
         }
-        return n.raceId == this.state.raceId;
+        return n.raceId == this.state.raceId && n.competitionId == localStorage.getItem('currentCompetitionId');
       })[0];
       timeToSave.time = Number(time);
       swimmerToSave.times[timeIndex] = timeToSave;
