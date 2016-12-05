@@ -9,6 +9,7 @@ class ClassificationSwimmersListByRace extends Component {
     this._getRaceTime = this._getRaceTime.bind(this);
     this._getRacePoints = this._getRacePoints.bind(this);
     this._getSchoolName = this._getSchoolName.bind(this);
+    this._getPlace = this._getPlace.bind(this);
   }
   _getRaceTime(swimmer, raceId) {
     let timeObj = swimmer.times.filter(
@@ -18,6 +19,15 @@ class ClassificationSwimmersListByRace extends Component {
       return Number(timeObj[0].time);
     }
     return 0;
+  }
+  _getPlace(swimmer, raceId) {
+    let timeObj = swimmer.times.filter(
+      (n) => (n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId'))
+    );
+    if (timeObj.length > 0) {
+      return Number(timeObj[0].place);
+    }
+    return '';
   }
   _getRacePoints(swimmer, raceId) {
     let timeObj = swimmer.times.filter(
@@ -42,14 +52,14 @@ class ClassificationSwimmersListByRace extends Component {
   render() {
     return (
       <div>
-        <ol>
+        <ul>
           {this.state.sortedSwimmers.map((n, i) => (
             <li key={i}>
-              {n.name} {n.surname} ({this._getSchoolName(this.state.schools, n.schoolId)})
+              {this._getPlace(n, this.props.raceId)} {n.name} {n.surname} ({this._getSchoolName(this.state.schools, n.schoolId)})
               {this._getRaceTime(n, this.props.raceId)}s {this._getRacePoints(n, this.props.raceId)} points
             </li>
           ))}
-        </ol>
+        </ul>
       </div>
     );
   }

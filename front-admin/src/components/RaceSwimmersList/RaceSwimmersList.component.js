@@ -6,6 +6,7 @@ class RaceSwimmersList extends Component {
     this._handleDelete = this._handleDelete.bind(this);
     this._handleSaveTime = this._handleSaveTime.bind(this);
     this._getRaceTime = this._getRaceTime.bind(this);
+    this._getPlace = this._getPlace.bind(this);
     this._handleTimeChange = this._handleTimeChange.bind(this);
     this._getCurrentSchoolName = this._getCurrentSchoolName.bind(this);
     this.state = {
@@ -17,6 +18,10 @@ class RaceSwimmersList extends Component {
     this.props.deleteSwimmer(id);
   }
   _handleSaveTime(e, swimmerId) {
+    if (e.target.value < 1) {
+      alert('Czas musi wynosić minimum 1 sek');
+      e.target.value = 1;
+    }
     this.props.saveTime(e.target.value, swimmerId);
   }
   _getRaceTime(swimmer, raceId) {
@@ -25,6 +30,15 @@ class RaceSwimmersList extends Component {
     );
     if (timeObj.length > 0) {
       return Number(timeObj[0].time);
+    }
+    return '';
+  }
+  _getPlace(swimmer, raceId) {
+    let timeObj = swimmer.times.filter(
+      (n) => (n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId'))
+    );
+    if (timeObj.length > 0) {
+      return Number(timeObj[0].place);
     }
     return '';
   }
@@ -69,22 +83,23 @@ class RaceSwimmersList extends Component {
   }
   render() {
     return (
-      <ol>
+      <ul>
         {this.state.swimmers.map((swimmer, i) => (
           <li key={i}>
-            {swimmer.name} {swimmer.surname} ({this._getCurrentSchoolName(swimmer.id)})
+            {this._getPlace(swimmer, this.props.raceId)} {swimmer.name} {swimmer.surname} ({this._getCurrentSchoolName(swimmer.id)})
             <input type='number'
                    step='any'
                    onBlur={(e) => this._handleSaveTime(e, swimmer.id)}
                    onChange={(e) => this._handleTimeChange(e, swimmer.id)}
                    value={swimmer.time}
+                   min={1}
                    required />s
             <i onClick={(e) => this._handleDelete(e, swimmer.id)}
                className="uk-icon-trash uk-margin-small-left">
             </i>
           </li>
         ))}
-      </ol>
+      </ul>
     );
   }
 }
