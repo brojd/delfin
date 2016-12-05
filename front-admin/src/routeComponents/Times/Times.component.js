@@ -93,6 +93,8 @@ class Times extends Component {
             if (swimmer.times[index].time > 0) {
               if (i > 10) {
                 swimmer.times[index].points = Number(ranks.slice(-1).points);
+              } else if (i > 0 && this._getRaceTime(swimmer, raceId) === this._getRaceTime(sortedSwimmers[i-1], raceId)) {
+                swimmer.times[index].points = Number(ranks[i].points);
               } else {
                 swimmer.times[index].points = Number(ranks[i + 1].points);
               }
