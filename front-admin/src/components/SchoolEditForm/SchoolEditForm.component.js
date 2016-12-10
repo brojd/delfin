@@ -8,8 +8,7 @@ class SchoolEditForm extends Component {
     this._handleNameChange = this._handleNameChange.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this);
     this.state = {
-      formVisible: false,
-      currentSchool: {}
+      name: ''
     };
   }
   _handleNameChange(e) {
@@ -21,24 +20,23 @@ class SchoolEditForm extends Component {
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
-      formVisible: nextProps.editFormVisible,
-      currentSchool: nextProps.clickedSchool,
       name: nextProps.clickedSchool.name
     });
   }
   render() {
     return (
-      <form className={classNames('uk-width-2-10 uk-form', styles.EditForm, {[styles.visible]: this.state.formVisible},
-      {[styles.hidden]: !this.state.formVisible})}>
+      <form className={classNames('uk-width-2-10 uk-form', styles.EditForm,
+                      {[styles.visible]: this.props.editFormVisible}, {[styles.hidden]: !this.props.editFormVisible})}>
         <h5>Edytuj szkołę</h5>
         <div>
-          Nazwa szkoły: <input type='text'
-                       name='name'
-                       value={this.state.name}
-                       onChange={this._handleNameChange} />
+          Nazwa szkoły:
+          <input type='text'
+                 name='name'
+                 value={this.state.name}
+                 onChange={this._handleNameChange} />
         </div>
         <div>
-          {this.state.name} {this.state.surname}
+          {this.state.name}
         </div>
         <div>
           <button className='uk-button'
