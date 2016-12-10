@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import SwimmersList from '../../components/SwimmersList/SwimmersList.component';
+import ChooseCompetition from '../../components/ChooseCompetition/ChooseCompetition.component';
 import classNames from 'classnames';
 import styles from './Competitions.stylesheet.css';
 import Select from 'react-select';
@@ -13,12 +14,11 @@ class Competitions extends Component {
     this._setCurrentCompetition = this._setCurrentCompetition.bind(this);
     this._handleSwimmerChosen = this._handleSwimmerChosen.bind(this);
     this._handleDelete = this._handleDelete.bind(this);
-    this._displayDate = this._displayDate.bind(this);
-    this._isChosen = this._isChosen.bind(this);
     this.state = {
       competitions: [],
       allSwimmers: [],
-      competitionSwimmers: []
+      competitionSwimmers: [],
+      currentCompetition: {}
     };
   }
   _setCurrentCompetition(e, id) {
@@ -27,13 +27,6 @@ class Competitions extends Component {
     axios.get(`${CONFIG.API_URL}/competitions/${id}/swimmers`)
       .then((competitionSwimmers) => this.setState({ competitionSwimmers: competitionSwimmers.data,
         currentCompetition: currentCompetition }));
-  }
-  _displayDate(date) {
-    let dateToReturn = new Date(date);
-    return dateToReturn.toLocaleDateString();
-  }
-  _isChosen(competitionId) {
-    return this.props.currentCompetitionId == competitionId;
   }
   _handleSwimmerChosen(val) {
     axios.head(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/rel/${val.value.id}`)
@@ -99,24 +92,10 @@ class Competitions extends Component {
         <h3 className='uk-text-center '>
           Wybierz zawody
         </h3>
-        <ul className='uk-list uk-margin-large-top'>
-          {this.props.competitions.map((competition, i) => {
-            return (
-              <li className={classNames(styles.competitionListElem, {[styles.chosen]: this._isChosen(competition.id)})}
-                  key={i}>
-                <h3 className={styles.competitionListElem__date}>{this._displayDate(competition.date)}</h3>
-                <div className={styles.competitionListElem__name}>{competition.name}</div>
-                <button className='uk-button'
-                        onClick={(e) => {
-                          this._setCurrentCompetition(e, competition.id);
-                          this.props.competitionChanged(e, competition.id);
-                        }}>
-                  Wybierz
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+        <ChooseCompetition competitions={this.state.competitions}
+                           currentCompetitionId={this.state.currentCompetition.id}
+                           competitionChanged={this.props.competitionChanged}
+                           setCurrentCompetition={this._setCurrentCompetition} />
         <h3 className='uk-text-center '>
           Lista uczestników
         </h3>
@@ -142,10 +121,6 @@ class Competitions extends Component {
 Competitions.propTypes = {
   competitionChanged: PropTypes.func,
   competitions: PropTypes.array,
-  currentCompetitionId: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ])
 };
 
 export default Competitions;
