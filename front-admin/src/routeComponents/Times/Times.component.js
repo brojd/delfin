@@ -161,13 +161,9 @@ class Times extends Component {
     ])
       .then(axios.spread((swimmersRes, schoolsRes, competitionsRes) => {
         let raceSwimmers = swimmersRes.data.filter((n) => n.raceIds.includes(this.state.raceId));
-        let sortedSwimmers = raceSwimmers.sort((a, b) =>
-          getRaceTimeInCompetition(a, this.state.raceId, competitionId) -
-          getRaceTimeInCompetition(b, this.state.raceId, competitionId)
-        );
         this.setState({
           competitionSwimmers: swimmersRes.data,
-          raceSwimmers: sortedSwimmers,
+          raceSwimmers: raceSwimmers,
           competitionSchools: schoolsRes.data,
           competitions: competitionsRes.data
         });
@@ -175,17 +171,22 @@ class Times extends Component {
       .catch((error) => console.error(error));
   }
   render() {
+    let competitionId = localStorage.getItem('currentCompetitionId');
     let swimmerChoices = this.state.competitionSwimmers.map((n) => {
       return {
         value: n,
         label: `${n.name} ${n.surname}`
       };
     });
+    let sortedSwimmers = this.state.raceSwimmers.sort((a, b) =>
+      getRaceTimeInCompetition(a, this.state.raceId, competitionId) -
+      getRaceTimeInCompetition(b, this.state.raceId, competitionId)
+    );
     return (
       <div>
         <h3 className='uk-text-center uk-margin-top uk-margin-bottom'>Wyniki</h3>
         <ChooseRace getCategory={this._getCategory}/>
-        <RaceSwimmersList swimmers={this.state.raceSwimmers}
+        <RaceSwimmersList swimmers={sortedSwimmers}
                           schools={this.state.competitionSchools}
                           deleteSwimmer={this._deleteSwimmer}
                           raceId={this.state.raceId}
