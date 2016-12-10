@@ -1,17 +1,23 @@
 import React, {Component} from 'react';
 import SchoolForm from '../../components/SchoolForm/SchoolForm.component';
 import SchoolsList from '../../components/SchoolsList/SchoolsList.component';
+import SchoolEditForm from '../../components/SchoolEditForm/SchoolEditForm.component';
 import axios from 'axios';
 import CONFIG from '../../config';
 import _remove from 'lodash/remove';
+import _findIndex from 'lodash/findIndex';
 
 class Schools extends Component {
   constructor() {
     super();
     this._addSchool = this._addSchool.bind(this);
     this._deleteSchool = this._deleteSchool.bind(this);
+    this._saveSchool = this._saveSchool.bind(this);
+    this._displayEditForm = this._displayEditForm.bind(this);
     this.state = {
-      schools: []
+      schools: [],
+      editFormVisible: false,
+      clickedSchoolId: 0
     };
   }
   _addSchool(name) {
@@ -37,17 +43,44 @@ class Schools extends Component {
       })
       .catch((error) => console.error(error));
   }
+  _saveSchool(name) {
+    let schoolToSave = {
+      name: name
+    };
+    axios.put(`${CONFIG.API_URL}/schools/${this.state.clickedSchoolId}`, schoolToSave)
+      .then((response) => {
+        let currentSchools = this.state.schools;
+        let schoolIndex = _findIndex(currentSchools, (n) => n.id == this.state.clickedSchoolId);
+        currentSchools[schoolIndex] = response.data;
+        this.setState({ schools: currentSchools });
+      })
+      .catch((error) => console.error(error));
+  }
+  _displayEditForm(id) {
+    this.setState({
+      editFormVisible: true,
+      clickedSchoolId: id
+    });
+  }
   componentDidMount() {
     axios.get(`${CONFIG.API_URL}/schools`)
       .then((response) => this.setState({ schools: response.data }))
       .catch((error) => console.error(error));
   }
   render() {
+    let clickedSchool = this.state.schools.filter((n) => n.id == this.state.clickedSchoolId)[0];
     return (
       <div>
         <SchoolForm addSchool={this._addSchool} />
         <SchoolsList schools={this.state.schools}
-                     deleteSchool={this._deleteSchool} />
+                     deleteSchool={this._deleteSchool}
+                     saveSchool={this._saveSchool}
+                     displayEditForm={this._displayEditForm}
+                     editFormVisible={this.state.editFormVisible}
+                     clickedSchoolId={this.state.clickedSchoolId} />
+        <SchoolEditForm  editFormVisible={this.state.editFormVisible}
+                         clickedSchool={clickedSchool}
+                         saveSchool={this._saveSchool} />
       </div>
     );
   }
