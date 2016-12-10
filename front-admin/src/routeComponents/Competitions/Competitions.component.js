@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import SwimmersList from '../../components/SwimmersList/SwimmersList.component';
 import classNames from 'classnames';
 import styles from './Competitions.stylesheet.css';
 import Select from 'react-select';
@@ -49,7 +50,7 @@ class Competitions extends Component {
           .catch((err) => console.error(err));
       });
   }
-  _handleDelete(e, id) {
+  _handleDelete(id) {
     axios.delete(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/rel/${id}`)
       .then((res) => {
         if (res.status === 204) {
@@ -125,14 +126,10 @@ class Competitions extends Component {
           onChange={this._handleSwimmerChosen}
           className='uk-width-2-10 uk-display-inline-block uk-margin-large-right'
         />
-        <ol>
-          {this.state.competitionSwimmers.map((n, i) =>
-            <li key={i}>
-              {n.name} {n.surname} ({this._getCurrentSchoolName(n.id)})
-              <i onClick={(e) => this._handleDelete(e, n.id)} className="uk-icon-trash uk-margin-small-left"></i>
-            </li>
-          )}
-        </ol>
+        <SwimmersList swimmers={this.state.competitionSwimmers}
+                      deleteSwimmer={this._handleDelete}
+                      schools={this.state.allSchools}
+                      editable={false} />
         <h3 className='uk-text-center '>
           Ustawienia zawodów
         </h3>

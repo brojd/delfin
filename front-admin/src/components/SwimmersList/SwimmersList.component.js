@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const SwimmerList = ({ swimmers, deleteSwimmer, displayEditForm, schools }) => {
+const SwimmerList = ({ swimmers, deleteSwimmer, displayEditForm, schools, editable }) => {
 
   let getCurrentSchoolName = (swimmerId) => {
     if (schools.length > 0) {
@@ -12,11 +12,10 @@ const SwimmerList = ({ swimmers, deleteSwimmer, displayEditForm, schools }) => {
   };
   return (
     <div className='uk-margin-large-top'>
-      <h2>Lista zawodników</h2>
       <ol>
         {swimmers.map((n, i) =><li key={i}>
             {n.name} {n.surname} ({getCurrentSchoolName(n.id)})
-            <i onClick={() => displayEditForm(n.id)} className="uk-icon-pencil uk-margin-left"></i>
+            {editable ? <i onClick={() => displayEditForm(n.id)} className="uk-icon-pencil uk-margin-left"></i> : null}
             <i onClick={() => deleteSwimmer(n.id)} className="uk-icon-trash uk-margin-small-left"></i>
           </li>
         )}
@@ -30,6 +29,7 @@ SwimmerList.propTypes = {
   displayEditForm: PropTypes.func,
   swimmers: PropTypes.array,
   schools: PropTypes.array,
+  editable: PropTypes.bool
 };
 
 export default SwimmerList;
