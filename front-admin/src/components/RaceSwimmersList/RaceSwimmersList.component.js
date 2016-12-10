@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
+import getRaceTimeInCompetition from '../../helpers/getRaceTimeInCompetition';
+import getRacePlaceInCompetition from '../../helpers/getRacePlaceInCompetition';
 
 class RaceSwimmersList extends Component {
   constructor() {
     super();
-    this._handleDelete = this._handleDelete.bind(this);
     this._handleSaveTime = this._handleSaveTime.bind(this);
-    this._getRaceTime = this._getRaceTime.bind(this);
-    this._getPlace = this._getPlace.bind(this);
     this._handleTimeChange = this._handleTimeChange.bind(this);
     this._getCurrentSchoolName = this._getCurrentSchoolName.bind(this);
     this.state = {
@@ -14,33 +13,12 @@ class RaceSwimmersList extends Component {
       schools: []
     };
   }
-  _handleDelete(e, id) {
-    this.props.deleteSwimmer(id);
-  }
   _handleSaveTime(e, swimmerId) {
     if (e.target.value < 1) {
       alert('Czas musi wynosić minimum 1 sek');
       e.target.value = 1;
     }
     this.props.saveTime(e.target.value, swimmerId);
-  }
-  _getRaceTime(swimmer, raceId) {
-    let timeObj = swimmer.times.filter(
-      (n) => (n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId'))
-    );
-    if (timeObj.length > 0) {
-      return Number(timeObj[0].time);
-    }
-    return '';
-  }
-  _getPlace(swimmer, raceId) {
-    let timeObj = swimmer.times.filter(
-      (n) => (n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId'))
-    );
-    if (timeObj.length > 0) {
-      return Number(timeObj[0].place);
-    }
-    return '';
   }
   _handleTimeChange(e, swimmerId) {
     let swimmers = this.state.swimmers;
@@ -64,29 +42,33 @@ class RaceSwimmersList extends Component {
     return null;
   }
   componentDidMount() {
+    let competitionId = localStorage.getItem('currentCompetitionId');
     let swimmers = this.props.swimmers;
     if (swimmers.length > 0) {
       swimmers.forEach((n) => {
-        n.time = this._getRaceTime(n, this.props.raceId);
+        n.time = getRaceTimeInCompetition(n, this.props.raceId, competitionId);
       });
     }
     this.setState({ swimmers: swimmers });
   }
   componentWillReceiveProps(nextProps) {
+    let competitionId = localStorage.getItem('currentCompetitionId');
     let swimmers = nextProps.swimmers;
     if (swimmers.length > 0) {
       swimmers.forEach((n) => {
-        n.time = this._getRaceTime(n, nextProps.raceId);
+        n.time = getRaceTimeInCompetition(n, nextProps.raceId, competitionId);
       });
     }
     this.setState({ swimmers: swimmers });
   }
   render() {
+    let competitionId = localStorage.getItem('currentCompetitionId');
     return (
       <ul>
         {this.state.swimmers.map((swimmer, i) => (
           <li key={i}>
-            {this._getPlace(swimmer, this.props.raceId)} {swimmer.name} {swimmer.surname} ({this._getCurrentSchoolName(swimmer.id)})
+            {getRacePlaceInCompetition(swimmer, this.props.raceId, competitionId)} {swimmer.name} {swimmer.surname}
+            ({this._getCurrentSchoolName(swimmer.id)})
             <input type='number'
                    step='any'
                    onBlur={(e) => this._handleSaveTime(e, swimmer.id)}
@@ -94,7 +76,7 @@ class RaceSwimmersList extends Component {
                    value={swimmer.time}
                    min={1}
                    required />s
-            <i onClick={(e) => this._handleDelete(e, swimmer.id)}
+            <i onClick={() => this.props.deleteSwimmer(swimmer.id)}
                className="uk-icon-trash uk-margin-small-left">
             </i>
           </li>
