@@ -8,17 +8,14 @@ class CompetitionSettings extends Component {
     this._handleSave = this._handleSave.bind(this);
     this._handleChange = this._handleChange.bind(this);
     this._getPoints = this._getPoints.bind(this);
-    this.state = {
-      ranks: {}
-    };
+    this.state = {};
   }
-  _handleSave(e) {
+  _handleSave() {
     let competitionToSave = this.props.currentCompetition;
     competitionToSave.ranks = this.state.ranks;
     axios.put(`${CONFIG.API_URL}/competitions/${competitionToSave.id}`, competitionToSave)
       .then((res) => console.log(res))
-      .catch((err) => console.error(err))
-    console.log(this.props.currentCompetition);
+      .catch((err) => console.error(err));
   }
   _handleChange(e, n) {
     let objToSave = {};
@@ -33,7 +30,7 @@ class CompetitionSettings extends Component {
     }
   }
   _getPoints(place) {
-    if (this.state.ranks[place]) {
+    if (this.state.ranks) {
       return this.state.ranks[place].points;
     } else {
       return '';
