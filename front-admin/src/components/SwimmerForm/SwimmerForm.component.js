@@ -28,7 +28,7 @@ class SwimmerForm extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.schools.length > 0) {
-      this.setState({ schoolId: nextProps.schools[0].id })
+      this.setState({ schoolId: nextProps.schools[0].id });
     }
   }
   render() {
@@ -46,11 +46,12 @@ class SwimmerForm extends Component {
         </div>
         <div>
           Szkoła:
-          <select value={this.state.selectValue} onChange={this._handleSelectChange}>
+          <select value={this.state.selectValue}
+                  onChange={this._handleSelectChange}>
             {this.props.schools.map((n, i) => {
               return (
                 <option key={i} value={n.id}>{n.name}</option>
-              )
+              );
             })}
           </select>
         </div>

@@ -10,7 +10,6 @@ class SwimmerEditForm extends Component {
     this._handleSubmit = this._handleSubmit.bind(this);
     this._handleSelectChange = this._handleSelectChange.bind(this);
     this.state = {
-      formVisible: false,
       currentSwimmer: {}
     };
   }
@@ -29,7 +28,6 @@ class SwimmerEditForm extends Component {
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
-      formVisible: nextProps.editFormVisible,
       currentSwimmer: nextProps.clickedSwimmer,
       name: nextProps.clickedSwimmer.name,
       surname: nextProps.clickedSwimmer.surname,
@@ -38,8 +36,9 @@ class SwimmerEditForm extends Component {
   }
   render() {
     return (
-      <form className={classNames('uk-width-2-10 uk-form', styles.EditForm, {[styles.visible]: this.state.formVisible},
-      {[styles.hidden]: !this.state.formVisible})}>
+      <form className={classNames('uk-width-2-10 uk-form', styles.EditForm,
+                                  {[styles.visible]: this.props.editFormVisible},
+                                  {[styles.hidden]: !this.props.editFormVisible})}>
         <h5>Edytuj zawodnika</h5>
         <div>
           Imię: <input type='text'
