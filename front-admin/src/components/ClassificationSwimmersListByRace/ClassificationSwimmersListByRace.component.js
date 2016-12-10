@@ -1,4 +1,8 @@
 import React, {Component} from 'react';
+import getRaceTimeInCompetition from '../../helpers/getRaceTimeInCompetition';
+import getRacePlaceInCompetition from '../../helpers/getRacePlaceInCompetition';
+import getRacePointsInCompetition from '../../helpers/getRacePointsInCompetition';
+import getSchoolNameById from '../../helpers/getSchoolNameById';
 
 class ClassificationSwimmersListByRace extends Component {
   constructor() {
@@ -6,42 +10,6 @@ class ClassificationSwimmersListByRace extends Component {
     this.state = {
       sortedSwimmers: []
     };
-    this._getRaceTime = this._getRaceTime.bind(this);
-    this._getRacePoints = this._getRacePoints.bind(this);
-    this._getSchoolName = this._getSchoolName.bind(this);
-    this._getPlace = this._getPlace.bind(this);
-  }
-  _getRaceTime(swimmer, raceId) {
-    let timeObj = swimmer.times.filter(
-      (n) => n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId')
-    );
-    if (timeObj.length > 0) {
-      return Number(timeObj[0].time);
-    }
-    return 0;
-  }
-  _getPlace(swimmer, raceId) {
-    let timeObj = swimmer.times.filter(
-      (n) => (n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId'))
-    );
-    if (timeObj.length > 0) {
-      return Number(timeObj[0].place);
-    }
-    return '';
-  }
-  _getRacePoints(swimmer, raceId) {
-    let timeObj = swimmer.times.filter(
-      (n) => n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId')
-    );
-    if (timeObj.length > 0) {
-      return Number(timeObj[0].points);
-    }
-    return 0;
-  }
-  _getSchoolName(schools, schoolId) {
-    if (schools.length > 0) {
-      return schools.filter((n) => n.id === schoolId)[0].name;
-    }
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -55,8 +23,10 @@ class ClassificationSwimmersListByRace extends Component {
         <ul>
           {this.state.sortedSwimmers.map((n, i) => (
             <li key={i}>
-              {this._getPlace(n, this.props.raceId)} {n.name} {n.surname} ({this._getSchoolName(this.state.schools, n.schoolId)})
-              {this._getRaceTime(n, this.props.raceId)}s {this._getRacePoints(n, this.props.raceId)} points
+              {getRacePlaceInCompetition(n, this.props.raceId, this.props.competitionId)} {n.name} {n.surname}
+              ({getSchoolNameById(this.state.schools, n.schoolId)})
+              {getRaceTimeInCompetition(n, this.props.raceId, this.props.competitionId)}s
+              {getRacePointsInCompetition(n, this.props.raceId, this.props.competitionId)} points
             </li>
           ))}
         </ul>
