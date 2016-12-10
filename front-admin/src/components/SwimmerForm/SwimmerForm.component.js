@@ -71,7 +71,8 @@ class SwimmerForm extends Component {
 }
 
 SwimmerForm.propTypes = {
-  addSwimmer: PropTypes.func
+  addSwimmer: PropTypes.func,
+  schools: PropTypes.array
 };
 
 SwimmerForm.defaultProps = {

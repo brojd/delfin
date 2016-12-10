@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import getRaceTimeInCompetition from '../../helpers/getRaceTimeInCompetition';
 import getRacePlaceInCompetition from '../../helpers/getRacePlaceInCompetition';
 import getRacePointsInCompetition from '../../helpers/getRacePointsInCompetition';
@@ -34,5 +34,18 @@ class ClassificationSwimmersListByRace extends Component {
     );
   }
 }
+
+ClassificationSwimmersListByRace.propTypes = {
+  swimmers: PropTypes.array,
+  schools: PropTypes.array,
+  raceId: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]),
+  competitionId: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ])
+};
 
 export default ClassificationSwimmersListByRace;

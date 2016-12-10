@@ -51,7 +51,9 @@ class SchoolEditForm extends Component {
 }
 
 SchoolEditForm.propTypes = {
-  saveSchool: PropTypes.func
+  saveSchool: PropTypes.func,
+  editFormVisible: PropTypes.bool,
+  clickedSchool: PropTypes.object
 };
 
 SchoolEditForm.defaultProps = {

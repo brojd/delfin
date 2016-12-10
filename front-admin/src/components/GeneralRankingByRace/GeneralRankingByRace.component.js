@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import getSchoolNameById from '../../helpers/getSchoolNameById';
 
 class GeneralRankingByRace extends Component {
@@ -51,5 +51,14 @@ class GeneralRankingByRace extends Component {
     );
   }
 }
+
+GeneralRankingByRace.propTypes = {
+  swimmers: PropTypes.array,
+  schools: PropTypes.array,
+  raceId: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ])
+};
 
 export default GeneralRankingByRace;

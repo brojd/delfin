@@ -74,10 +74,7 @@ class Schools extends Component {
         <SchoolForm addSchool={this._addSchool} />
         <SchoolsList schools={this.state.schools}
                      deleteSchool={this._deleteSchool}
-                     saveSchool={this._saveSchool}
-                     displayEditForm={this._displayEditForm}
-                     editFormVisible={this.state.editFormVisible}
-                     clickedSchoolId={this.state.clickedSchoolId} />
+                     displayEditForm={this._displayEditForm} />
         <SchoolEditForm  editFormVisible={this.state.editFormVisible}
                          clickedSchool={clickedSchool}
                          saveSchool={this._saveSchool} />

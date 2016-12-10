@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import getSchoolNameById from '../../helpers/getSchoolNameById';
 
 class ClassificationSwimmersList extends Component {
@@ -49,6 +49,12 @@ class ClassificationSwimmersList extends Component {
 ClassificationSwimmersList.defaultProps = {
   schools: [],
   swimmers: []
+};
+
+ClassificationSwimmersList.propTypes = {
+  swimmers: PropTypes.array,
+  schools: PropTypes.array,
+  isGeneral: PropTypes.bool
 };
 
 export default ClassificationSwimmersList;

@@ -78,7 +78,10 @@ class SwimmerEditForm extends Component {
 }
 
 SwimmerEditForm.propTypes = {
-  saveSwimmer: PropTypes.func
+  saveSwimmer: PropTypes.func,
+  editFormVisible: PropTypes.bool,
+  clickedSwimmer: PropTypes.object,
+  schools: PropTypes.array
 };
 
 SwimmerEditForm.defaultProps = {
