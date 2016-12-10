@@ -6,6 +6,7 @@ import CONFIG from '../../config';
 import Select from 'react-select';
 import _remove from 'lodash/remove';
 import _uniqBy from 'lodash/uniqBy';
+import getRaceIdByCategory from '../../helpers/getRaceIdByCategory';
 
 class Times extends Component {
   constructor() {
@@ -33,43 +34,8 @@ class Times extends Component {
     });
   }
   _getCategory(sex, style, age) {
-    if (age.value == 'W1' && sex.value == 'P1' && style.value == 'S1') {
-      this._updateRaceId(1);
-    } else if (age.value == 'W1' && sex.value == 'P1' && style.value == 'S2') {
-      this._updateRaceId(2);
-    } else if (age.value == 'W1' && sex.value == 'P1' && style.value == 'S3') {
-      this._updateRaceId(3);
-    } else if (age.value == 'W1' && sex.value == 'P2' && style.value == 'S1') {
-      this._updateRaceId(4);
-    } else if (age.value == 'W1' && sex.value == 'P2' && style.value == 'S2') {
-      this._updateRaceId(5);
-    } else if (age.value == 'W1' && sex.value == 'P2' && style.value == 'S3') {
-      this._updateRaceId(6);
-    } else if (age.value == 'W2' && sex.value == 'P1' && style.value == 'S1') {
-      this._updateRaceId(7);
-    } else if (age.value == 'W2' && sex.value == 'P1' && style.value == 'S2') {
-      this._updateRaceId(8);
-    } else if (age.value == 'W2' && sex.value == 'P1' && style.value == 'S3') {
-      this._updateRaceId(9);
-    } else if (age.value == 'W2' && sex.value == 'P2' && style.value == 'S1') {
-      this._updateRaceId(10);
-    } else if (age.value == 'W2' && sex.value == 'P2' && style.value == 'S2') {
-      this._updateRaceId(11);
-    } else if (age.value == 'W2' && sex.value == 'P2' && style.value == 'S3') {
-      this._updateRaceId(12);
-    } else if (age.value == 'W3' && sex.value == 'P1' && style.value == 'S1') {
-      this._updateRaceId(7);
-    } else if (age.value == 'W3' && sex.value == 'P1' && style.value == 'S2') {
-      this._updateRaceId(8);
-    } else if (age.value == 'W3' && sex.value == 'P1' && style.value == 'S3') {
-      this._updateRaceId(9);
-    } else if (age.value == 'W3' && sex.value == 'P2' && style.value == 'S1') {
-      this._updateRaceId(10);
-    } else if (age.value == 'W3' && sex.value == 'P2' && style.value == 'S2') {
-      this._updateRaceId(11);
-    } else if (age.value == 'W3' && sex.value == 'P2' && style.value == 'S3') {
-      this._updateRaceId(12);
-    }
+    let currentId = getRaceIdByCategory(sex, style, age);
+    this._updateRaceId(currentId);
   }
   _getRaceTime(swimmer, raceId) {
     let timeObj = swimmer.times.filter(
