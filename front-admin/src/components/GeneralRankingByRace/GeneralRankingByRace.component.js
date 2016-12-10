@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import getSchoolNameById from '../../helpers/getSchoolNameById';
 
 class GeneralRankingByRace extends Component {
   constructor() {
@@ -7,7 +8,6 @@ class GeneralRankingByRace extends Component {
       swimmers: []
     };
     this._getRacePoints = this._getRacePoints.bind(this);
-    this._getSchoolName = this._getSchoolName.bind(this);
     this._getPlace = this._getPlace.bind(this);
   }
   _getRacePoints(swimmer, raceId) {
@@ -26,11 +26,6 @@ class GeneralRankingByRace extends Component {
     }
     return index + 1;
   }
-  _getSchoolName(schools, schoolId) {
-    if (schools.length > 0) {
-      return schools.filter((n) => n.id === schoolId)[0].name;
-    }
-  }
   componentWillReceiveProps(nextProps) {
     this.setState({
       swimmers: nextProps.swimmers,
@@ -47,7 +42,7 @@ class GeneralRankingByRace extends Component {
           {sortedSwimmers.map((n, i) => (
             <li key={i}>
               {this._getPlace(n, sortedSwimmers[i-1], i)}
-              {n.name} {n.surname} ({this._getSchoolName(this.state.schools, n.schoolId)})
+              {n.name} {n.surname} ({getSchoolNameById(this.state.schools, n.schoolId)})
               {this._getRacePoints(n, this.props.raceId)} points
             </li>
           ))}

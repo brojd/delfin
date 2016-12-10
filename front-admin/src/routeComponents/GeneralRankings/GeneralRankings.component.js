@@ -5,6 +5,7 @@ import GeneralRankingByRace from '../../components/GeneralRankingByRace/GeneralR
 import ClassificationSchoolsList from '../../components/ClassificationSchoolsList/ClassificationSchoolsList.component';
 import axios from 'axios';
 import CONFIG from '../../config';
+import getRaceIdByCategory from '../../helpers/getRaceIdByCategory';
 
 class GeneralRankings extends Component {
   constructor() {
@@ -38,31 +39,8 @@ class GeneralRankings extends Component {
     });
   }
   _getCategory(sex, style, age) {
-    if (age.value == 'W1' && sex.value == 'P1' && style.value == 'S1') {
-      this._updateRaceId(1);
-    } else if (age.value == 'W1' && sex.value == 'P1' && style.value == 'S2') {
-      this._updateRaceId(2);
-    } else if (age.value == 'W1' && sex.value == 'P1' && style.value == 'S3') {
-      this._updateRaceId(3);
-    } else if (age.value == 'W1' && sex.value == 'P2' && style.value == 'S1') {
-      this._updateRaceId(4);
-    } else if (age.value == 'W1' && sex.value == 'P2' && style.value == 'S2') {
-      this._updateRaceId(5);
-    } else if (age.value == 'W1' && sex.value == 'P2' && style.value == 'S3') {
-      this._updateRaceId(6);
-    } else if (age.value == 'W2' && sex.value == 'P1' && style.value == 'S1') {
-      this._updateRaceId(7);
-    } else if (age.value == 'W2' && sex.value == 'P1' && style.value == 'S2') {
-      this._updateRaceId(8);
-    } else if (age.value == 'W2' && sex.value == 'P1' && style.value == 'S3') {
-      this._updateRaceId(9);
-    } else if (age.value == 'W2' && sex.value == 'P2' && style.value == 'S1') {
-      this._updateRaceId(10);
-    } else if (age.value == 'W2' && sex.value == 'P2' && style.value == 'S2') {
-      this._updateRaceId(11);
-    } else if (age.value == 'W2' && sex.value == 'P2' && style.value == 'S3') {
-      this._updateRaceId(12);
-    }
+    let currentId = getRaceIdByCategory(sex, style, age);
+    this._updateRaceId(currentId);
   }
   componentDidMount() {
     axios.all([
