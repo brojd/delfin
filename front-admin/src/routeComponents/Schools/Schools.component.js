@@ -20,9 +20,10 @@ class Schools extends Component {
       clickedSchoolId: 0
     };
   }
-  _addSchool(name) {
+  _addSchool(name, isRanked) {
     let schoolToAdd = {
-      name: name
+      name: name,
+      isRanked: isRanked
     };
     axios.post(`${CONFIG.API_URL}/schools`, schoolToAdd)
       .then((response) => {
@@ -43,9 +44,10 @@ class Schools extends Component {
       })
       .catch((error) => console.error(error));
   }
-  _saveSchool(name) {
+  _saveSchool(name, isRanked) {
     let schoolToSave = {
-      name: name
+      name: name,
+      isRanked: isRanked
     };
     axios.put(`${CONFIG.API_URL}/schools/${this.state.clickedSchoolId}`, schoolToSave)
       .then((response) => {

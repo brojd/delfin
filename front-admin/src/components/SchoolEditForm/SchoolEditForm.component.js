@@ -6,6 +6,7 @@ class SchoolEditForm extends Component {
   constructor() {
     super();
     this._handleNameChange = this._handleNameChange.bind(this);
+    this._handleIsRankedChange = this._handleIsRankedChange.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this);
     this.state = {
       name: ''
@@ -14,13 +15,17 @@ class SchoolEditForm extends Component {
   _handleNameChange(e) {
     this.setState({ name: e.target.value });
   }
+  _handleIsRankedChange() {
+    this.setState({ isRanked: !this.state.isRanked });
+  }
   _handleSubmit(e) {
     e.preventDefault();
-    this.props.saveSchool(this.state.name);
+    this.props.saveSchool(this.state.name, this.state.isRanked);
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
-      name: nextProps.clickedSchool.name
+      name: nextProps.clickedSchool.name,
+      isRanked: nextProps.clickedSchool.isRanked
     });
   }
   render() {
@@ -34,6 +39,11 @@ class SchoolEditForm extends Component {
                  name='name'
                  value={this.state.name}
                  onChange={this._handleNameChange} />
+          <input type='checkbox'
+                 name='isRanked'
+                 onChange={this._handleIsRankedChange}
+                 checked={this.state.isRanked} />
+          Uwzględnij w klasyfikacji
         </div>
         <div>
           {this.state.name}
