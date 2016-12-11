@@ -4,6 +4,7 @@ import ClassificationSwimmersListByRace from '../../components/ClassificationSwi
 import ClassificationSchoolsList from '../../components/ClassificationSchoolsList/ClassificationSchoolsList.component';
 import ClassificationSwimmersList from '../../components/ClassificationSwimmersList/ClassificationSwimmersList.component';
 import getRaceIdByCategory from '../../helpers/getRaceIdByCategory';
+import isSwimmerRanked from '../../helpers/isSwimmerRanked';
 import axios from 'axios';
 import CONFIG from '../../config';
 
@@ -16,7 +17,8 @@ class Classifications extends Component {
     this.state = {
       raceId: '',
       raceSwimmers: [],
-      competitionSwimmers: []
+      competitionSwimmers: [],
+      schools: []
     };
   }
   _getRaceTime(swimmer, raceId) {
@@ -66,21 +68,26 @@ class Classifications extends Component {
   }
   render() {
     let competitionId = localStorage.getItem('currentCompetitionId');
+    let raceSwimmers = this.state.raceSwimmers.filter((swimmer) => isSwimmerRanked(swimmer, this.state.schools));
+    let competitionSwimmers = this.state.competitionSwimmers.filter(
+      (swimmer) => isSwimmerRanked(swimmer, this.state.schools)
+    );
+    let rankedSchools = this.state.schools.filter((n) => n.isRanked);
     return (
       <div>
         <h3 className='uk-text-center uk-margin-top'>Ranking zawodników wg kategorii</h3>
         <ChooseRace getCategory={this._getCategory}/>
-        <ClassificationSwimmersListByRace swimmers={this.state.raceSwimmers}
+        <ClassificationSwimmersListByRace swimmers={raceSwimmers}
                                           raceId={this.state.raceId}
                                           schools={this.state.schools}
                                           competitionId={competitionId} />
         <h3 className='uk-text-center uk-margin-large-top'>Ranking zawodników</h3>
         <ClassificationSwimmersList schools={this.state.schools}
-                                    swimmers={this.state.competitionSwimmers}
+                                    swimmers={competitionSwimmers}
                                     isGeneral={false} />
         <h3 className='uk-text-center uk-margin-large-top'>Ranking szkół</h3>
-        <ClassificationSchoolsList schools={this.state.schools}
-                                   swimmers={this.state.competitionSwimmers}
+        <ClassificationSchoolsList schools={rankedSchools}
+                                   swimmers={competitionSwimmers}
                                    isGeneral={false} />
       </div>
     );
