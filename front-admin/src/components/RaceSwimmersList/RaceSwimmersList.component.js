@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import getRaceTimeInCompetition from '../../helpers/getRaceTimeInCompetition';
 import getRacePlaceInCompetition from '../../helpers/getRacePlaceInCompetition';
+import isSwimmerRanked from '../../helpers/isSwimmerRanked';
 
 class RaceSwimmersList extends Component {
   constructor() {
@@ -67,8 +68,9 @@ class RaceSwimmersList extends Component {
       <ul>
         {this.state.swimmers.map((swimmer, i) => (
           <li key={i}>
-            {getRacePlaceInCompetition(swimmer, this.props.raceId, competitionId)} {swimmer.name} {swimmer.surname}
-            ({this._getCurrentSchoolName(swimmer.id)})
+            {isSwimmerRanked(swimmer, this.props.schools) ?
+              getRacePlaceInCompetition(swimmer, this.props.raceId, competitionId) : 'NOT RANKED '}
+            {swimmer.name} {swimmer.surname} ({this._getCurrentSchoolName(swimmer.id)})
             <input type='number'
                    step='any'
                    onBlur={(e) => this._handleSaveTime(e, swimmer.id)}

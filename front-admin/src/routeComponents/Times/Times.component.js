@@ -8,6 +8,7 @@ import _remove from 'lodash/remove';
 import _uniqBy from 'lodash/uniqBy';
 import getRaceIdByCategory from '../../helpers/getRaceIdByCategory';
 import getRaceTimeInCompetition from '../../helpers/getRaceTimeInCompetition';
+import isSwimmerRanked from '../../helpers/isSwimmerRanked';
 
 class Times extends Component {
   constructor() {
@@ -50,7 +51,9 @@ class Times extends Component {
   }
   _saveSwimmersPoints(raceId) {
     let competitionId = this.props.currentCompetitionId;
-    let raceSwimmers = this.state.raceSwimmers;
+    let raceSwimmers = this.state.raceSwimmers.filter((swimmer) => {
+      return isSwimmerRanked(swimmer, this.state.competitionSwimmers);
+    });
     let ranks = this.state.competitions.filter((n) => n.id === this.props.currentCompetitionId)[0].ranks;
     let sortedSwimmers = raceSwimmers.sort((a, b) =>
       getRaceTimeInCompetition(a, raceId, competitionId) - getRaceTimeInCompetition(b, raceId, competitionId)
