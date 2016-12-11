@@ -6,6 +6,7 @@ import axios from 'axios';
 import CONFIG from '../../config';
 import _remove from 'lodash/remove';
 import _findIndex from 'lodash/findIndex';
+import auth from '../../auth';
 
 class Nav extends Component {
   constructor() {
@@ -26,7 +27,7 @@ class Nav extends Component {
       surname: surname,
       times: []
     };
-    axios.post(`${CONFIG.API_URL}/schools/${schoolId}/swimmers`, swimmerToAdd)
+    axios.post(`${CONFIG.API_URL}/schools/${schoolId}/swimmers?access_token=${auth.getToken()}`, swimmerToAdd)
       .then((response) => {
         let currentSwimmers = this.state.swimmers;
         currentSwimmers.push(response.data);
@@ -35,7 +36,7 @@ class Nav extends Component {
       .catch((error) => console.error(error));
   }
   _deleteSwimmer(id) {
-    axios.delete(`${CONFIG.API_URL}/swimmers/${id}`)
+    axios.delete(`${CONFIG.API_URL}/swimmers/${id}?access_token=${auth.getToken()}`)
       .then((response) => {
         if (response.status === 200) {
           let currentSwimmers = this.state.swimmers;
@@ -51,7 +52,7 @@ class Nav extends Component {
       surname: surname,
       schoolId: schoolId
     };
-    axios.put(`${CONFIG.API_URL}/swimmers/${this.state.clickedSwimmerId}`, swimmerToSave)
+    axios.put(`${CONFIG.API_URL}/swimmers/${this.state.clickedSwimmerId}?access_token=${auth.getToken()}`, swimmerToSave)
       .then((response) => {
         let currentSwimmers = this.state.swimmers;
         let swimmerIndex = _findIndex(currentSwimmers, (n) => n.id == this.state.clickedSwimmerId);

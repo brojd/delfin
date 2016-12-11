@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import axios from 'axios';
 import CONFIG from '../../config';
+import auth from '../../auth';
 
 class CompetitionSettings extends Component {
   constructor() {
@@ -13,7 +14,7 @@ class CompetitionSettings extends Component {
   _handleSave() {
     let competitionToSave = this.props.currentCompetition;
     competitionToSave.ranks = this.state.ranks;
-    axios.put(`${CONFIG.API_URL}/competitions/${competitionToSave.id}`, competitionToSave)
+    axios.put(`${CONFIG.API_URL}/competitions/${competitionToSave.id}?access_token=${auth.getToken()}`, competitionToSave)
       .then((res) => console.log(res))
       .catch((err) => console.error(err));
   }

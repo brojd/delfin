@@ -6,6 +6,7 @@ import axios from 'axios';
 import CONFIG from '../../config';
 import _remove from 'lodash/remove';
 import _findIndex from 'lodash/findIndex';
+import auth from '../../auth';
 
 class Schools extends Component {
   constructor() {
@@ -25,7 +26,7 @@ class Schools extends Component {
       name: name,
       isRanked: isRanked
     };
-    axios.post(`${CONFIG.API_URL}/schools`, schoolToAdd)
+    axios.post(`${CONFIG.API_URL}/schools?access_token=${auth.getToken()}`, schoolToAdd)
       .then((response) => {
         let currentSchools = this.state.schools;
         currentSchools.push(response.data);
@@ -34,7 +35,7 @@ class Schools extends Component {
       .catch((error) => console.error(error));
   }
   _deleteSchool(id) {
-    axios.delete(`${CONFIG.API_URL}/schools/${id}`)
+    axios.delete(`${CONFIG.API_URL}/schools/${id}?access_token=${auth.getToken()}`)
       .then((response) => {
         if (response.status === 200) {
           let currentSchools = this.state.schools;
@@ -49,7 +50,7 @@ class Schools extends Component {
       name: name,
       isRanked: isRanked
     };
-    axios.put(`${CONFIG.API_URL}/schools/${this.state.clickedSchoolId}`, schoolToSave)
+    axios.put(`${CONFIG.API_URL}/schools/${this.state.clickedSchoolId}?access_token=${auth.getToken()}`, schoolToSave)
       .then((response) => {
         let currentSchools = this.state.schools;
         let schoolIndex = _findIndex(currentSchools, (n) => n.id == this.state.clickedSchoolId);

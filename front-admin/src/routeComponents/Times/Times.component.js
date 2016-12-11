@@ -9,6 +9,7 @@ import _uniqBy from 'lodash/uniqBy';
 import getRaceIdByCategory from '../../helpers/getRaceIdByCategory';
 import getRaceTimeInCompetition from '../../helpers/getRaceTimeInCompetition';
 import isSwimmerRanked from '../../helpers/isSwimmerRanked';
+import auth from '../../auth';
 
 class Times extends Component {
   constructor() {
@@ -79,7 +80,7 @@ class Times extends Component {
       );
     });
     axios.all([
-      sortedSwimmers.map((n, i) => axios.put(`${CONFIG.API_URL}/swimmers`, sortedSwimmers[i]))
+      sortedSwimmers.map((n, i) => axios.put(`${CONFIG.API_URL}/swimmers?access_token=${auth.getToken()}`, sortedSwimmers[i]))
     ])
       .then(() => this.setState({ raceSwimmers: sortedSwimmers }))
       .catch((err) => console.error(err));
@@ -98,7 +99,7 @@ class Times extends Component {
     } else {
       let swimmerToSave = val.value;
       swimmerToSave.raceIds.push(this.state.raceId);
-      axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}`, swimmerToSave)
+      axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}?access_token=${auth.getToken()}`, swimmerToSave)
         .then(() => {
           raceSwimmers.push(swimmerToSave);
           this.setState({ raceSwimmers: raceSwimmers });
@@ -112,7 +113,7 @@ class Times extends Component {
       if (swimmer.id == id) {
         _remove(swimmer.raceIds, (n) => n === this.state.raceId);
         _remove(swimmer.times, (n) => n.raceId === this.state.raceId);
-        axios.put(`${CONFIG.API_URL}/competitions/${this.props.currentCompetitionId}/swimmers/${id}`, swimmer)
+        axios.put(`${CONFIG.API_URL}/competitions/${this.props.currentCompetitionId}/swimmers/${id}?access_token=${auth.getToken()}`, swimmer)
           .then(() => {
             let newRaceSwimmers = raceSwimmers.filter((n) => n.id !== id);
             this.setState({ raceSwimmers: newRaceSwimmers});
@@ -137,7 +138,7 @@ class Times extends Component {
       })[0];
       timeToSave.time = Number(time);
       swimmerToSave.times[timeIndex] = timeToSave;
-      axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}`, swimmerToSave)
+      axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}?access_token=${auth.getToken()}`, swimmerToSave)
         .then(() => this.setState({ raceSwimmers: raceSwimmers }))
         .catch((err) => console.error(err));
     } else {
@@ -147,7 +148,7 @@ class Times extends Component {
         time: Number(time)
       };
       swimmerToSave.times.push(objToSave);
-      axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}`, swimmerToSave)
+      axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}?access_token=${auth.getToken()}`, swimmerToSave)
         .then(() => {
           this.setState({ raceSwimmers: raceSwimmers });
         })
