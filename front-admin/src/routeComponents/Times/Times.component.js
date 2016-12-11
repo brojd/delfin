@@ -52,7 +52,7 @@ class Times extends Component {
   _saveSwimmersPoints(raceId) {
     let competitionId = this.props.currentCompetitionId;
     let raceSwimmers = this.state.raceSwimmers.filter((swimmer) => {
-      return isSwimmerRanked(swimmer, this.state.competitionSwimmers);
+      return isSwimmerRanked(swimmer, this.state.competitionSchools);
     });
     let ranks = this.state.competitions.filter((n) => n.id === this.props.currentCompetitionId)[0].ranks;
     let sortedSwimmers = raceSwimmers.sort((a, b) =>
