@@ -13,14 +13,14 @@ class Main extends Component {
   }
   render() {
     return (
-      <main className={classNames('uk-float-right uk-width-9-10')}>
+      <main className={classNames('uk-float-right uk-width-5-6')}>
         {this.props.children && React.cloneElement(this.props.children, {
           competitionChanged: this._competitionChanged,
           competitions: this.props.competitions,
           currentCompetitionId: this.props.currentCompetitionId
         })}
       </main>
-    )
+    );
   }
 }
 

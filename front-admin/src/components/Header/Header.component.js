@@ -23,7 +23,7 @@ class Header extends Component {
   }
   render() {
     return (
-      <header className={classNames(styles.Header, 'uk-width-9-10 uk-float-right uk-text-center')}>
+      <header className={classNames(styles.Header, 'uk-width-5-6 uk-float-right uk-text-center')}>
         {this.state.loggedIn ? (
           <Link to="/logout" className='uk-float-right'>Wyloguj się</Link>
         ) : (

@@ -6,78 +6,62 @@ import styles from'./Nav.stylesheet.css';
 class Nav extends Component {
   render() {
     return (
-      <div className={classNames(styles.NavWrapper, 'uk-width-1-10')}>
+      <div className={classNames(styles.NavWrapper, 'uk-width-1-6')}>
         <ul className={classNames('uk-nav', styles.Nav)}>
-          <li className='uk-margin-large-bottom'>
+          <li className={styles.Nav_listElem}>
             <Link to='/schools' className={styles.Nav__link}>
-              <div className='uk-text-center'>
-                <i className="uk-icon-building uk-icon-medium"></i>
-              </div>
-              <div className='uk-text-center'>
-                SZKOŁY
-              </div>
+                <i className="uk-icon-building uk-icon-small"></i>
+                <span className={styles.Nav_label}>
+                  Szkoły
+                </span>
             </Link>
           </li>
-          <li className='uk-margin-large-bottom'>
+          <li className={styles.Nav_listElem}>
             <Link to='/swimmers' className={styles.Nav__link}>
-              <div className='uk-text-center'>
-                <i className="uk-icon-group uk-icon-medium"></i>
-              </div>
-              <div className='uk-text-center'>
-                ZAWODNICY
-              </div>
+                <i className="uk-icon-group uk-icon-small"></i>
+                <span className={styles.Nav_label}>
+                  Zawodnicy
+                </span>
             </Link>
           </li>
-          <hr className='uk-margin-large-bottom'/>
-          <li className='uk-margin-large-bottom'>
+          <li className={styles.Nav_listElem}>
             <Link to='/' className={styles.Nav__link}>
-              <div className='uk-text-center'>
-                <i className="uk-icon-home uk-icon-medium"></i>
-              </div>
-              <div className='uk-text-center'>
-                ZAWODY
-              </div>
+                <i className="uk-icon-home uk-icon-small"></i>
+                <span className={styles.Nav_label}>
+                  Zawody
+                </span>
             </Link>
           </li>
-          <li className='uk-margin-large-bottom'>
+          <li className={styles.Nav_listElem}>
             <Link to='/times' className={styles.Nav__link}>
-              <div className='uk-text-center'>
-                <i className="uk-icon-table uk-icon-medium"></i>
-              </div>
-              <div className='uk-text-center'>
-                WYNIKI
-              </div>
+                <i className="uk-icon-table uk-icon-small"></i>
+                <span className={styles.Nav_label}>
+                  Wyniki
+                </span>
             </Link>
           </li>
-          <li className='uk-margin-large-bottom'>
+          <li className={styles.Nav_listElem}>
             <Link to='/classifications' className={styles.Nav__link}>
-              <div className='uk-text-center'>
-                <i className="uk-icon-bar-chart uk-icon-medium"></i>
-              </div>
-              <div className='uk-text-center'>
-                RANKINGI ZAWODÓW
-              </div>
+                <i className="uk-icon-bar-chart uk-icon-small"></i>
+                <span className={styles.Nav_label}>
+                  Ranking zawodów
+                </span>
             </Link>
           </li>
-          <hr className='uk-margin-large-bottom'/>
-          <li className='uk-margin-large-bottom'>
+          <li className={styles.Nav_listElem}>
             <Link to='/general-rankings' className={styles.Nav__link}>
-              <div className='uk-text-center'>
-                <i className="uk-icon-trophy uk-icon-medium"></i>
-              </div>
-              <div className='uk-text-center'>
-                KLASYFIKACJA GENERALNA
-              </div>
+                <i className="uk-icon-trophy uk-icon-small"></i>
+                <span className={styles.Nav_label}>
+                  Ranking ogólny
+                </span>
             </Link>
           </li>
-          <li className='uk-margin-large-bottom'>
+          <li className={styles.Nav_listElem}>
             <Link to='/records' className={styles.Nav__link}>
-              <div className='uk-text-center'>
-                <i className="uk-icon-clock-o uk-icon-medium"></i>
-              </div>
-              <div className='uk-text-center'>
-                REKORDY
-              </div>
+                <i className="uk-icon-clock-o uk-icon-small"></i>
+                <span className={styles.Nav_label}>
+                  Rekordy
+                </span>
             </Link>
           </li>
         </ul>
