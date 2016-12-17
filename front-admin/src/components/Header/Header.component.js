@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import styles from'./Header.stylesheet.css';
 import {Link} from 'react-router';
 import auth from '../../auth';
+import logo from './logo.png';
 
 class Header extends Component {
   constructor() {
@@ -23,15 +24,21 @@ class Header extends Component {
   }
   render() {
     return (
-      <header className={classNames(styles.Header, 'uk-width-5-6 uk-float-right uk-text-center')}>
-        {this.state.loggedIn ? (
-          <Link to="/logout" className='uk-float-right'>Wyloguj się</Link>
-        ) : (
-          <Link to="/login" className='uk-float-right'>Zaloguj się</Link>
-        )}
-        <h2 className={classNames(styles.Header__heading, 'uk-text-center')}>
-          {this.props.textToDisplay}
-        </h2>
+      <header className={classNames(styles.Header)}>
+        <div className={classNames('uk-width-1-6', styles.logoWrapper)}>
+          <img src={logo}
+               alt='logo' className={styles.logoWrapper_logo} />
+        </div>
+        <div className='uk-width-5-6 uk-float-right uk-text-center'>
+          {this.state.loggedIn ? (
+            <Link to="/logout" className='uk-float-right'>Wyloguj się</Link>
+          ) : (
+            <Link to="/login" className='uk-float-right'>Zaloguj się</Link>
+          )}
+          <h2 className={classNames(styles.Header__heading, 'uk-text-center')}>
+            {this.props.textToDisplay}
+          </h2>
+        </div>
       </header>
     );
   }
