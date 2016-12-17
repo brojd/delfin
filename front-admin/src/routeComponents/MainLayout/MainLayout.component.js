@@ -63,7 +63,7 @@ class MainLayout extends Component {
     return (
       <div className={classNames(styles.MainLayout)}>
         <Header textToDisplay={this.state.headerText} />
-        <Nav/>
+        <Nav />
         {this.props.children && React.cloneElement(this.props.children, {
           passCompetitionId: this._passCompetitionId,
           competitions: this.state.competitions,
