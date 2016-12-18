@@ -86,7 +86,6 @@ class Nav extends Component {
       <div>
         <SwimmerForm addSwimmer={this._addSwimmer}
                      schools={this.state.schools} />
-        <h2>Lista zawodników</h2>
         <SwimmersList swimmers={this.state.swimmers}
                       deleteSwimmer={this._deleteSwimmer}
                       displayEditForm={this._displayEditForm}
