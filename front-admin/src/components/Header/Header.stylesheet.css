@@ -1,5 +1,6 @@
 .Header {
-  height: 60px; }
+  height: 60px;
+  background: white; }
 
 .Header__heading {
   height: 60px;
