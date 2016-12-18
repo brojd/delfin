@@ -1,4 +1,6 @@
 import React, {Component, PropTypes} from 'react';
+import styles from './SchoolForm.stylesheet.css';
+import classNames from 'classnames';
 
 class SchoolForm extends Component {
   constructor() {
@@ -23,23 +25,27 @@ class SchoolForm extends Component {
   }
   render() {
     return (
-      <form className='uk-width-2-10 uk-form'>
-        <div>
-          Nazwa szkoły:
+      <form className={classNames(styles.SchoolForm, 'uk-width-4-10 uk-form uk-align-center uk-form-stacked')}>
+        <legend>Dodaj szkołę</legend>
+        <div className='uk-form-row'>
+          <label className='uk-form-label'>Nazwa szkoły:</label>
           <input type='text'
                  name='name'
                  onChange={this._handleNameChange} />
+        </div>
+        <div className='uk-form-row'>
+          Uwzględnij w klasyfikacji
           <input type='checkbox'
                  name='isRanked'
                  onChange={this._handleIsRankedChange}
-                 checked={this.state.isRanked} />
-          Uwzględnij w klasyfikacji
+                 checked={this.state.isRanked}
+                 className='uk-margin-left uk-form-controls' />
         </div>
-        <div>
+        <div className='uk-form-row'>
           {this.state.name}
         </div>
-        <div>
-          <button className='uk-button'
+        <div className='uk-form-row'>
+          <button className={classNames(styles.SchoolForm_addButton, 'uk-button uk-align-center')}
                   type='submit'
                   onClick={this._handleSubmit}>
             Dodaj szkołę

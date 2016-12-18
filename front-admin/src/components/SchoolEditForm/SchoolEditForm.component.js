@@ -30,26 +30,29 @@ class SchoolEditForm extends Component {
   }
   render() {
     return (
-      <form className={classNames('uk-width-2-10 uk-form', styles.EditForm,
+      <form className={classNames(styles.EditForm, 'uk-width-4-10 uk-form uk-align-center uk-form-stacked',
                       {[styles.visible]: this.props.editFormVisible}, {[styles.hidden]: !this.props.editFormVisible})}>
-        <h5>Edytuj szkołę</h5>
-        <div>
-          Nazwa szkoły:
+        <legend>Edytuj szkołę</legend>
+        <div className='uk-form-row'>
+          <label className='uk-form-label'>Nazwa szkoły:</label>
           <input type='text'
                  name='name'
                  value={this.state.name}
                  onChange={this._handleNameChange} />
+        </div>
+        <div className='uk-form-row'>
+          Uwzględnij w klasyfikacji
           <input type='checkbox'
                  name='isRanked'
                  onChange={this._handleIsRankedChange}
-                 checked={this.state.isRanked} />
-          Uwzględnij w klasyfikacji
+                 checked={this.state.isRanked}
+                 className='uk-margin-left uk-form-controls' />
         </div>
-        <div>
+        <div className='uk-form-row'>
           {this.state.name}
         </div>
-        <div>
-          <button className='uk-button'
+        <div className='uk-form-row'>
+          <button className={classNames(styles.EditForm_saveButton, 'uk-button uk-align-center')}
                   type='submit'
                   onClick={this._handleSubmit}>
             Zapisz
