@@ -3,7 +3,9 @@
 
 .Header__heading {
   height: 60px;
-  line-height: 60px; }
+  line-height: 60px;
+  margin-top: 0;
+  margin-bottom: 0; }
 
 .logoWrapper {
   height: inherit;

@@ -9,7 +9,7 @@ class Nav extends Component {
       <div className={classNames(styles.NavWrapper, 'uk-width-1-6')}>
         <ul className={classNames('uk-nav', styles.Nav)}>
           <li className={styles.Nav_listElem}>
-            <Link to='/schools' className={styles.Nav__link}>
+            <Link to='schools' activeClassName={styles.activeLink} className={styles.Nav__link}>
                 <i className="uk-icon-building uk-icon-small"></i>
                 <span className={styles.Nav_label}>
                   Szkoły
@@ -17,7 +17,7 @@ class Nav extends Component {
             </Link>
           </li>
           <li className={styles.Nav_listElem}>
-            <Link to='/swimmers' className={styles.Nav__link}>
+            <Link to='swimmers' activeClassName={styles.activeLink} className={styles.Nav__link}>
                 <i className="uk-icon-group uk-icon-small"></i>
                 <span className={styles.Nav_label}>
                   Zawodnicy
@@ -25,7 +25,7 @@ class Nav extends Component {
             </Link>
           </li>
           <li className={styles.Nav_listElem}>
-            <Link to='/' className={styles.Nav__link}>
+            <Link to='' activeClassName={styles.activeLink} className={styles.Nav__link}>
                 <i className="uk-icon-home uk-icon-small"></i>
                 <span className={styles.Nav_label}>
                   Zawody
@@ -33,7 +33,7 @@ class Nav extends Component {
             </Link>
           </li>
           <li className={styles.Nav_listElem}>
-            <Link to='/times' className={styles.Nav__link}>
+            <Link to='times' activeClassName={styles.activeLink} className={styles.Nav__link}>
                 <i className="uk-icon-table uk-icon-small"></i>
                 <span className={styles.Nav_label}>
                   Wyniki
@@ -41,7 +41,7 @@ class Nav extends Component {
             </Link>
           </li>
           <li className={styles.Nav_listElem}>
-            <Link to='/classifications' className={styles.Nav__link}>
+            <Link to='classifications' activeClassName={styles.activeLink} className={styles.Nav__link}>
                 <i className="uk-icon-bar-chart uk-icon-small"></i>
                 <span className={styles.Nav_label}>
                   Ranking zawodów
@@ -49,7 +49,7 @@ class Nav extends Component {
             </Link>
           </li>
           <li className={styles.Nav_listElem}>
-            <Link to='/general-rankings' className={styles.Nav__link}>
+            <Link to='general-rankings' activeClassName={styles.activeLink} className={styles.Nav__link}>
                 <i className="uk-icon-trophy uk-icon-small"></i>
                 <span className={styles.Nav_label}>
                   Ranking ogólny
@@ -57,7 +57,7 @@ class Nav extends Component {
             </Link>
           </li>
           <li className={styles.Nav_listElem}>
-            <Link to='/records' className={styles.Nav__link}>
+            <Link to='records' activeClassName={styles.activeLink} className={styles.Nav__link}>
                 <i className="uk-icon-clock-o uk-icon-small"></i>
                 <span className={styles.Nav_label}>
                   Rekordy
