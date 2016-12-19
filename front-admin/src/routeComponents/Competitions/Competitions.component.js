@@ -104,8 +104,7 @@ class Competitions extends Component {
           name='swimmer'
           options={swimmerChoices}
           onChange={this._handleSwimmerChosen}
-          className='uk-width-2-10 uk-display-inline-block uk-margin-large-right'
-        />
+          className='uk-width-2-10 uk-align-center' />
         <SwimmersList swimmers={this.state.competitionSwimmers}
                       deleteSwimmer={this._handleDelete}
                       schools={this.state.allSchools}
