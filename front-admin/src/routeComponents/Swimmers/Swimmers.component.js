@@ -33,7 +33,7 @@ class Nav extends Component {
         currentSwimmers.push(response.data);
         this.setState({ swimmers: currentSwimmers });
       })
-      .catch((error) => console.error(error));
+      .catch((err) => { console.error(err); this.props.history.push('/logout'); });
   }
   _deleteSwimmer(id) {
     axios.delete(`${CONFIG.API_URL}/swimmers/${id}?access_token=${auth.getToken()}`)
@@ -44,7 +44,7 @@ class Nav extends Component {
           this.setState({ swimmers: currentSwimmers });
         }
       })
-      .catch((error) => console.error(error));
+      .catch((err) => { console.error(err); this.props.history.push('/logout'); });
   }
   _saveSwimmer(name, surname, schoolId) {
     let swimmerToSave = {
@@ -59,7 +59,7 @@ class Nav extends Component {
         currentSwimmers[swimmerIndex] = response.data;
         this.setState({ swimmers: currentSwimmers });
       })
-      .catch((error) => console.error(error));
+      .catch((err) => { console.error(err); this.props.history.push('/logout'); });
   }
   _displayEditForm(id) {
     this.setState({

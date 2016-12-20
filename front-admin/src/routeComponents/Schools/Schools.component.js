@@ -32,7 +32,7 @@ class Schools extends Component {
         currentSchools.push(response.data);
         this.setState({ schools: currentSchools });
       })
-      .catch((error) => console.error(error));
+      .catch((error) => { console.error(error); this.props.history.push('/logout'); });
   }
   _deleteSchool(id) {
     axios.delete(`${CONFIG.API_URL}/schools/${id}?access_token=${auth.getToken()}`)
@@ -43,7 +43,7 @@ class Schools extends Component {
           this.setState({ schools: currentSchools });
         }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => { console.error(error); this.props.history.push('/logout'); });
   }
   _saveSchool(name, isRanked) {
     let schoolToSave = {
@@ -57,7 +57,7 @@ class Schools extends Component {
         currentSchools[schoolIndex] = response.data;
         this.setState({ schools: currentSchools });
       })
-      .catch((error) => console.error(error));
+      .catch((error) => { console.error(error); this.props.history.push('/logout'); });
   }
   _displayEditForm(id) {
     this.setState({
