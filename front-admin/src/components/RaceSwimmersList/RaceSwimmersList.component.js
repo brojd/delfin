@@ -35,6 +35,7 @@ class RaceSwimmersList extends Component {
     swimmerToChange['time'] = e.target.value;
     swimmers[swimmerIndex] = swimmerToChange;
     this.setState({ swimmers: swimmers });
+    return e.target.value;
   }
   _getCurrentSchoolName(swimmerId) {
     if (this.props.schools.length > 0) {
@@ -90,7 +91,8 @@ class RaceSwimmersList extends Component {
                          onChange={(e) => this._handleTimeChange(e, swimmer.id)}
                          value={swimmer.time}
                          min={1}
-                         required className='uk-width-7-10'/>
+                         required
+                         className='uk-width-7-10'/>
                   <span className='uk-3-10'>sek</span>
                 </td>
                 <td className={classNames(styles.RaceSwimmersList_td, 'uk-width-1-10')}>

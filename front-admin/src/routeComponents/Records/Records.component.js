@@ -67,7 +67,7 @@ class Records extends Component {
     }
     return (
       <div>
-        <h3 className='uk-text-center uk-margin-top'>Rekordy wg kategorii</h3>
+        <h3 className='uk-text-center uk-margin-top uk-align-center'>Rekordy wg kategorii</h3>
         <ChooseRace getCategory={this._getCategory}/>
         {record}
       </div>

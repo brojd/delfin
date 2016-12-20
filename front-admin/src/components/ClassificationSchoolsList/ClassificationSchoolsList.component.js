@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import styles from './ClassificationSchoolsList.stylesheet.css';
+import classNames from 'classnames';
 
 class ClassificationSchoolsList extends Component {
   constructor() {
@@ -34,13 +36,24 @@ class ClassificationSchoolsList extends Component {
       (a, b) => this._getSchoolPoints(b.id) - this._getSchoolPoints(a.id)
     );
     return (
-      <div>
-        <ul>
-          {sortedSchools.map((school, i) =>
-            <li key={i}>
-              {this._getPlace(school, sortedSchools[i-1], i)} {school.name} {this._getSchoolPoints(school.id)} points
-            </li>)}
-        </ul>
+      <div className={classNames(styles.ClassificationSchoolsListWrapper, 'uk-width-6-10 uk-align-center')}>
+        <table className={classNames(styles.ClassificationSchoolsList, 'uk-table')}>
+          <caption>Szkoły</caption>
+          <tbody>
+            {sortedSchools.map((school, i) =>
+              <tr className={styles.ClassificationSchoolsList_tr} key={i}>
+                <td className={classNames(styles.ClassificationSchoolsList_td, 'uk-width-2-10')}>
+                  {this._getPlace(school, sortedSchools[i-1], i)}
+                </td>
+                <td className={classNames(styles.ClassificationSchoolsList_td, 'uk-width-6-10')}>
+                  {school.name}
+                </td>
+                <td className={classNames(styles.ClassificationSchoolsList_td, 'uk-width-2-10')}>
+                  {this._getSchoolPoints(school.id)} pkt
+                </td>
+              </tr>)}
+          </tbody>
+        </table>
       </div>
     );
   }

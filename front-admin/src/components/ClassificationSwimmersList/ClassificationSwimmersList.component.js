@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import getSchoolNameById from '../../helpers/getSchoolNameById';
+import styles from './ClassificationSwimmersList.stylesheet.css';
+import classNames from 'classnames';
 
 class ClassificationSwimmersList extends Component {
   constructor() {
@@ -32,15 +34,28 @@ class ClassificationSwimmersList extends Component {
       (a, b) => this._getSwimmerPoints(b) - this._getSwimmerPoints(a)
     );
     return (
-      <div>
-        <ul>
-          {sortedSwimmers.map((n, i) => (
-            <li key={i}>
-              {this._getPlace(n, sortedSwimmers[i-1], i)} {n.name} {n.surname}
-              ({getSchoolNameById(this.props.schools, n.schoolId)}) {this._getSwimmerPoints(n)} points
-            </li>
-          ))}
-        </ul>
+      <div className={classNames(styles.ClassificationSwimmersListWrapper, 'uk-width-8-10 uk-align-center')}>
+        <table className={classNames(styles.ClassificationSwimmersList, 'uk-table')}>
+          <caption>Zawodnicy</caption>
+          <tbody>
+            {sortedSwimmers.map((n, i) => (
+              <tr className={styles.ClassificationSwimmersList_tr} key={i}>
+                <td className={classNames(styles.ClassificationSwimmersList_td, 'uk-width-1-10')}>
+                  {this._getPlace(n, sortedSwimmers[i-1], i)}
+                </td>
+                <td className={classNames(styles.ClassificationSwimmersList_td, 'uk-width-4-10')}>
+                 {n.name} {n.surname}
+                </td>
+                <td className={classNames(styles.ClassificationSwimmersList_td, 'uk-width-4-10')}>
+                  ({getSchoolNameById(this.props.schools, n.schoolId)})
+                </td>
+                <td className={classNames(styles.ClassificationSwimmersList_td, 'uk-width-1-10')}>
+                  {this._getSwimmerPoints(n)} pkt
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }
