@@ -20,11 +20,17 @@ class GeneralRankingByRace extends Component {
     });
     return points;
   }
-  _getPlace(swimmer, upperSwimmer, index) {
-    if (index > 0 && this._getRacePoints(swimmer, this.props.raceId) === this._getRacePoints(upperSwimmer, this.props.raceId)) {
-      return index;
+  _getPlace(sortedSwimmers, index) {
+    let swimmer = sortedSwimmers[index];
+    let upperSwimmer = sortedSwimmers[index-1];
+    if (index === 0) {
+      return 1;
+    } else if (this._getRacePoints(swimmer, this.props.raceId) === this._getRacePoints(upperSwimmer, this.props.raceId)) {
+      swimmer.place = upperSwimmer.place;
+    } else if (this._getRacePoints(swimmer, this.props.raceId) !== this._getRacePoints(upperSwimmer, this.props.raceId)) {
+      swimmer.place = index + 1;
     }
-    return index + 1;
+    return swimmer.place;
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -41,7 +47,7 @@ class GeneralRankingByRace extends Component {
         <ul>
           {sortedSwimmers.map((n, i) => (
             <li key={i}>
-              {this._getPlace(n, sortedSwimmers[i-1], i)}
+              {this._getPlace(sortedSwimmers, i)}
               {n.name} {n.surname} ({getSchoolNameById(this.state.schools, n.schoolId)})
               {this._getRacePoints(n, this.props.raceId)} points
             </li>

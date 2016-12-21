@@ -25,11 +25,17 @@ class ClassificationSchoolsList extends Component {
     });
     return result;
   }
-  _getPlace(school, upperSchool, index) {
-    if (index > 0 && this._getSchoolPoints(school.id) === this._getSchoolPoints(upperSchool.id)) {
-      return index;
+  _getPlace(sortedSchools, index) {
+    let school = sortedSchools[index];
+    let upperSchool = sortedSchools[index-1];
+    if (index === 0) {
+      return 1;
+    } else if (index > 0 && this._getSchoolPoints(school.id) === this._getSchoolPoints(upperSchool.id)) {
+      school.place = upperSchool.place;
+    } else if (this._getSchoolPoints(school.id) === this._getSchoolPoints(upperSchool.id)) {
+      school.place = index + 1;
     }
-    return index + 1;
+    return school.place;
   }
   render() {
     let sortedSchools = this.props.schools.slice().sort(
@@ -43,7 +49,7 @@ class ClassificationSchoolsList extends Component {
             {sortedSchools.map((school, i) =>
               <tr className={styles.ClassificationSchoolsList_tr} key={i}>
                 <td className={classNames(styles.ClassificationSchoolsList_td, 'uk-width-2-10')}>
-                  {this._getPlace(school, sortedSchools[i-1], i)}
+                  {this._getPlace(sortedSchools, i)}
                 </td>
                 <td className={classNames(styles.ClassificationSchoolsList_td, 'uk-width-6-10')}>
                   {school.name}

@@ -10,11 +10,17 @@ class ClassificationSwimmersList extends Component {
     this._getPlace = this._getPlace.bind(this);
     this.state = {};
   }
-  _getPlace(swimmer, upperSwimmer, index) {
-    if (index > 0 && this._getSwimmerPoints(swimmer) === this._getSwimmerPoints(upperSwimmer)) {
-      return index;
+  _getPlace(sortedSwimmers, index) {
+    let currSwimmer = sortedSwimmers[index];
+    let upperSwimmer = sortedSwimmers[index-1];
+    if (index === 0) {
+      return 1;
+    } else if (this._getSwimmerPoints(currSwimmer) === this._getSwimmerPoints(upperSwimmer)) {
+      currSwimmer.place = upperSwimmer.place;
+    } else if (this._getSwimmerPoints(currSwimmer) !== this._getSwimmerPoints(upperSwimmer)) {
+      currSwimmer.place = index + 1;
     }
-    return index + 1;
+    return currSwimmer.place;
   }
   _getSwimmerPoints(swimmer) {
     let result = 0;
@@ -41,7 +47,7 @@ class ClassificationSwimmersList extends Component {
             {sortedSwimmers.map((n, i) => (
               <tr className={styles.ClassificationSwimmersList_tr} key={i}>
                 <td className={classNames(styles.ClassificationSwimmersList_td, 'uk-width-1-10')}>
-                  {this._getPlace(n, sortedSwimmers[i-1], i)}
+                  {this._getPlace(sortedSwimmers, i)}
                 </td>
                 <td className={classNames(styles.ClassificationSwimmersList_td, 'uk-width-4-10')}>
                  {n.name} {n.surname}
