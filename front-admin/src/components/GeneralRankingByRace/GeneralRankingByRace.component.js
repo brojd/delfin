@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import getSchoolNameById from '../../helpers/getSchoolNameById';
+import styles from './GeneralRankingByRace.stylesheet.css';
+import classNames from 'classnames';
 
 class GeneralRankingByRace extends Component {
   constructor() {
@@ -43,16 +45,28 @@ class GeneralRankingByRace extends Component {
       (a, b) => this._getRacePoints(b, this.props.raceId) - this._getRacePoints(a, this.props.raceId)
     );
     return (
-      <div>
-        <ul>
-          {sortedSwimmers.map((n, i) => (
-            <li key={i}>
-              {this._getPlace(sortedSwimmers, i)}
-              {n.name} {n.surname} ({getSchoolNameById(this.state.schools, n.schoolId)})
-              {this._getRacePoints(n, this.props.raceId)} points
-            </li>
-          ))}
-        </ul>
+      <div className={classNames(styles.GeneralRankingByRaceWrapper, 'uk-width-8-10 uk-align-center')}>
+        <table className={classNames(styles.GeneralRankingByRace, 'uk-table')}>
+          <caption>Zawodnicy</caption>
+          <tbody>
+            {sortedSwimmers.map((n, i) => (
+              <tr className={styles.GeneralRankingByRace_tr} key={i}>
+                <td className={classNames(styles.GeneralRankingByRace_td, 'uk-width-1-10')}>
+                  {this._getPlace(sortedSwimmers, i)}
+                </td>
+                <td className={classNames(styles.GeneralRankingByRace_td, 'uk-width-4-10')}>
+                  {n.name} {n.surname}
+                </td>
+                <td className={classNames(styles.GeneralRankingByRace_td, 'uk-width-4-10')}>
+                  ({getSchoolNameById(this.state.schools, n.schoolId)})
+                </td>
+                <td className={classNames(styles.GeneralRankingByRace_td, 'uk-width-1-10')}>
+                  {this._getRacePoints(n, this.props.raceId)} pkt
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }
