@@ -8,6 +8,8 @@ import _remove from 'lodash/remove';
 import _uniqBy from 'lodash/uniqBy';
 import getRaceIdByCategory from '../../helpers/getRaceIdByCategory';
 import getRaceTimeInCompetition from '../../helpers/getRaceTimeInCompetition';
+import isSwimmerRanked from '../../helpers/isSwimmerRanked';
+import auth from '../../auth';
 
 class Times extends Component {
   constructor() {
@@ -50,7 +52,9 @@ class Times extends Component {
   }
   _saveSwimmersPoints(raceId) {
     let competitionId = this.props.currentCompetitionId;
-    let raceSwimmers = this.state.raceSwimmers;
+    let raceSwimmers = this.state.raceSwimmers.filter((swimmer) => {
+      return isSwimmerRanked(swimmer, this.state.competitionSchools);
+    });
     let ranks = this.state.competitions.filter((n) => n.id === this.props.currentCompetitionId)[0].ranks;
     let sortedSwimmers = raceSwimmers.sort((a, b) =>
       getRaceTimeInCompetition(a, raceId, competitionId) - getRaceTimeInCompetition(b, raceId, competitionId)
@@ -61,7 +65,7 @@ class Times extends Component {
           if (n.raceId === raceId && n.competitionId == this.props.currentCompetitionId) {
             if (swimmer.times[index].time > 0) {
               if (i > 10) {
-                swimmer.times[index].points = Number(ranks.slice(-1).points);
+                swimmer.times[index].points = Number(ranks[11].points);
                 swimmer.times[index].place = i + 1;
               } else if (i > 0 && this._getRaceTime(swimmer, raceId) === this._getRaceTime(sortedSwimmers[i-1], raceId)) {
                 swimmer.times[index].points = Number(ranks[i].points);
@@ -76,10 +80,10 @@ class Times extends Component {
       );
     });
     axios.all([
-      sortedSwimmers.map((n, i) => axios.put(`${CONFIG.API_URL}/swimmers`, sortedSwimmers[i]))
+      sortedSwimmers.map((n, i) => axios.put(`${CONFIG.API_URL}/swimmers?access_token=${auth.getToken()}`, sortedSwimmers[i]))
     ])
       .then(() => this.setState({ raceSwimmers: sortedSwimmers }))
-      .catch((err) => console.error(err));
+      .catch((err) => { console.error(err); this.props.history.push('/logout'); });
   }
   _handleSwimmerChosen(val) {
     let raceSwimmers = this.state.competitionSwimmers.filter((n) => n.raceIds.includes(this.state.raceId));
@@ -95,12 +99,12 @@ class Times extends Component {
     } else {
       let swimmerToSave = val.value;
       swimmerToSave.raceIds.push(this.state.raceId);
-      axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}`, swimmerToSave)
+      axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}?access_token=${auth.getToken()}`, swimmerToSave)
         .then(() => {
           raceSwimmers.push(swimmerToSave);
           this.setState({ raceSwimmers: raceSwimmers });
         })
-        .catch((err) => console.error(err));
+        .catch((err) => { console.error(err); this.props.history.push('/logout'); });
     }
   }
   _deleteSwimmer(id) {
@@ -109,12 +113,12 @@ class Times extends Component {
       if (swimmer.id == id) {
         _remove(swimmer.raceIds, (n) => n === this.state.raceId);
         _remove(swimmer.times, (n) => n.raceId === this.state.raceId);
-        axios.put(`${CONFIG.API_URL}/competitions/${this.props.currentCompetitionId}/swimmers/${id}`, swimmer)
+        axios.put(`${CONFIG.API_URL}/competitions/${this.props.currentCompetitionId}/swimmers/${id}?access_token=${auth.getToken()}`, swimmer)
           .then(() => {
             let newRaceSwimmers = raceSwimmers.filter((n) => n.id !== id);
             this.setState({ raceSwimmers: newRaceSwimmers});
           })
-          .catch((err) => console.error(err));
+          .catch((err) => { console.error(err); this.props.history.push('/logout'); });
       }
     }
   }
@@ -134,9 +138,9 @@ class Times extends Component {
       })[0];
       timeToSave.time = Number(time);
       swimmerToSave.times[timeIndex] = timeToSave;
-      axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}`, swimmerToSave)
+      axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}?access_token=${auth.getToken()}`, swimmerToSave)
         .then(() => this.setState({ raceSwimmers: raceSwimmers }))
-        .catch((err) => console.error(err));
+        .catch((err) => { console.error(err); this.props.history.push('/logout'); });
     } else {
       let objToSave = {
         raceId: this.state.raceId,
@@ -144,11 +148,11 @@ class Times extends Component {
         time: Number(time)
       };
       swimmerToSave.times.push(objToSave);
-      axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}`, swimmerToSave)
+      axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}?access_token=${auth.getToken()}`, swimmerToSave)
         .then(() => {
           this.setState({ raceSwimmers: raceSwimmers });
         })
-        .catch((err) => console.error(err));
+        .catch((err) => { console.error(err); this.props.history.push('/logout'); });
     }
     this._saveSwimmersPoints(this.state.raceId);
   }
@@ -186,17 +190,17 @@ class Times extends Component {
       <div>
         <h3 className='uk-text-center uk-margin-top uk-margin-bottom'>Wyniki</h3>
         <ChooseRace getCategory={this._getCategory}/>
+        <Select
+          name='swimmer'
+          options={swimmerChoices}
+          onChange={this._handleSwimmerChosen}
+          className='uk-width-2-10 uk-align-center uk-margin-large-top'
+        />
         <RaceSwimmersList swimmers={sortedSwimmers}
                           schools={this.state.competitionSchools}
                           deleteSwimmer={this._deleteSwimmer}
                           raceId={this.state.raceId}
                           saveTime={this._saveTime}/>
-        <Select
-          name='swimmer'
-          options={swimmerChoices}
-          onChange={this._handleSwimmerChosen}
-          className='uk-width-2-10 uk-display-inline-block uk-margin-large-right'
-        />
       </div>
     );
   }

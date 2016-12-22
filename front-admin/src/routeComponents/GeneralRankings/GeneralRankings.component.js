@@ -6,6 +6,7 @@ import ClassificationSchoolsList from '../../components/ClassificationSchoolsLis
 import axios from 'axios';
 import CONFIG from '../../config';
 import getRaceIdByCategory from '../../helpers/getRaceIdByCategory';
+import isSwimmerRanked from '../../helpers/isSwimmerRanked';
 
 class GeneralRankings extends Component {
   constructor() {
@@ -16,7 +17,8 @@ class GeneralRankings extends Component {
     this.state = {
       raceId: '',
       raceSwimmers: [],
-      allSwimmers: []
+      allSwimmers: [],
+      schools: []
     };
   }
   _getRaceTime(swimmer, raceId) {
@@ -62,20 +64,25 @@ class GeneralRankings extends Component {
       .catch((error) => console.error(error));
   }
   render() {
+    let raceSwimmers = this.state.raceSwimmers.filter((swimmer) => isSwimmerRanked(swimmer, this.state.schools));
+    let allSwimmers = this.state.allSwimmers.filter(
+      (swimmer) => isSwimmerRanked(swimmer, this.state.schools)
+    );
+    let rankedSchools = this.state.schools.filter((n) => n.isRanked);
     return (
       <div>
         <h3 className='uk-text-center uk-margin-top'>Klasyfikacja wg kategorii</h3>
         <ChooseRace getCategory={this._getCategory}/>
-        <GeneralRankingByRace swimmers={this.state.raceSwimmers}
+        <GeneralRankingByRace swimmers={raceSwimmers}
                               raceId={this.state.raceId}
                               schools={this.state.schools} />
         <h3 className='uk-text-center uk-margin-large-top'>Klasyfikacja ogólna zawodników</h3>
         <ClassificationSwimmersList schools={this.state.schools}
-                                    swimmers={this.state.allSwimmers}
+                                    swimmers={allSwimmers}
                                     isGeneral={true} />
         <h3 className='uk-text-center uk-margin-large-top'>Klasyfikacja ogólna szkół</h3>
-        <ClassificationSchoolsList schools={this.state.schools}
-                                   swimmers={this.state.allSwimmers}
+        <ClassificationSchoolsList schools={rankedSchools}
+                                   swimmers={allSwimmers}
                                    isGeneral={true} />
       </div>
     );

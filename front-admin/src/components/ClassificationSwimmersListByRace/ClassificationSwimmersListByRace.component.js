@@ -3,6 +3,8 @@ import getRaceTimeInCompetition from '../../helpers/getRaceTimeInCompetition';
 import getRacePlaceInCompetition from '../../helpers/getRacePlaceInCompetition';
 import getRacePointsInCompetition from '../../helpers/getRacePointsInCompetition';
 import getSchoolNameById from '../../helpers/getSchoolNameById';
+import styles from './ClassificationSwimmersListByRace.stylesheet.css';
+import classNames from 'classnames';
 
 class ClassificationSwimmersListByRace extends Component {
   constructor() {
@@ -19,17 +21,31 @@ class ClassificationSwimmersListByRace extends Component {
   }
   render() {
     return (
-      <div>
-        <ul>
-          {this.state.sortedSwimmers.map((n, i) => (
-            <li key={i}>
-              {getRacePlaceInCompetition(n, this.props.raceId, this.props.competitionId)} {n.name} {n.surname}
-              ({getSchoolNameById(this.state.schools, n.schoolId)})
-              {getRaceTimeInCompetition(n, this.props.raceId, this.props.competitionId)}s
-              {getRacePointsInCompetition(n, this.props.raceId, this.props.competitionId)} points
-            </li>
-          ))}
-        </ul>
+      <div className={classNames(styles.ClassificationSwimmersListByRaceWrapper, 'uk-width-8-10 uk-align-center')}>
+        <table className={classNames(styles.ClassificationSwimmersListByRace, 'uk-table')}>
+          <caption>Zawodnicy</caption>
+          <tbody>
+            {this.state.sortedSwimmers.map((n, i) => (
+              <tr className={styles.ClassificationSwimmersListByRace_tr} key={i}>
+                <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-1-10')}>
+                  {getRacePlaceInCompetition(n, this.props.raceId, this.props.competitionId)}
+                </td>
+                <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-3-10')}>
+                  {n.name} {n.surname}
+                </td>
+                <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-3-10')}>
+                  {getSchoolNameById(this.state.schools, n.schoolId)}
+                </td>
+                <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-2-10')}>
+                  {getRaceTimeInCompetition(n, this.props.raceId, this.props.competitionId)}sek
+                </td>
+                <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-1-10')}>
+                  {getRacePointsInCompetition(n, this.props.raceId, this.props.competitionId)} pkt
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }
