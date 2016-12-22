@@ -6,6 +6,7 @@ import axios from 'axios';
 import CONFIG from '../../config';
 import _remove from 'lodash/remove';
 import _findIndex from 'lodash/findIndex';
+import auth from '../../auth';
 
 class Nav extends Component {
   constructor() {
@@ -26,16 +27,16 @@ class Nav extends Component {
       surname: surname,
       times: []
     };
-    axios.post(`${CONFIG.API_URL}/schools/${schoolId}/swimmers`, swimmerToAdd)
+    axios.post(`${CONFIG.API_URL}/schools/${schoolId}/swimmers?access_token=${auth.getToken()}`, swimmerToAdd)
       .then((response) => {
         let currentSwimmers = this.state.swimmers;
         currentSwimmers.push(response.data);
         this.setState({ swimmers: currentSwimmers });
       })
-      .catch((error) => console.error(error));
+      .catch((err) => { console.error(err); this.props.history.push('/logout'); });
   }
   _deleteSwimmer(id) {
-    axios.delete(`${CONFIG.API_URL}/swimmers/${id}`)
+    axios.delete(`${CONFIG.API_URL}/swimmers/${id}?access_token=${auth.getToken()}`)
       .then((response) => {
         if (response.status === 200) {
           let currentSwimmers = this.state.swimmers;
@@ -43,7 +44,7 @@ class Nav extends Component {
           this.setState({ swimmers: currentSwimmers });
         }
       })
-      .catch((error) => console.error(error));
+      .catch((err) => { console.error(err); this.props.history.push('/logout'); });
   }
   _saveSwimmer(name, surname, schoolId) {
     let swimmerToSave = {
@@ -51,14 +52,14 @@ class Nav extends Component {
       surname: surname,
       schoolId: schoolId
     };
-    axios.put(`${CONFIG.API_URL}/swimmers/${this.state.clickedSwimmerId}`, swimmerToSave)
+    axios.put(`${CONFIG.API_URL}/swimmers/${this.state.clickedSwimmerId}?access_token=${auth.getToken()}`, swimmerToSave)
       .then((response) => {
         let currentSwimmers = this.state.swimmers;
         let swimmerIndex = _findIndex(currentSwimmers, (n) => n.id == this.state.clickedSwimmerId);
         currentSwimmers[swimmerIndex] = response.data;
         this.setState({ swimmers: currentSwimmers });
       })
-      .catch((error) => console.error(error));
+      .catch((err) => { console.error(err); this.props.history.push('/logout'); });
   }
   _displayEditForm(id) {
     this.setState({
@@ -85,7 +86,6 @@ class Nav extends Component {
       <div>
         <SwimmerForm addSwimmer={this._addSwimmer}
                      schools={this.state.schools} />
-        <h2>Lista zawodników</h2>
         <SwimmersList swimmers={this.state.swimmers}
                       deleteSwimmer={this._deleteSwimmer}
                       displayEditForm={this._displayEditForm}

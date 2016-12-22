@@ -2,6 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import getRaceTimeInCompetition from '../../helpers/getRaceTimeInCompetition';
 import getRacePlaceInCompetition from '../../helpers/getRacePlaceInCompetition';
 import isSwimmerRanked from '../../helpers/isSwimmerRanked';
+import styles from './RaceSwimmersList.stylesheet.css';
+import classNames from 'classnames';
 
 class RaceSwimmersList extends Component {
   constructor() {
@@ -33,6 +35,7 @@ class RaceSwimmersList extends Component {
     swimmerToChange['time'] = e.target.value;
     swimmers[swimmerIndex] = swimmerToChange;
     this.setState({ swimmers: swimmers });
+    return e.target.value;
   }
   _getCurrentSchoolName(swimmerId) {
     if (this.props.schools.length > 0) {
@@ -65,25 +68,43 @@ class RaceSwimmersList extends Component {
   render() {
     let competitionId = localStorage.getItem('currentCompetitionId');
     return (
-      <ul>
-        {this.state.swimmers.map((swimmer, i) => (
-          <li key={i}>
-            {isSwimmerRanked(swimmer, this.props.schools) ?
-              getRacePlaceInCompetition(swimmer, this.props.raceId, competitionId) : 'NOT RANKED '}
-            {swimmer.name} {swimmer.surname} ({this._getCurrentSchoolName(swimmer.id)})
-            <input type='number'
-                   step='any'
-                   onBlur={(e) => this._handleSaveTime(e, swimmer.id)}
-                   onChange={(e) => this._handleTimeChange(e, swimmer.id)}
-                   value={swimmer.time}
-                   min={1}
-                   required />s
-            <i onClick={() => this.props.deleteSwimmer(swimmer.id)}
-               className="uk-icon-trash uk-margin-small-left">
-            </i>
-          </li>
-        ))}
-      </ul>
+      <div className={classNames(styles.RaceSwimmersListWrapper, 'uk-width-8-10 uk-align-center')}>
+        <table className={classNames(styles.RaceSwimmersList, 'uk-table')}>
+          <caption>Wyniki</caption>
+          <tbody>
+            {this.state.swimmers.map((swimmer, i) => (
+              <tr className={styles.RaceSwimmersList_tr} key={i}>
+                <td className={classNames(styles.RaceSwimmersList_td, 'uk-width-1-10')}>
+                  {isSwimmerRanked(swimmer, this.props.schools) ?
+                    getRacePlaceInCompetition(swimmer, this.props.raceId, competitionId) : 'NOT RANKED '}
+                </td>
+                <td className={classNames(styles.RaceSwimmersList_td, 'uk-width-3-10')}>
+                  {swimmer.name} {swimmer.surname}
+                </td>
+                <td className={classNames(styles.RaceSwimmersList_td, 'uk-width-3-10')}>
+                  {this._getCurrentSchoolName(swimmer.id)}
+                </td>
+                <td className={classNames(styles.RaceSwimmersList_td, 'uk-width-2-10')}>
+                  <input type='number'
+                         step='any'
+                         onBlur={(e) => this._handleSaveTime(e, swimmer.id)}
+                         onChange={(e) => this._handleTimeChange(e, swimmer.id)}
+                         value={swimmer.time}
+                         min={1}
+                         required
+                         className='uk-width-7-10'/>
+                  <span className='uk-3-10'>sek</span>
+                </td>
+                <td className={classNames(styles.RaceSwimmersList_td, 'uk-width-1-10')}>
+                  <i onClick={() => this.props.deleteSwimmer(swimmer.id)}
+                     className={classNames(styles.RaceSwimmersList_icon, 'uk-icon-trash uk-margin-small-left')}>
+                  </i>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }
