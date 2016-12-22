@@ -14,7 +14,7 @@
     ]
   },
   "User": {
-    "dataSource": "delfin-db"
+    "dataSource": "delfindb"
   },
   "AccessToken": {
     "dataSource": "db",
@@ -33,15 +33,15 @@
     "public": false
   },
   "competition": {
-    "dataSource": "delfin-db",
+    "dataSource": "delfindb",
     "public": true
   },
   "swimmer": {
-    "dataSource": "delfin-db",
+    "dataSource": "delfindb",
     "public": true
   },
   "school": {
-    "dataSource": "delfin-db",
+    "dataSource": "delfindb",
     "public": true
   }
 }

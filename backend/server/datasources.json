@@ -3,14 +3,5 @@
     "name": "db",
     "connector": "memory"
   },
-  "delfin-db": {
-    "host": "",
-    "port": 0,
-    "url": "mongodb://dominik791:delfin08@ds159377.mlab.com:59377/delfin",
-    "database": "delfin",
-    "password": "delfin08",
-    "name": "delfin-db",
-    "user": "dominik791",
-    "connector": "mongodb"
-  }
+  "delfindb": {}
 }

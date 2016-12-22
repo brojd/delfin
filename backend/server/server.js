@@ -1,7 +1,9 @@
 'use strict';
-
+var dotenv = require('dotenv');
 var loopback = require('loopback');
 var boot = require('loopback-boot');
+
+dotenv.config();
 
 var app = module.exports = loopback();
 
