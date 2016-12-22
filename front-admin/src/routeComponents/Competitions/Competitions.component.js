@@ -41,7 +41,7 @@ class Competitions extends Component {
         competitionSwimmers.push(val.value);
         axios.put(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/rel/${val.value.id}?access_token=${auth.getToken()}`)
           .then(() => this.setState({ competitionSwimmers: competitionSwimmers }))
-          .catch((err) => console.error(err));
+          .catch((err) => { console.error(err); this.props.history.push('/logout'); });
       });
   }
   _handleDelete(id) {
@@ -51,7 +51,8 @@ class Competitions extends Component {
           let competitionSwimmers = this.state.competitionSwimmers.filter((n) => n.id !== id);
           this.setState({ competitionSwimmers: competitionSwimmers });
         }
-      });
+      })
+      .catch((error) => { console.error(error); this.props.history.push('/logout'); });
   }
   _getCurrentSchoolName(swimmerId) {
     if (this.state.allSwimmers.length > 0 && this.state.allSchools.length > 0) {
@@ -104,8 +105,7 @@ class Competitions extends Component {
           name='swimmer'
           options={swimmerChoices}
           onChange={this._handleSwimmerChosen}
-          className='uk-width-2-10 uk-display-inline-block uk-margin-large-right'
-        />
+          className='uk-width-2-10 uk-align-center' />
         <SwimmersList swimmers={this.state.competitionSwimmers}
                       deleteSwimmer={this._handleDelete}
                       schools={this.state.allSchools}

@@ -83,7 +83,7 @@ class Times extends Component {
       sortedSwimmers.map((n, i) => axios.put(`${CONFIG.API_URL}/swimmers?access_token=${auth.getToken()}`, sortedSwimmers[i]))
     ])
       .then(() => this.setState({ raceSwimmers: sortedSwimmers }))
-      .catch((err) => console.error(err));
+      .catch((err) => { console.error(err); this.props.history.push('/logout'); });
   }
   _handleSwimmerChosen(val) {
     let raceSwimmers = this.state.competitionSwimmers.filter((n) => n.raceIds.includes(this.state.raceId));
@@ -104,7 +104,7 @@ class Times extends Component {
           raceSwimmers.push(swimmerToSave);
           this.setState({ raceSwimmers: raceSwimmers });
         })
-        .catch((err) => console.error(err));
+        .catch((err) => { console.error(err); this.props.history.push('/logout'); });
     }
   }
   _deleteSwimmer(id) {
@@ -118,7 +118,7 @@ class Times extends Component {
             let newRaceSwimmers = raceSwimmers.filter((n) => n.id !== id);
             this.setState({ raceSwimmers: newRaceSwimmers});
           })
-          .catch((err) => console.error(err));
+          .catch((err) => { console.error(err); this.props.history.push('/logout'); });
       }
     }
   }
@@ -140,7 +140,7 @@ class Times extends Component {
       swimmerToSave.times[timeIndex] = timeToSave;
       axios.put(`${CONFIG.API_URL}/swimmers/${swimmerToSave.id}?access_token=${auth.getToken()}`, swimmerToSave)
         .then(() => this.setState({ raceSwimmers: raceSwimmers }))
-        .catch((err) => console.error(err));
+        .catch((err) => { console.error(err); this.props.history.push('/logout'); });
     } else {
       let objToSave = {
         raceId: this.state.raceId,
@@ -152,7 +152,7 @@ class Times extends Component {
         .then(() => {
           this.setState({ raceSwimmers: raceSwimmers });
         })
-        .catch((err) => console.error(err));
+        .catch((err) => { console.error(err); this.props.history.push('/logout'); });
     }
     this._saveSwimmersPoints(this.state.raceId);
   }
@@ -190,17 +190,17 @@ class Times extends Component {
       <div>
         <h3 className='uk-text-center uk-margin-top uk-margin-bottom'>Wyniki</h3>
         <ChooseRace getCategory={this._getCategory}/>
+        <Select
+          name='swimmer'
+          options={swimmerChoices}
+          onChange={this._handleSwimmerChosen}
+          className='uk-width-2-10 uk-align-center uk-margin-large-top'
+        />
         <RaceSwimmersList swimmers={sortedSwimmers}
                           schools={this.state.competitionSchools}
                           deleteSwimmer={this._deleteSwimmer}
                           raceId={this.state.raceId}
                           saveTime={this._saveTime}/>
-        <Select
-          name='swimmer'
-          options={swimmerChoices}
-          onChange={this._handleSwimmerChosen}
-          className='uk-width-2-10 uk-display-inline-block uk-margin-large-right'
-        />
       </div>
     );
   }

@@ -80,8 +80,9 @@ class Classifications extends Component {
         <ClassificationSwimmersListByRace swimmers={raceSwimmers}
                                           raceId={this.state.raceId}
                                           schools={this.state.schools}
-                                          competitionId={competitionId} />
-        <h3 className='uk-text-center uk-margin-large-top'>Ranking zawodników</h3>
+                                          competitionId={competitionId}
+                                          className='uk-margin-large-top'/>
+        <h3 className='uk-text-center uk-margin-large-top'>Ranking ogólny zawodów</h3>
         <ClassificationSwimmersList schools={this.state.schools}
                                     swimmers={competitionSwimmers}
                                     isGeneral={false} />

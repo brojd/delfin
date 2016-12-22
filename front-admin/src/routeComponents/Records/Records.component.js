@@ -4,6 +4,7 @@ import getRaceIdByCategory from '../../helpers/getRaceIdByCategory';
 import getSchoolNameById from '../../helpers/getSchoolNameById';
 import axios from 'axios';
 import CONFIG from '../../config';
+import styles from './Records.stylesheet.css';
 
 class Records extends Component {
   constructor() {
@@ -62,12 +63,12 @@ class Records extends Component {
     let record = '';
     if (this.state.raceSwimmers.length > 0) {
       let resultObj = this._getRecordInCategory(this.state.raceSwimmers, this.state.raceId);
-      record = <div>{resultObj.swimmer.name} {resultObj.swimmer.surname}
-       ({getSchoolNameById(this.state.schools, resultObj.swimmer.schoolId)}) {resultObj.time}sek</div>;
+      record = <div className={styles.record}>{resultObj.swimmer.name} {resultObj.swimmer.surname}
+       ({getSchoolNameById(this.state.schools, resultObj.swimmer.schoolId)}) {resultObj.time} sek</div>;
     }
     return (
       <div>
-        <h3 className='uk-text-center uk-margin-top'>Rekordy wg kategorii</h3>
+        <h3 className='uk-text-center uk-margin-top uk-align-center'>Rekordy wg kategorii</h3>
         <ChooseRace getCategory={this._getCategory}/>
         {record}
       </div>

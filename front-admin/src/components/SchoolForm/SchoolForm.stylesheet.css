@@ -1,9 +1,17 @@
-.Header {
-  border-bottom: 1px solid #e2e2e2;
-  height: 80px; }
+.SchoolForm {
+  background: white;
+  padding: 30px 40px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  box-shadow: 0 0 1px 0px #c5c5c5;
+  border-radius: 2px; }
 
-.Header__heading {
-  height: 80px;
-  line-height: 80px; }
+.SchoolForm_addButton {
+  box-shadow: 0 0 1px 0 #adadad;
+  border-radius: 2px;
+  color: #5f5f5f; }
+
+.SchoolForm_addButton:hover {
+  background: #b5cdff; }
 
 /*# sourceMappingURL=SchoolForm.stylesheet.css.map */
