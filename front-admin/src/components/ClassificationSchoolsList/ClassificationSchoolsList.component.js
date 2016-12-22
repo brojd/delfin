@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
+import styles from './ClassificationSchoolsList.stylesheet.css';
+import classNames from 'classnames';
 
 class ClassificationSchoolsList extends Component {
   constructor() {
     super();
     this._getSchoolPoints = this._getSchoolPoints.bind(this);
+    this._getPlace = this._getPlace.bind(this);
     this.state = {};
   }
   _getSchoolPoints(schoolId) {
@@ -22,15 +25,41 @@ class ClassificationSchoolsList extends Component {
     });
     return result;
   }
+  _getPlace(sortedSchools, index) {
+    let school = sortedSchools[index];
+    let upperSchool = sortedSchools[index-1];
+    if (index === 0) {
+      return 1;
+    } else if (index > 0 && this._getSchoolPoints(school.id) === this._getSchoolPoints(upperSchool.id)) {
+      school.place = upperSchool.place;
+    } else if (this._getSchoolPoints(school.id) === this._getSchoolPoints(upperSchool.id)) {
+      school.place = index + 1;
+    }
+    return school.place;
+  }
   render() {
     let sortedSchools = this.props.schools.slice().sort(
       (a, b) => this._getSchoolPoints(b.id) - this._getSchoolPoints(a.id)
     );
     return (
-      <div>
-        <ol>
-          {sortedSchools.map((school, i) => <li key={i}>{school.name} {this._getSchoolPoints(school.id)} points</li>)}
-        </ol>
+      <div className={classNames(styles.ClassificationSchoolsListWrapper, 'uk-width-6-10 uk-align-center')}>
+        <table className={classNames(styles.ClassificationSchoolsList, 'uk-table')}>
+          <caption>Szkoły</caption>
+          <tbody>
+            {sortedSchools.map((school, i) =>
+              <tr className={styles.ClassificationSchoolsList_tr} key={i}>
+                <td className={classNames(styles.ClassificationSchoolsList_td, 'uk-width-2-10')}>
+                  {this._getPlace(sortedSchools, i)}
+                </td>
+                <td className={classNames(styles.ClassificationSchoolsList_td, 'uk-width-6-10')}>
+                  {school.name}
+                </td>
+                <td className={classNames(styles.ClassificationSchoolsList_td, 'uk-width-2-10')}>
+                  {this._getSchoolPoints(school.id)} pkt
+                </td>
+              </tr>)}
+          </tbody>
+        </table>
       </div>
     );
   }
