@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import Select from 'react-select';
 
 class ChooseRace extends Component {
@@ -50,14 +50,14 @@ class ChooseRace extends Component {
           value={this.state.sex}
           options={this.sexOptions}
           onChange={this._handleSexChange}
-          className='uk-width-3-10 uk-display-inline-block uk-margin-large-right'
+          className='uk-width-3-10 uk-display-inline-block uk-margin-right'
         />
         <Select
           name='style'
           value={this.state.style}
           options={this.styleOptions}
           onChange={this._handleStyleChange}
-          className='uk-width-3-10 uk-display-inline-block uk-margin-large-right'
+          className='uk-width-3-10 uk-display-inline-block uk-margin-right'
         />
         <Select
           name='age'
@@ -70,5 +70,9 @@ class ChooseRace extends Component {
     );
   }
 }
+
+ChooseRace.propTypes = {
+  getCategory: PropTypes.func
+};
 
 export default ChooseRace;

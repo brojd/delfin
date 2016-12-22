@@ -1,6 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import axios from 'axios';
 import CONFIG from '../../config';
+import auth from '../../auth';
+import styles from './CompetitionSettings.stylesheet.css';
+import classNames from 'classnames';
 
 class CompetitionSettings extends Component {
   constructor() {
@@ -8,17 +11,14 @@ class CompetitionSettings extends Component {
     this._handleSave = this._handleSave.bind(this);
     this._handleChange = this._handleChange.bind(this);
     this._getPoints = this._getPoints.bind(this);
-    this.state = {
-      ranks: {}
-    };
+    this.state = {};
   }
-  _handleSave(e) {
+  _handleSave() {
     let competitionToSave = this.props.currentCompetition;
     competitionToSave.ranks = this.state.ranks;
-    axios.put(`${CONFIG.API_URL}/competitions/${competitionToSave.id}`, competitionToSave)
+    axios.put(`${CONFIG.API_URL}/competitions/${competitionToSave.id}?access_token=${auth.getToken()}`, competitionToSave)
       .then((res) => console.log(res))
-      .catch((err) => console.error(err))
-    console.log(this.props.currentCompetition);
+      .catch((err) => console.error(err));
   }
   _handleChange(e, n) {
     let objToSave = {};
@@ -33,7 +33,7 @@ class CompetitionSettings extends Component {
     }
   }
   _getPoints(place) {
-    if (this.state.ranks[place]) {
+    if (this.state.ranks) {
       return this.state.ranks[place].points;
     } else {
       return '';
@@ -42,26 +42,34 @@ class CompetitionSettings extends Component {
   render() {
     let nbOfDifferentRanks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     return (
-      <div>
-         <h4>Punktacja</h4>
-        <form>
-          {nbOfDifferentRanks.map((n, i) => (
-            <div key={i}>
-              <span className='uk-margin-right'>Miejsce {n}</span>
-              Punkty: <input type='number'
-                             onChange={(e) => this._handleChange(e, n)}
-                             value={this._getPoints(n)} />
-            </div>
-          ))}
-          <button className='uk-button'
-                  type='click'
-                  onClick={this._handleSave}>
-            Zapisz
-          </button>
-        </form>
+      <div className={classNames(styles.CompetitionSettingsWrapper, 'uk-width-4-10 uk-align-center')}>
+        <table className={classNames(styles.CompetitionSettings, 'uk-table')}>
+          <caption>Punktacja</caption>
+          <tbody>
+            {nbOfDifferentRanks.map((n, i) => (
+              <tr className={styles.CompetitionSettings_tr} key={i}>
+                <td className={classNames(styles.CompetitionSettings_td, 'uk-width-3-10')}>Miejsce {n}</td>
+                <td className={classNames(styles.CompetitionSettings_td, 'uk-width-7-10')}>
+                  Punkty: <input type='number'
+                                onChange={(e) => this._handleChange(e, n)}
+                                value={this._getPoints(n)} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <button className={classNames(styles.saveButton, 'uk-button uk-align-center')}
+                type='click'
+                onClick={this._handleSave}>
+          Zapisz
+        </button>
       </div>
     );
   }
 }
+
+CompetitionSettings.propTypes = {
+  currentCompetition: PropTypes.object
+};
 
 export default CompetitionSettings;
