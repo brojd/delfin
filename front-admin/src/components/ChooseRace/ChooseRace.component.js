@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import Select from 'react-select';
 
 class ChooseRace extends Component {
@@ -70,5 +70,9 @@ class ChooseRace extends Component {
     );
   }
 }
+
+ChooseRace.propTypes = {
+  getCategory: PropTypes.func
+};
 
 export default ChooseRace;

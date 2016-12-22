@@ -10,7 +10,6 @@ class SwimmerEditForm extends Component {
     this._handleSubmit = this._handleSubmit.bind(this);
     this._handleSelectChange = this._handleSelectChange.bind(this);
     this.state = {
-      formVisible: false,
       currentSwimmer: {}
     };
   }
@@ -29,7 +28,6 @@ class SwimmerEditForm extends Component {
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
-      formVisible: nextProps.editFormVisible,
       currentSwimmer: nextProps.clickedSwimmer,
       name: nextProps.clickedSwimmer.name,
       surname: nextProps.clickedSwimmer.surname,
@@ -38,25 +36,28 @@ class SwimmerEditForm extends Component {
   }
   render() {
     return (
-      <form className={classNames('uk-width-2-10 uk-form', styles.EditForm, {[styles.visible]: this.state.formVisible},
-      {[styles.hidden]: !this.state.formVisible})}>
-        <h5>Edytuj zawodnika</h5>
-        <div>
-          Imię: <input type='text'
-                       name='name'
-                       value={this.state.name}
-                       onChange={this._handleNameChange} />
+      <form className={classNames(styles.EditForm, 'uk-width-4-10 uk-form uk-align-center uk-form-stacked',
+                                  {[styles.visible]: this.props.editFormVisible},
+                                  {[styles.hidden]: !this.props.editFormVisible})}>
+        <legend>Edytuj zawodnika</legend>
+        <div className='uk-form-row'>
+          <label className='uk-form-label'>Imię:</label>
+          <input type='text'
+                 name='name'
+                 value={this.state.name}
+                 onChange={this._handleNameChange} />
         </div>
-        <div>
-          Nazwisko: <input type='text'
-                           name='surname'
-                           value={this.state.surname}
-                           onChange={this._handleSurnameChange} />
+        <div className='uk-form-row'>
+          <label className='uk-form-label'>Nazwisko:</label>
+          <input type='text'
+                 name='surname'
+                 value={this.state.surname}
+                 onChange={this._handleSurnameChange} />
         </div>
-        <div>
+        <div className='uk-form-row'>
           {this.state.name} {this.state.surname}
         </div>
-        <div>
+        <div className='uk-form-row'>
           Szkoła:
           <select value={this.state.schoolId} onChange={this._handleSelectChange}>
             {this.props.schools.map((n, i) => {
@@ -66,8 +67,8 @@ class SwimmerEditForm extends Component {
             })}
           </select>
         </div>
-        <div>
-          <button className='uk-button'
+        <div className='uk-form-row'>
+          <button  className={classNames(styles.EditForm_saveButton, 'uk-button uk-align-center')}
                   type='submit'
                   onClick={this._handleSubmit}>
             Zapisz
@@ -79,7 +80,10 @@ class SwimmerEditForm extends Component {
 }
 
 SwimmerEditForm.propTypes = {
-  saveSwimmer: PropTypes.func
+  saveSwimmer: PropTypes.func,
+  editFormVisible: PropTypes.bool,
+  clickedSwimmer: PropTypes.object,
+  schools: PropTypes.array
 };
 
 SwimmerEditForm.defaultProps = {

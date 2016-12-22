@@ -1,9 +1,23 @@
-.Header {
-  border-bottom: 1px solid #e2e2e2;
-  height: 80px; }
+.SwimmersListWrapper {
+  max-height: 500px;
+  margin-bottom: 60px;
+  overflow-y: scroll;
+  padding: 3px 0 3px 3px; }
 
-.Header__heading {
-  height: 80px;
-  line-height: 80px; }
+.SwimmersList {
+  background: white;
+  box-shadow: 0 0 1px 0px #c5c5c5;
+  border-radius: 2px; }
 
-/*# sourceMappingURL=SwimmerForm.stylesheet.css.map */
+.SwimmersList_tr {
+  border-bottom: 1px solid #eaeaea; }
+
+.SwimmersList_icon {
+  font-size: 18px;
+  color: #616161; }
+
+.SwimmersList_icon:hover {
+  color: #353535;
+  cursor: pointer; }
+
+/*# sourceMappingURL=SwimmersList.stylesheet.css.map */

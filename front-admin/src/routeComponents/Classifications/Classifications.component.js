@@ -3,6 +3,8 @@ import ChooseRace from '../../components/ChooseRace/ChooseRace.component';
 import ClassificationSwimmersListByRace from '../../components/ClassificationSwimmersListByRace/ClassificationSwimmersListByRace.component';
 import ClassificationSchoolsList from '../../components/ClassificationSchoolsList/ClassificationSchoolsList.component';
 import ClassificationSwimmersList from '../../components/ClassificationSwimmersList/ClassificationSwimmersList.component';
+import getRaceIdByCategory from '../../helpers/getRaceIdByCategory';
+import isSwimmerRanked from '../../helpers/isSwimmerRanked';
 import axios from 'axios';
 import CONFIG from '../../config';
 
@@ -15,7 +17,8 @@ class Classifications extends Component {
     this.state = {
       raceId: '',
       raceSwimmers: [],
-      competitionSwimmers: []
+      competitionSwimmers: [],
+      schools: []
     };
   }
   _getRaceTime(swimmer, raceId) {
@@ -38,31 +41,8 @@ class Classifications extends Component {
     });
   }
   _getCategory(sex, style, age) {
-    if (age.value == 'W1' && sex.value == 'P1' && style.value == 'S1') {
-      this._updateRaceId(1);
-    } else if (age.value == 'W1' && sex.value == 'P1' && style.value == 'S2') {
-      this._updateRaceId(2);
-    } else if (age.value == 'W1' && sex.value == 'P1' && style.value == 'S3') {
-      this._updateRaceId(3);
-    } else if (age.value == 'W1' && sex.value == 'P2' && style.value == 'S1') {
-      this._updateRaceId(4);
-    } else if (age.value == 'W1' && sex.value == 'P2' && style.value == 'S2') {
-      this._updateRaceId(5);
-    } else if (age.value == 'W1' && sex.value == 'P2' && style.value == 'S3') {
-      this._updateRaceId(6);
-    } else if (age.value == 'W2' && sex.value == 'P1' && style.value == 'S1') {
-      this._updateRaceId(7);
-    } else if (age.value == 'W2' && sex.value == 'P1' && style.value == 'S2') {
-      this._updateRaceId(8);
-    } else if (age.value == 'W2' && sex.value == 'P1' && style.value == 'S3') {
-      this._updateRaceId(9);
-    } else if (age.value == 'W2' && sex.value == 'P2' && style.value == 'S1') {
-      this._updateRaceId(10);
-    } else if (age.value == 'W2' && sex.value == 'P2' && style.value == 'S2') {
-      this._updateRaceId(11);
-    } else if (age.value == 'W2' && sex.value == 'P2' && style.value == 'S3') {
-      this._updateRaceId(12);
-    }
+    let currentId = getRaceIdByCategory(sex, style, age);
+    this._updateRaceId(currentId);
   }
   componentDidMount() {
     let currentCompetitionId = localStorage.getItem('currentCompetitionId');
@@ -87,20 +67,28 @@ class Classifications extends Component {
       .catch((error) => console.error(error));
   }
   render() {
+    let competitionId = localStorage.getItem('currentCompetitionId');
+    let raceSwimmers = this.state.raceSwimmers.filter((swimmer) => isSwimmerRanked(swimmer, this.state.schools));
+    let competitionSwimmers = this.state.competitionSwimmers.filter(
+      (swimmer) => isSwimmerRanked(swimmer, this.state.schools)
+    );
+    let rankedSchools = this.state.schools.filter((n) => n.isRanked);
     return (
       <div>
         <h3 className='uk-text-center uk-margin-top'>Ranking zawodników wg kategorii</h3>
         <ChooseRace getCategory={this._getCategory}/>
-        <ClassificationSwimmersListByRace swimmers={this.state.raceSwimmers}
-                                    raceId={this.state.raceId}
-                                    schools={this.state.schools} />
-        <h3 className='uk-text-center uk-margin-large-top'>Ranking zawodników</h3>
+        <ClassificationSwimmersListByRace swimmers={raceSwimmers}
+                                          raceId={this.state.raceId}
+                                          schools={this.state.schools}
+                                          competitionId={competitionId}
+                                          className='uk-margin-large-top'/>
+        <h3 className='uk-text-center uk-margin-large-top'>Ranking ogólny zawodów</h3>
         <ClassificationSwimmersList schools={this.state.schools}
-                                    swimmers={this.state.competitionSwimmers}
+                                    swimmers={competitionSwimmers}
                                     isGeneral={false} />
         <h3 className='uk-text-center uk-margin-large-top'>Ranking szkół</h3>
-        <ClassificationSchoolsList schools={this.state.schools}
-                                   swimmers={this.state.competitionSwimmers}
+        <ClassificationSchoolsList schools={rankedSchools}
+                                   swimmers={competitionSwimmers}
                                    isGeneral={false} />
       </div>
     );

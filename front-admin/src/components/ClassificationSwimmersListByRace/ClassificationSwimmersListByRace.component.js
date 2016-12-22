@@ -1,4 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
+import getRaceTimeInCompetition from '../../helpers/getRaceTimeInCompetition';
+import getRacePlaceInCompetition from '../../helpers/getRacePlaceInCompetition';
+import getRacePointsInCompetition from '../../helpers/getRacePointsInCompetition';
+import getSchoolNameById from '../../helpers/getSchoolNameById';
+import styles from './ClassificationSwimmersListByRace.stylesheet.css';
+import classNames from 'classnames';
 
 class ClassificationSwimmersListByRace extends Component {
   constructor() {
@@ -6,42 +12,6 @@ class ClassificationSwimmersListByRace extends Component {
     this.state = {
       sortedSwimmers: []
     };
-    this._getRaceTime = this._getRaceTime.bind(this);
-    this._getRacePoints = this._getRacePoints.bind(this);
-    this._getSchoolName = this._getSchoolName.bind(this);
-    this._getPlace = this._getPlace.bind(this);
-  }
-  _getRaceTime(swimmer, raceId) {
-    let timeObj = swimmer.times.filter(
-      (n) => n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId')
-    );
-    if (timeObj.length > 0) {
-      return Number(timeObj[0].time);
-    }
-    return 0;
-  }
-  _getPlace(swimmer, raceId) {
-    let timeObj = swimmer.times.filter(
-      (n) => (n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId'))
-    );
-    if (timeObj.length > 0) {
-      return Number(timeObj[0].place);
-    }
-    return '';
-  }
-  _getRacePoints(swimmer, raceId) {
-    let timeObj = swimmer.times.filter(
-      (n) => n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId')
-    );
-    if (timeObj.length > 0) {
-      return Number(timeObj[0].points);
-    }
-    return 0;
-  }
-  _getSchoolName(schools, schoolId) {
-    if (schools.length > 0) {
-      return schools.filter((n) => n.id === schoolId)[0].name;
-    }
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -51,18 +21,47 @@ class ClassificationSwimmersListByRace extends Component {
   }
   render() {
     return (
-      <div>
-        <ul>
-          {this.state.sortedSwimmers.map((n, i) => (
-            <li key={i}>
-              {this._getPlace(n, this.props.raceId)} {n.name} {n.surname} ({this._getSchoolName(this.state.schools, n.schoolId)})
-              {this._getRaceTime(n, this.props.raceId)}s {this._getRacePoints(n, this.props.raceId)} points
-            </li>
-          ))}
-        </ul>
+      <div className={classNames(styles.ClassificationSwimmersListByRaceWrapper, 'uk-width-8-10 uk-align-center')}>
+        <table className={classNames(styles.ClassificationSwimmersListByRace, 'uk-table')}>
+          <caption>Zawodnicy</caption>
+          <tbody>
+            {this.state.sortedSwimmers.map((n, i) => (
+              <tr className={styles.ClassificationSwimmersListByRace_tr} key={i}>
+                <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-1-10')}>
+                  {getRacePlaceInCompetition(n, this.props.raceId, this.props.competitionId)}
+                </td>
+                <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-3-10')}>
+                  {n.name} {n.surname}
+                </td>
+                <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-3-10')}>
+                  {getSchoolNameById(this.state.schools, n.schoolId)}
+                </td>
+                <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-2-10')}>
+                  {getRaceTimeInCompetition(n, this.props.raceId, this.props.competitionId)}sek
+                </td>
+                <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-1-10')}>
+                  {getRacePointsInCompetition(n, this.props.raceId, this.props.competitionId)} pkt
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }
 }
+
+ClassificationSwimmersListByRace.propTypes = {
+  swimmers: PropTypes.array,
+  schools: PropTypes.array,
+  raceId: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]),
+  competitionId: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ])
+};
 
 export default ClassificationSwimmersListByRace;

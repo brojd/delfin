@@ -1,23 +1,26 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
+import getSchoolNameById from '../../helpers/getSchoolNameById';
+import styles from './ClassificationSwimmersList.stylesheet.css';
+import classNames from 'classnames';
 
 class ClassificationSwimmersList extends Component {
   constructor() {
     super();
-    this._getSchoolName = this._getSchoolName.bind(this);
     this._getSwimmerPoints = this._getSwimmerPoints.bind(this);
     this._getPlace = this._getPlace.bind(this);
     this.state = {};
   }
-  _getPlace(swimmer, upperSwimmer, index) {
-    if (index > 0 && this._getSwimmerPoints(swimmer) === this._getSwimmerPoints(upperSwimmer)) {
-      return index;
+  _getPlace(sortedSwimmers, index) {
+    let currSwimmer = sortedSwimmers[index];
+    let upperSwimmer = sortedSwimmers[index-1];
+    if (index === 0) {
+      return 1;
+    } else if (this._getSwimmerPoints(currSwimmer) === this._getSwimmerPoints(upperSwimmer)) {
+      currSwimmer.place = upperSwimmer.place;
+    } else if (this._getSwimmerPoints(currSwimmer) !== this._getSwimmerPoints(upperSwimmer)) {
+      currSwimmer.place = index + 1;
     }
-    return index + 1;
-  }
-  _getSchoolName(schools, schoolId) {
-    if (schools.length > 0) {
-      return schools.filter((n) => n.id === schoolId)[0].name;
-    }
+    return currSwimmer.place;
   }
   _getSwimmerPoints(swimmer) {
     let result = 0;
@@ -37,14 +40,28 @@ class ClassificationSwimmersList extends Component {
       (a, b) => this._getSwimmerPoints(b) - this._getSwimmerPoints(a)
     );
     return (
-      <div>
-        <ul>
-          {sortedSwimmers.map((n, i) => (
-            <li key={i}>
-              {this._getPlace(n, sortedSwimmers[i-1], i)} {n.name} {n.surname} ({this._getSchoolName(this.props.schools, n.schoolId)}) {this._getSwimmerPoints(n)} points
-            </li>
-          ))}
-        </ul>
+      <div className={classNames(styles.ClassificationSwimmersListWrapper, 'uk-width-8-10 uk-align-center')}>
+        <table className={classNames(styles.ClassificationSwimmersList, 'uk-table')}>
+          <caption>Zawodnicy</caption>
+          <tbody>
+            {sortedSwimmers.map((n, i) => (
+              <tr className={styles.ClassificationSwimmersList_tr} key={i}>
+                <td className={classNames(styles.ClassificationSwimmersList_td, 'uk-width-1-10')}>
+                  {this._getPlace(sortedSwimmers, i)}
+                </td>
+                <td className={classNames(styles.ClassificationSwimmersList_td, 'uk-width-4-10')}>
+                 {n.name} {n.surname}
+                </td>
+                <td className={classNames(styles.ClassificationSwimmersList_td, 'uk-width-4-10')}>
+                  ({getSchoolNameById(this.props.schools, n.schoolId)})
+                </td>
+                <td className={classNames(styles.ClassificationSwimmersList_td, 'uk-width-1-10')}>
+                  {this._getSwimmerPoints(n)} pkt
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }
@@ -53,6 +70,12 @@ class ClassificationSwimmersList extends Component {
 ClassificationSwimmersList.defaultProps = {
   schools: [],
   swimmers: []
+};
+
+ClassificationSwimmersList.propTypes = {
+  swimmers: PropTypes.array,
+  schools: PropTypes.array,
+  isGeneral: PropTypes.bool
 };
 
 export default ClassificationSwimmersList;
