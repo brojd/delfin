@@ -1,10 +1,13 @@
 import React, {Component, PropTypes} from 'react';
+import SwimmersList from '../../components/SwimmersList/SwimmersList.component';
+import ChooseCompetition from '../../components/ChooseCompetition/ChooseCompetition.component';
 import classNames from 'classnames';
 import styles from './Competitions.stylesheet.css';
 import Select from 'react-select';
 import axios from 'axios';
 import CONFIG from '../../config';
 import CompetitionSettings from '../../components/CompetitionSettings/CompetitionSettings.component';
+import auth from '../../auth';
 
 class Competitions extends Component {
   constructor() {
@@ -12,12 +15,11 @@ class Competitions extends Component {
     this._setCurrentCompetition = this._setCurrentCompetition.bind(this);
     this._handleSwimmerChosen = this._handleSwimmerChosen.bind(this);
     this._handleDelete = this._handleDelete.bind(this);
-    this._displayDate = this._displayDate.bind(this);
-    this._isChosen = this._isChosen.bind(this);
     this.state = {
       competitions: [],
       allSwimmers: [],
-      competitionSwimmers: []
+      competitionSwimmers: [],
+      currentCompetition: {}
     };
   }
   _setCurrentCompetition(e, id) {
@@ -25,17 +27,10 @@ class Competitions extends Component {
     localStorage.setItem('currentCompetitionId', id);
     axios.get(`${CONFIG.API_URL}/competitions/${id}/swimmers`)
       .then((competitionSwimmers) => this.setState({ competitionSwimmers: competitionSwimmers.data,
-                                                     currentCompetition: currentCompetition }))
-  }
-  _displayDate(date) {
-    let dateToReturn = new Date(date);
-    return dateToReturn.toLocaleDateString();
-  }
-  _isChosen(competitionId) {
-    return this.props.currentCompetitionId == competitionId;
+        currentCompetition: currentCompetition }));
   }
   _handleSwimmerChosen(val) {
-    axios.head(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/rel/${val.value.id}`)
+    axios.head(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/rel/${val.value.id}?access_token=${auth.getToken()}`)
       .then((res) => {
         if (res.status === 200) {
           alert('Swimmer already added');
@@ -44,19 +39,20 @@ class Competitions extends Component {
       .catch(() => {
         let competitionSwimmers = this.state.competitionSwimmers;
         competitionSwimmers.push(val.value);
-        axios.put(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/rel/${val.value.id}`)
-          .then((res) => this.setState({ competitionSwimmers: competitionSwimmers }))
-          .catch((err) => console.error(err))
+        axios.put(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/rel/${val.value.id}?access_token=${auth.getToken()}`)
+          .then(() => this.setState({ competitionSwimmers: competitionSwimmers }))
+          .catch((err) => { console.error(err); this.props.history.push('/logout'); });
       });
   }
-  _handleDelete(e, id) {
-    axios.delete(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/rel/${id}`)
+  _handleDelete(id) {
+    axios.delete(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/rel/${id}?access_token=${auth.getToken()}`)
       .then((res) => {
         if (res.status === 204) {
           let competitionSwimmers = this.state.competitionSwimmers.filter((n) => n.id !== id);
           this.setState({ competitionSwimmers: competitionSwimmers });
         }
       })
+      .catch((error) => { console.error(error); this.props.history.push('/logout'); });
   }
   _getCurrentSchoolName(swimmerId) {
     if (this.state.allSwimmers.length > 0 && this.state.allSchools.length > 0) {
@@ -70,11 +66,11 @@ class Competitions extends Component {
     let currentCompetitionId = localStorage.getItem('currentCompetitionId');
     this.setState({ currentCompetitionId: currentCompetitionId });
     axios.all([
-        axios.get(`${CONFIG.API_URL}/swimmers`),
-        axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/swimmers`),
-        axios.get(`${CONFIG.API_URL}/schools`),
-        axios.get(`${CONFIG.API_URL}/competitions`)
-      ])
+      axios.get(`${CONFIG.API_URL}/swimmers`),
+      axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/swimmers`),
+      axios.get(`${CONFIG.API_URL}/schools`),
+      axios.get(`${CONFIG.API_URL}/competitions`)
+    ])
       .then(axios.spread((swimmersRes, competitionSwimmers, schoolsRes, competitionsRes) => {
         this.setState({
           allSwimmers: swimmersRes.data,
@@ -98,24 +94,10 @@ class Competitions extends Component {
         <h3 className='uk-text-center '>
           Wybierz zawody
         </h3>
-        <ul className='uk-list uk-margin-large-top'>
-          {this.props.competitions.map((competition, i) => {
-            return (
-            <li className={classNames(styles.competitionListElem, {[styles.chosen]: this._isChosen(competition.id)})}
-                key={i}>
-              <h3 className={styles.competitionListElem__date}>{this._displayDate(competition.date)}</h3>
-              <div className={styles.competitionListElem__name}>{competition.name}</div>
-              <button className='uk-button'
-                      onClick={(e) => {
-                        this._setCurrentCompetition(e, competition.id);
-                        this.props.competitionChanged(e, competition.id);
-                      }}>
-                Wybierz
-              </button>
-            </li>
-            )
-          })}
-        </ul>
+        <ChooseCompetition competitions={this.state.competitions}
+                           currentCompetitionId={this.state.currentCompetition.id}
+                           competitionChanged={this.props.competitionChanged}
+                           setCurrentCompetition={this._setCurrentCompetition} />
         <h3 className='uk-text-center '>
           Lista uczestników
         </h3>
@@ -123,32 +105,23 @@ class Competitions extends Component {
           name='swimmer'
           options={swimmerChoices}
           onChange={this._handleSwimmerChosen}
-          className='uk-width-2-10 uk-display-inline-block uk-margin-large-right'
-        />
-        <ol>
-          {this.state.competitionSwimmers.map((n, i) =>
-            <li key={i}>
-              {n.name} {n.surname} ({this._getCurrentSchoolName(n.id)})
-              <i onClick={(e, id) => this._handleDelete(e, n.id)} className="uk-icon-trash uk-margin-small-left"></i>
-            </li>
-          )}
-        </ol>
+          className='uk-width-2-10 uk-align-center' />
+        <SwimmersList swimmers={this.state.competitionSwimmers}
+                      deleteSwimmer={this._handleDelete}
+                      schools={this.state.allSchools}
+                      editable={false} />
         <h3 className='uk-text-center '>
           Ustawienia zawodów
         </h3>
         <CompetitionSettings currentCompetition={this.state.currentCompetition} />
       </div>
-    )
+    );
   }
 }
 
 Competitions.propTypes = {
   competitionChanged: PropTypes.func,
   competitions: PropTypes.array,
-  currentCompetitionId: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ])
 };
 
 export default Competitions;
