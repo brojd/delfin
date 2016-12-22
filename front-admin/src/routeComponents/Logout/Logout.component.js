@@ -6,7 +6,11 @@ class Logout extends Component {
     auth.logout();
   }
   render() {
-    return <p>Zostałeś wylogowany</p>;
+    return (
+      <div className='uk-alert uk-align-center uk-text-center uk-width-5-10 uk-margin-large-top'>
+        Zostałeś wylogowany
+      </div>
+    );
   }
 }
 
