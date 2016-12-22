@@ -1,0 +1,18 @@
+.Header {
+  vertical-align: middle; }
+
+.Header_logo {
+  width: 120px;
+  height: auto;
+  margin: 30px;
+  float: left; }
+
+.Header_title {
+  height: 180px;
+  line-height: 180px;
+  font-weight: 500;
+  font-size: 34px;
+  color: white;
+  text-shadow: 2px 2px 3px black; }
+
+/*# sourceMappingURL=Header.stylesheet.css.map */
