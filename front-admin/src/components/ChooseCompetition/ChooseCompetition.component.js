@@ -11,14 +11,14 @@ const ChooseCompetition = ({ competitions, currentCompetitionId, setCurrentCompe
   };
 
   return (
-    <ul className='uk-list uk-margin-large-top'>
+    <ul className='uk-list uk-text-center uk-margin-large-top'>
       {competitions.map((competition, i) => {
         return (
           <li className={classNames(styles.competitionListElem, {[styles.chosen]: isChosen(competition.id)})}
               key={i}>
-            <h3 className={styles.competitionListElem__date}>{displayDate(competition.date)}</h3>
-            <div className={styles.competitionListElem__name}>{competition.name}</div>
-            <button className='uk-button'
+            <div className={styles.competitionListElem_name}>{competition.name}</div>
+            <h3 className={styles.competitionListElem_date}>{displayDate(competition.date)}</h3>
+            <button className={classNames(styles.chooseButton, 'uk-button')}
                     onClick={(e) => {
                       setCurrentCompetition(e, competition.id);
                       competitionChanged(e, competition.id);

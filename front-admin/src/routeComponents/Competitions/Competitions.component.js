@@ -7,6 +7,7 @@ import Select from 'react-select';
 import axios from 'axios';
 import CONFIG from '../../config';
 import CompetitionSettings from '../../components/CompetitionSettings/CompetitionSettings.component';
+import auth from '../../auth';
 
 class Competitions extends Component {
   constructor() {
@@ -29,7 +30,7 @@ class Competitions extends Component {
         currentCompetition: currentCompetition }));
   }
   _handleSwimmerChosen(val) {
-    axios.head(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/rel/${val.value.id}`)
+    axios.head(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/rel/${val.value.id}?access_token=${auth.getToken()}`)
       .then((res) => {
         if (res.status === 200) {
           alert('Swimmer already added');
@@ -38,19 +39,20 @@ class Competitions extends Component {
       .catch(() => {
         let competitionSwimmers = this.state.competitionSwimmers;
         competitionSwimmers.push(val.value);
-        axios.put(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/rel/${val.value.id}`)
+        axios.put(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/rel/${val.value.id}?access_token=${auth.getToken()}`)
           .then(() => this.setState({ competitionSwimmers: competitionSwimmers }))
-          .catch((err) => console.error(err));
+          .catch((err) => { console.error(err); this.props.history.push('/logout'); });
       });
   }
   _handleDelete(id) {
-    axios.delete(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/rel/${id}`)
+    axios.delete(`${CONFIG.API_URL}/competitions/${localStorage.getItem('currentCompetitionId')}/swimmers/rel/${id}?access_token=${auth.getToken()}`)
       .then((res) => {
         if (res.status === 204) {
           let competitionSwimmers = this.state.competitionSwimmers.filter((n) => n.id !== id);
           this.setState({ competitionSwimmers: competitionSwimmers });
         }
-      });
+      })
+      .catch((error) => { console.error(error); this.props.history.push('/logout'); });
   }
   _getCurrentSchoolName(swimmerId) {
     if (this.state.allSwimmers.length > 0 && this.state.allSchools.length > 0) {
@@ -103,8 +105,7 @@ class Competitions extends Component {
           name='swimmer'
           options={swimmerChoices}
           onChange={this._handleSwimmerChosen}
-          className='uk-width-2-10 uk-display-inline-block uk-margin-large-right'
-        />
+          className='uk-width-2-10 uk-align-center' />
         <SwimmersList swimmers={this.state.competitionSwimmers}
                       deleteSwimmer={this._handleDelete}
                       schools={this.state.allSchools}

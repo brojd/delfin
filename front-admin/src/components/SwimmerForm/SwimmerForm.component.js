@@ -1,4 +1,6 @@
 import React, {Component, PropTypes} from 'react';
+import styles from './SwimmerForm.stylesheet.css';
+import classNames from 'classnames';
 
 class SwimmerForm extends Component {
   constructor() {
@@ -33,19 +35,22 @@ class SwimmerForm extends Component {
   }
   render() {
     return (
-      <form className='uk-width-2-10 uk-form'>
-        <div>
-          Imię: <input type='text'
-                       name='name'
-                       onChange={this._handleNameChange} />
+      <form className={classNames(styles.SwimmerForm, 'uk-width-4-10 uk-form uk-align-center uk-form-stacked')}>
+        <legend>Dodaj zawodnika</legend>
+        <div className='uk-form-row'>
+          <label className='uk-form-label'>Imię:</label>
+          <input type='text'
+                 name='name'
+                 onChange={this._handleNameChange} />
         </div>
-        <div>
-          Nazwisko: <input type='text'
-                          name='surname'
-                          onChange={this._handleSurnameChange} />
+        <div className='uk-form-row'>
+          <label className='uk-form-label'>Nazwisko:</label>
+          <input type='text'
+                 name='surname'
+                 onChange={this._handleSurnameChange} />
         </div>
-        <div>
-          Szkoła:
+        <div className='uk-form-row'>
+          <label className='uk-form-label'>Szkoła:</label>
           <select value={this.state.selectValue}
                   onChange={this._handleSelectChange}>
             {this.props.schools.map((n, i) => {
@@ -55,11 +60,11 @@ class SwimmerForm extends Component {
             })}
           </select>
         </div>
-        <div>
+        <div className='uk-form-row'>
           {this.state.name} {this.state.surname}
         </div>
-        <div>
-          <button className='uk-button'
+        <div className='uk-form-row'>
+          <button className={classNames(styles.SwimmerForm_addButton, 'uk-button uk-align-center')}
                   type='submit'
                   onClick={this._handleSubmit}>
             Dodaj zawodnika

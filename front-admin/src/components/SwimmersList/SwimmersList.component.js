@@ -1,4 +1,6 @@
 import React, { PropTypes } from 'react';
+import styles from './SwimmersList.stylesheet.css';
+import classNames from 'classnames';
 
 const SwimmerList = ({ swimmers, deleteSwimmer, displayEditForm, schools, editable }) => {
 
@@ -11,15 +13,27 @@ const SwimmerList = ({ swimmers, deleteSwimmer, displayEditForm, schools, editab
     return null;
   };
   return (
-    <div className='uk-margin-large-top'>
-      <ol>
-        {swimmers.map((n, i) =><li key={i}>
-            {n.name} {n.surname} ({getCurrentSchoolName(n.id)})
-            {editable ? <i onClick={() => displayEditForm(n.id)} className="uk-icon-pencil uk-margin-left"></i> : null}
-            <i onClick={() => deleteSwimmer(n.id)} className="uk-icon-trash uk-margin-small-left"></i>
-          </li>
-        )}
-      </ol>
+    <div className={classNames(styles.SwimmersListWrapper, 'uk-width-6-10 uk-align-center')}>
+      <table className={classNames(styles.SwimmersList, 'uk-table')}>
+        <caption>Zawodnicy</caption>
+        <tbody>
+          {swimmers.map((n, i) =>
+          <tr className={styles.SwimmersList_tr} key={i}>
+            <td className={classNames(styles.SwimmersList_td, 'uk-width-1-10')}>{i+1}.</td>
+            <td className={classNames(styles.SwimmersList_td, 'uk-width-4-10')}>{n.name} {n.surname}</td>
+            <td className={classNames(styles.SwimmersList_td, 'uk-width-3-10')}>({getCurrentSchoolName(n.id)})</td>
+            <td className={classNames(styles.SwimmersList_td, 'uk-width-2-10 uk-text-right')}>
+              {editable ?
+                <i onClick={() => displayEditForm(n.id)}
+                   className={classNames(styles.SwimmersList_icon, 'uk-icon-pencil uk-margin-left')}></i> :
+                null}
+              <i onClick={() => deleteSwimmer(n.id)}
+                 className={classNames(styles.SwimmersList_icon, 'uk-icon-trash uk-margin-small-left')}></i>
+            </td>
+          </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };

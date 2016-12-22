@@ -29,5 +29,8 @@
     "url": ""
   },
   "license": "UNLICENSED",
-  "description": "backend"
+  "description": "backend",
+  "engines": {
+    "node": "6.8.1"
+  }
 }
