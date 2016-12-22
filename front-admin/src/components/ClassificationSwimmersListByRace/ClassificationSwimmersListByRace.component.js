@@ -37,7 +37,7 @@ class ClassificationSwimmersListByRace extends Component {
                   {getSchoolNameById(this.state.schools, n.schoolId)}
                 </td>
                 <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-2-10')}>
-                  {getRaceTimeInCompetition(n, this.props.raceId, this.props.competitionId)}sek
+                  {getRaceTimeInCompetition(n, this.props.raceId, this.props.competitionId)} sek
                 </td>
                 <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-1-10')}>
                   {getRacePointsInCompetition(n, this.props.raceId, this.props.competitionId)} pkt
