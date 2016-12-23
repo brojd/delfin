@@ -41,6 +41,7 @@ class ClassificationSwimmersList extends Component {
     );
     return (
       <div className={classNames(styles.ClassificationSwimmersListWrapper, 'uk-width-8-10 uk-align-center')}>
+        <h3 className=''>Klasyfikacja ogólna zawodników</h3>
         <table className={classNames(styles.ClassificationSwimmersList, 'uk-table')}>
           <caption>Zawodnicy</caption>
           <tbody>

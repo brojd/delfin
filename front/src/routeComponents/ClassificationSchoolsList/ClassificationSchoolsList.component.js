@@ -38,11 +38,12 @@ class ClassificationSchoolsList extends Component {
     return school.place;
   }
   render() {
-    let sortedSchools = this.props.schools.slice().sort(
+    let sortedSchools = this.props.rankedSchools.slice().sort(
       (a, b) => this._getSchoolPoints(b.id) - this._getSchoolPoints(a.id)
     );
     return (
       <div className={classNames(styles.ClassificationSchoolsListWrapper, 'uk-width-6-10 uk-align-center')}>
+        <h3 className=''>Klasyfikacja ogólna szkół</h3>
         <table className={classNames(styles.ClassificationSchoolsList, 'uk-table')}>
           <caption>Szkoły</caption>
           <tbody>

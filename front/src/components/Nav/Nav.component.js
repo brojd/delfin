@@ -20,12 +20,12 @@ class Nav extends Component {
   }
   render() {
     return (
-      <nav className={classNames('ui two column grid menu', styles.Nav)}>
+      <nav className={classNames('ui three column grid menu', styles.Nav)}>
         <Link to='/' className="item column">
           Klasyfikacja generalna
         </Link>
         <div className='ui simple dropdown item column'>
-          <span className="text">Wybierz zawody</span>
+          <span className="text">Wyniki zawodów</span>
           <i className="dropdown icon"></i>
           <div className='menu'>
             <div className="header">Zawody</div>
@@ -34,6 +34,9 @@ class Nav extends Component {
             ))}
           </div>
         </div>
+        <Link to='/records' className="item column">
+          Rekordy
+        </Link>
       </nav>
     );
   }

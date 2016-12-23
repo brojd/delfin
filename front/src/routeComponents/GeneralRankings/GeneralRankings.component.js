@@ -1,10 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import ChooseRace from '../../components/ChooseRace/ChooseRace.component';
-import ClassificationSwimmersList from '../ClassificationSwimmersList/ClassificationSwimmersList.component';
-import GeneralRankingByRace from '../GeneralRankingByRace/GeneralRankingByRace.component';
-import ClassificationSchoolsList from '../ClassificationSchoolsList/ClassificationSchoolsList.component';
 import getRaceIdByCategory from '../../helpers/getRaceIdByCategory';
 import isSwimmerRanked from '../../helpers/isSwimmerRanked';
+import { Link } from 'react-router';
 
 class GeneralRankings extends Component {
   constructor() {
@@ -56,21 +54,30 @@ class GeneralRankings extends Component {
     );
     let rankedSchools = this.props.schools.filter((n) => n.isRanked);
     return (
-      <div>
-        <h3 className=''>Klasyfikacja wg kategorii</h3>
-        <ChooseRace getCategory={this._getCategory}/>
-        <GeneralRankingByRace swimmers={raceSwimmers}
-                              raceId={this.state.raceId}
-                              schools={this.props.schools} />
-        <h3 className=''>Klasyfikacja ogólna zawodników</h3>
-        <ClassificationSwimmersList schools={this.props.schools}
-                                    swimmers={allSwimmers}
-                                    isGeneral={true} />
-        <h3 className=''>Klasyfikacja ogólna szkół</h3>
-        <ClassificationSchoolsList schools={rankedSchools}
-                                   swimmers={allSwimmers}
-                                   isGeneral={true} />
-      </div>
+      <section>
+        <nav className="ui top attached tabular menu">
+          <Link to='/' className='item active'>
+            Ranking wg kategorii
+          </Link>
+          <Link to='/general-ranking-swimmers' className='item'>
+            Ranking ogólny zawodników
+          </Link>
+          <Link to='/general-ranking-schools' className='item'>
+            Ranking ogólny szkół
+          </Link>
+        </nav>
+        <section className='bottom attached segment'>
+          <ChooseRace getCategory={this._getCategory}/>
+          {this.props.children && React.cloneElement(this.props.children, {
+            raceSwimmers: raceSwimmers,
+            raceId: this.state.raceId,
+            schools: this.props.schools,
+            rankedSchools: rankedSchools,
+            swimmers: allSwimmers,
+            isGeneral: true
+          })}
+        </section>
+      </section>
     );
   }
 }

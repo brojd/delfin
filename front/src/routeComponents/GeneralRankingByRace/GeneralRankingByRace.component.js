@@ -36,7 +36,7 @@ class GeneralRankingByRace extends Component {
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
-      swimmers: nextProps.swimmers,
+      swimmers: nextProps.raceSwimmers,
       schools: nextProps.schools
     });
   }
@@ -45,8 +45,9 @@ class GeneralRankingByRace extends Component {
       (a, b) => this._getRacePoints(b, this.props.raceId) - this._getRacePoints(a, this.props.raceId)
     );
     return (
-      <div className={classNames(styles.GeneralRankingByRaceWrapper, 'uk-width-8-10 uk-align-center')}>
-        <table className={classNames(styles.GeneralRankingByRace, 'uk-table')}>
+      <div>
+        <h3 className=''>Klasyfikacja wg kategorii</h3>
+        <table>
           <caption>Zawodnicy</caption>
           <tbody>
             {sortedSwimmers.map((n, i) => (
