@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAIA,aAAc;EACZ,OAAO,EAAE,gBAAgB",
+"sources": ["Nav.stylesheet.scss"],
+"names": [],
+"file": "Nav.stylesheet.css"
+}

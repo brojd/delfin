@@ -1,5 +1,6 @@
 .Header {
-  vertical-align: middle; }
+  vertical-align: middle;
+  margin-bottom: 20px; }
 
 .Header_logo {
   width: 120px;
