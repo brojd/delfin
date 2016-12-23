@@ -40,12 +40,18 @@ class GeneralRankingByRace extends Component {
       schools: nextProps.schools
     });
   }
+  componentDidMount() {
+    this.setState({
+      swimmers: this.props.raceSwimmers,
+      schools: this.props.schools
+    });
+  }
   render() {
     let sortedSwimmers = this.state.swimmers.slice().sort(
       (a, b) => this._getRacePoints(b, this.props.raceId) - this._getRacePoints(a, this.props.raceId)
     );
     return (
-      <div>
+      <div>s
         <h3 className=''>Klasyfikacja wg kategorii</h3>
         <table>
           <caption>Zawodnicy</caption>

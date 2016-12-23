@@ -16,7 +16,7 @@ ReactDOM.render(
       <Route component={OuterMain}>
           <Route component={GeneralRankings}>
             <IndexRoute component={GeneralRankingByRace}/>
-            <Route path='general-ranking-swimmers' component={ClassificationSwimmersList}/>
+            <Route path='general-ranking-swimmers' component={ClassificationSwimmersList} />
             <Route path='general-ranking-schools' component={ClassificationSchoolsList} />
           </Route>
           <Route path='competition' component={Classifications}/>

@@ -3,6 +3,8 @@ import ChooseRace from '../../components/ChooseRace/ChooseRace.component';
 import getRaceIdByCategory from '../../helpers/getRaceIdByCategory';
 import isSwimmerRanked from '../../helpers/isSwimmerRanked';
 import { Link } from 'react-router';
+import classNames from 'classnames';
+import styles from './GeneralRankings.stylesheet.css';
 
 class GeneralRankings extends Component {
   constructor() {
@@ -11,7 +13,7 @@ class GeneralRankings extends Component {
     this._updateRaceId = this._updateRaceId.bind(this);
     this._getRaceTime = this._getRaceTime.bind(this);
     this.state = {
-      raceId: '',
+      raceId: 1,
       raceSwimmers: []
     };
   }
@@ -39,13 +41,7 @@ class GeneralRankings extends Component {
     this._updateRaceId(currentId);
   }
   componentDidMount() {
-    let raceSwimmers = this.props.swimmers.filter((n) => n.raceIds.includes(this.state.raceId));
-    let sortedSwimmers = raceSwimmers.sort((a, b) =>
-      this._getRaceTime(a, this.state.raceId) - this._getRaceTime(b, this.state.raceId)
-    );
-    this.setState({
-      raceSwimmers: sortedSwimmers
-    });
+    this._updateRaceId(1);
   }
   render() {
     let raceSwimmers = this.state.raceSwimmers.filter((swimmer) => isSwimmerRanked(swimmer, this.props.schools));
@@ -53,6 +49,7 @@ class GeneralRankings extends Component {
       (swimmer) => isSwimmerRanked(swimmer, this.props.schools)
     );
     let rankedSchools = this.props.schools.filter((n) => n.isRanked);
+    let formHidden = this.props.location.pathname !== '/';
     return (
       <section>
         <nav className="ui top attached tabular menu">
@@ -67,7 +64,9 @@ class GeneralRankings extends Component {
           </Link>
         </nav>
         <section className='bottom attached segment'>
-          <ChooseRace getCategory={this._getCategory}/>
+          <div className={classNames({[styles.displayNone]: formHidden})}>
+            <ChooseRace getCategory={this._getCategory}/>
+          </div>
           {this.props.children && React.cloneElement(this.props.children, {
             raceSwimmers: raceSwimmers,
             raceId: this.state.raceId,
