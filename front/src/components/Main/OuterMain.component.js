@@ -22,13 +22,14 @@ class OuterMain extends Component {
       return (
         <Main swimmers={swimmers}
               schools={schools}
-              competitions={competitions} />
+              competitions={competitions}
+              children={this.props.children} />
       );
     }
   }
 }
 
-Main.propTypes = {
+OuterMain.propTypes = {
   swimmers: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   schools: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   competitions: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
