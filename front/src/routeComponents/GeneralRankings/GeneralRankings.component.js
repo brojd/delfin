@@ -12,9 +12,11 @@ class GeneralRankings extends Component {
     this._getCategory = this._getCategory.bind(this);
     this._updateRaceId = this._updateRaceId.bind(this);
     this._getRaceTime = this._getRaceTime.bind(this);
+    this._setActiveLink = this._setActiveLink.bind(this);
     this.state = {
       raceId: 1,
-      raceSwimmers: []
+      raceSwimmers: [],
+      activeLinkIndex: 0
     };
   }
   _getRaceTime(swimmer, raceId) {
@@ -40,6 +42,9 @@ class GeneralRankings extends Component {
     let currentId = getRaceIdByCategory(sex, style, age);
     this._updateRaceId(currentId);
   }
+  _setActiveLink(linkIndex) {
+    this.setState({ activeLinkIndex: linkIndex });
+  }
   componentDidMount() {
     this._updateRaceId(1);
   }
@@ -53,13 +58,19 @@ class GeneralRankings extends Component {
     return (
       <section>
         <nav className="ui top attached tabular menu">
-          <Link to='/' className='item active'>
+          <Link to='/'
+                className={classNames('item', {'active':this.state.activeLinkIndex===0})}
+                onClick={() => { this._setActiveLink(0); }}>
             Ranking wg kategorii
           </Link>
-          <Link to='/general-ranking-swimmers' className='item'>
+          <Link to='/general-ranking-swimmers'
+                className={classNames('item', {'active':this.state.activeLinkIndex===1})}
+                onClick={() => { this._setActiveLink(1); }}>
             Ranking ogólny zawodników
           </Link>
-          <Link to='/general-ranking-schools' className='item'>
+          <Link to='/general-ranking-schools'
+                className={classNames('item', {'active':this.state.activeLinkIndex===2})}
+                onClick={() => { this._setActiveLink(2); }}>
             Ranking ogólny szkół
           </Link>
         </nav>
