@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AAAA,YAAa;EACX,OAAO,EAAE,IAAI",
+"mappings": "AAAA,YAAa;EACX,OAAO,EAAE,IAAI;;AAGf,eAAgB;EACd,UAAU,EAAE,yBAAyB",
 "sources": ["GeneralRankings.stylesheet.scss"],
 "names": [],
 "file": "GeneralRankings.stylesheet.css"

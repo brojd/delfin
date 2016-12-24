@@ -63,7 +63,7 @@ class GeneralRankings extends Component {
             Ranking ogólny szkół
           </Link>
         </nav>
-        <section className='bottom attached segment'>
+        <section className={classNames('bottom attached segment', styles.rankingSection)}>
           <div className={classNames({[styles.displayNone]: formHidden})}>
             <ChooseRace getCategory={this._getCategory}/>
           </div>
