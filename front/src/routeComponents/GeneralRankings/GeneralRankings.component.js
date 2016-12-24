@@ -57,22 +57,28 @@ class GeneralRankings extends Component {
     let formHidden = this.props.location.pathname !== '/';
     return (
       <section>
-        <nav className="ui top attached tabular menu">
-          <Link to='/'
-                className={classNames('item', {'active':this.state.activeLinkIndex===0})}
-                onClick={() => { this._setActiveLink(0); }}>
-            Ranking wg kategorii
-          </Link>
-          <Link to='/general-ranking-swimmers'
-                className={classNames('item', {'active':this.state.activeLinkIndex===1})}
-                onClick={() => { this._setActiveLink(1); }}>
-            Ranking ogólny zawodników
-          </Link>
-          <Link to='/general-ranking-schools'
-                className={classNames('item', {'active':this.state.activeLinkIndex===2})}
-                onClick={() => { this._setActiveLink(2); }}>
-            Ranking ogólny szkół
-          </Link>
+        <nav className={classNames('ui top attached tabular menu', styles.navbar)}>
+          <div className={classNames(styles.tab, {[styles.activeTab]:this.state.activeLinkIndex===0})}>
+            <Link to='/'
+                  className='item'
+                  onClick={() => { this._setActiveLink(0); }}>
+              <span className={styles.navbar_label}>Ranking wg kategorii</span>
+            </Link>
+          </div>
+          <div className={classNames(styles.tab, {[styles.activeTab]:this.state.activeLinkIndex===1})}>
+            <Link to='/general-ranking-swimmers'
+                  className='item'
+                  onClick={() => { this._setActiveLink(1); }}>
+              <span className={styles.navbar_label}>Ranking ogólny zawodników</span>
+            </Link>
+          </div>
+          <div className={classNames(styles.tab, {[styles.activeTab]:this.state.activeLinkIndex===2})}>
+            <Link to='/general-ranking-schools'
+                  className='item'
+                  onClick={() => { this._setActiveLink(2); }}>
+              <span className={styles.navbar_label}>Ranking ogólny szkół</span>
+            </Link>
+          </div>
         </nav>
         <section className={classNames('bottom attached segment', styles.rankingSection)}>
           <div className={classNames({[styles.displayNone]: formHidden})}>
