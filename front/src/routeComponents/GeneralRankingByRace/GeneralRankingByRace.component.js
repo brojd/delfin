@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import getSchoolNameById from '../../helpers/getSchoolNameById';
 import styles from './GeneralRankingByRace.stylesheet.css';
-import classNames from 'classnames';
 
 class GeneralRankingByRace extends Component {
   constructor() {
@@ -51,29 +50,37 @@ class GeneralRankingByRace extends Component {
       (a, b) => this._getRacePoints(b, this.props.raceId) - this._getRacePoints(a, this.props.raceId)
     );
     return (
-      <div>s
-        <h3 className=''>Klasyfikacja wg kategorii</h3>
-        <table>
-          <caption>Zawodnicy</caption>
-          <tbody>
-            {sortedSwimmers.map((n, i) => (
-              <tr className={styles.GeneralRankingByRace_tr} key={i}>
-                <td className={classNames(styles.GeneralRankingByRace_td, 'uk-width-1-10')}>
-                  {this._getPlace(sortedSwimmers, i)}
-                </td>
-                <td className={classNames(styles.GeneralRankingByRace_td, 'uk-width-4-10')}>
-                  {n.name} {n.surname}
-                </td>
-                <td className={classNames(styles.GeneralRankingByRace_td, 'uk-width-4-10')}>
-                  ({getSchoolNameById(this.state.schools, n.schoolId)})
-                </td>
-                <td className={classNames(styles.GeneralRankingByRace_td, 'uk-width-1-10')}>
-                  {this._getRacePoints(n, this.props.raceId)} pkt
-                </td>
+      <div className='ui one column grid center aligned'>
+        <div className='fourteen wide column'>
+          <table className='ui striped compact table'>
+            <thead>
+              <tr>
+                <th className='center aligned'>Miejsce</th>
+                <th>Imię i nazwisko</th>
+                <th>Szkoła</th>
+                <th className='center aligned'>Punkty</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {sortedSwimmers.map((n, i) => (
+                <tr className={styles.GeneralRankingByRace_tr} key={i}>
+                  <td className='uk-width-1-10 center aligned'>
+                    {this._getPlace(sortedSwimmers, i)}
+                  </td>
+                  <td className='uk-width-4-10'>
+                    {n.name} {n.surname}
+                  </td>
+                  <td className='uk-width-4-10'>
+                    ({getSchoolNameById(this.state.schools, n.schoolId)})
+                  </td>
+                  <td className='uk-width-1-10 center aligned'>
+                    {this._getRacePoints(n, this.props.raceId)} pkt
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
