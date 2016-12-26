@@ -6,17 +6,19 @@ import styles from './Main.stylesheet.css';
 class Main extends Component {
   render() {
     return (
-      <main className={classNames('ui one column center aligned grid', styles.Main)}>
-        <div className='twelve wide column'>
-          <Nav competitions={this.props.competitions} />
-        </div>
-        <div className='twelve wide column'>
-          {this.props.children && React.cloneElement(this.props.children, {
-            schools: this.props.schools,
-            swimmers: this.props.swimmers
-          })}
-        </div>
-      </main>
+      <div className={styles.MainWrapper}>
+        <main className={classNames('ui one column center aligned grid', styles.Main)}>
+          <div className='twelve wide column'>
+            <Nav competitions={this.props.competitions} />
+          </div>
+          <div className='twelve wide column'>
+            {this.props.children && React.cloneElement(this.props.children, {
+              schools: this.props.schools,
+              swimmers: this.props.swimmers
+            })}
+          </div>
+        </main>
+      </div>
     );
   }
 }

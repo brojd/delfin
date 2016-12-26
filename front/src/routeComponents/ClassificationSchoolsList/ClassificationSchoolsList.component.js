@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import styles from './ClassificationSchoolsList.stylesheet.css';
-import classNames from 'classnames';
 
 class ClassificationSchoolsList extends Component {
   constructor() {
@@ -42,26 +41,41 @@ class ClassificationSchoolsList extends Component {
       (a, b) => this._getSchoolPoints(b.id) - this._getSchoolPoints(a.id)
     );
     return (
-      <div className={classNames(styles.ClassificationSchoolsListWrapper, 'uk-width-6-10 uk-align-center')}>
-        <h3 className=''>Klasyfikacja ogólna szkół</h3>
-        <table className={classNames(styles.ClassificationSchoolsList, 'uk-table')}>
-          <caption>Szkoły</caption>
-          <tbody>
-            {sortedSchools.map((school, i) =>
-              <tr className={styles.ClassificationSchoolsList_tr} key={i}>
-                <td className={classNames(styles.ClassificationSchoolsList_td, 'uk-width-2-10')}>
-                  {this._getPlace(sortedSchools, i)}
-                </td>
-                <td className={classNames(styles.ClassificationSchoolsList_td, 'uk-width-6-10')}>
-                  {school.name}
-                </td>
-                <td className={classNames(styles.ClassificationSchoolsList_td, 'uk-width-2-10')}>
-                  {this._getSchoolPoints(school.id)} pkt
-                </td>
-              </tr>)}
-          </tbody>
-        </table>
-      </div>
+      <section className={styles.ClassificationSchoolsList}>
+        <div className='ui one column grid center aligned'>
+          <div className='fourteen wide column'>
+            <table className='ui striped compact table'>
+              <thead>
+                <tr>
+                  <th className='center aligned'>
+                    <span className={styles.th_name}>Miejsce</span>
+                  </th>
+                  <th>
+                    <span className={styles.th_name}>Nazwa</span>
+                  </th>
+                  <th className='center aligned'>
+                    <span className={styles.th_name}>Punkty</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedSchools.map((school, i) =>
+                  <tr key={i}>
+                    <td className='uk-width-2-10 center aligned'>
+                      {this._getPlace(sortedSchools, i)}
+                    </td>
+                    <td className='uk-width-6-10'>
+                      {school.name}
+                    </td>
+                    <td className='uk-width-2-10 center aligned'>
+                      {this._getSchoolPoints(school.id)} pkt
+                    </td>
+                  </tr>)}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
     );
   }
 }

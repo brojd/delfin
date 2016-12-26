@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AAAA,WAAY;EACV,MAAM,EAAE,YAAY",
+"mappings": "AAAA,kBAAmB;EACjB,WAAW,EAAE,IAAI;;AAGnB,WAAY;EACV,MAAM,EAAE,YAAY",
 "sources": ["ChooseRace.stylesheet.scss"],
 "names": [],
 "file": "ChooseRace.stylesheet.css"

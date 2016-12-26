@@ -50,38 +50,48 @@ class GeneralRankingByRace extends Component {
       (a, b) => this._getRacePoints(b, this.props.raceId) - this._getRacePoints(a, this.props.raceId)
     );
     return (
-      <div className='ui one column grid center aligned'>
-        <div className='fourteen wide column'>
-          <table className='ui striped compact table'>
-            <thead>
-              <tr>
-                <th className='center aligned'>Miejsce</th>
-                <th>Imię i nazwisko</th>
-                <th>Szkoła</th>
-                <th className='center aligned'>Punkty</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sortedSwimmers.map((n, i) => (
-                <tr className={styles.GeneralRankingByRace_tr} key={i}>
-                  <td className='uk-width-1-10 center aligned'>
-                    {this._getPlace(sortedSwimmers, i)}
-                  </td>
-                  <td className='uk-width-4-10'>
-                    {n.name} {n.surname}
-                  </td>
-                  <td className='uk-width-4-10'>
-                    ({getSchoolNameById(this.state.schools, n.schoolId)})
-                  </td>
-                  <td className='uk-width-1-10 center aligned'>
-                    {this._getRacePoints(n, this.props.raceId)} pkt
-                  </td>
+      <section className={styles.GeneralRankingByRace}>
+        <div className='ui one column grid center aligned'>
+          <div className='fourteen wide column'>
+            <table className='ui striped compact table'>
+              <thead>
+                <tr>
+                  <th className='center aligned'>
+                    <span className={styles.th_name}>Miejsce</span>
+                  </th>
+                  <th>
+                    <span className={styles.th_name}>Imię i nazwisko</span>
+                  </th>
+                  <th>
+                    <span className={styles.th_name}>Szkoła</span>
+                  </th>
+                  <th className='center aligned'>
+                    <span className={styles.th_name}>Punkty</span>
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {sortedSwimmers.map((n, i) => (
+                  <tr key={i}>
+                    <td className='uk-width-1-10 center aligned'>
+                      {this._getPlace(sortedSwimmers, i)}
+                    </td>
+                    <td className='uk-width-4-10'>
+                      {n.name} {n.surname}
+                    </td>
+                    <td className='uk-width-4-10'>
+                      ({getSchoolNameById(this.state.schools, n.schoolId)})
+                    </td>
+                    <td className='uk-width-1-10 center aligned'>
+                      {this._getRacePoints(n, this.props.raceId)} pkt
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </section>
     );
   }
 }
