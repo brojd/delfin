@@ -8,6 +8,7 @@ import GeneralRankingByRace from './routeComponents/GeneralRankingByRace/General
 import ClassificationSwimmersListByRace from './routeComponents/ClassificationSwimmersListByRace/ClassificationSwimmersListByRace.component';
 import ClassificationSwimmersList from './routeComponents/ClassificationSwimmersList/ClassificationSwimmersList.component';
 import ClassificationSchoolsList from './routeComponents/ClassificationSchoolsList/ClassificationSchoolsList.component';
+import Records from './routeComponents/Records/Records.component';
 import './index.css';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 
@@ -25,6 +26,7 @@ ReactDOM.render(
             <Route path='swimmers' component={ClassificationSwimmersList} />
             <Route path='schools' component={ClassificationSchoolsList} />
           </Route>
+          <Route path='records' component={Records}/>
       </Route>
     </Route>
   </Router>,
