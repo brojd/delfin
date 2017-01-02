@@ -72,7 +72,7 @@ class Classifications extends Component {
             <Link to={`/competition/${competitionId}`}
                   className='item'
                   onClick={() => { this._setActiveLink(0); }}>
-              <span className={styles.navbar_label}>Ranking wg kategorii</span>
+              <span className={styles.navbar_label}>Wyniki wg kategorii</span>
             </Link>
           </div>
           <div className={classNames(styles.tab, {[styles.activeTab]:this.state.activeLinkIndex===1})}>

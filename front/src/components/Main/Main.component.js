@@ -8,7 +8,7 @@ class Main extends Component {
     return (
       <div className={styles.MainWrapper}>
         <main className={classNames('ui one column center aligned grid', styles.Main)}>
-          <div className='twelve wide column'>
+          <div className='fourteen wide column'>
             <Nav competitions={this.props.competitions} />
           </div>
           <div className='twelve wide column'>

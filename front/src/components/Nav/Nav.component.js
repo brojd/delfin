@@ -8,8 +8,10 @@ class Nav extends Component {
     super();
     this.showMenu = this.showMenu.bind(this);
     this.hideMenu = this.hideMenu.bind(this);
+    this._setActiveLink = this._setActiveLink.bind(this);
     this.state = {
-      menuVisible: false
+      menuVisible: false,
+      activeLinkIndex: 0
     };
   }
   showMenu() {
@@ -18,26 +20,39 @@ class Nav extends Component {
   hideMenu() {
     this.setState({ menuVisible: false });
   }
+  _setActiveLink(linkIndex) {
+    this.setState({ activeLinkIndex: linkIndex });
+  }
   render() {
     return (
-      <nav className={classNames('ui three column grid menu', styles.Nav)}>
-        <Link to='/' className="item column">
-          Klasyfikacja generalna
-        </Link>
-        <div className='ui simple dropdown item column'>
-          <span className="text">Wyniki zawodów</span>
-          <i className="dropdown icon"></i>
-          <div className='menu'>
-            <div className="header">Zawody</div>
-            {this.props.competitions.map((n, i) => (
-              <Link to={`competition/${n.id}`} key={i} className="item">{n.name} {n.date}</Link>
-            ))}
-          </div>
-        </div>
-        <Link to='/records' className="item column">
-          Rekordy
-        </Link>
-      </nav>
+      <section className={styles.NavWrapper}>
+        <nav className={classNames('ui three column labeled icon grid menu', styles.Nav)}>
+            <Link to='/'
+                  className={classNames('item column', {[styles.activeLink]:this.state.activeLinkIndex===0}, styles.link)}
+                  onClick={() => { this._setActiveLink(0); }}>
+              <i className="trophy icon"></i>
+              Klasyfikacja generalna
+            </Link>
+            <div className={classNames('ui simple dropdown item column', styles.link, {[styles.activeLink]:this.state.activeLinkIndex===1})}
+                 onClick={() => { this._setActiveLink(1); }}>
+              <i className="sitemap icon"></i>
+              <span className="text">Wyniki zawodów <i className="dropdown icon"></i></span>
+              <div className='menu'>
+                {this.props.competitions.map((n, i) => (
+                  <Link to={`competition/${n.id}`} key={i} className="item">
+                    {n.name}s
+                  </Link>
+                ))}
+              </div>
+            </div>
+            <Link to='/records'
+                  className={classNames('item column', styles.link, {[styles.activeLink]:this.state.activeLinkIndex===2})}
+                  onClick={() => { this._setActiveLink(2); }}>
+              <i className="flag checkered icon"></i>
+              Rekordy
+            </Link>
+        </nav>
+      </section>
     );
   }
 }
