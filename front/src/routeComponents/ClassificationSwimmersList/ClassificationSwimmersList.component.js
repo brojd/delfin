@@ -25,7 +25,7 @@ class ClassificationSwimmersList extends Component {
     let result = 0;
     swimmer.times.forEach((timeObj) => {
       if (!this.props.isGeneral) {
-        if (timeObj.competitionId === localStorage.getItem('currentCompetitionId')) {
+        if (timeObj.competitionId === this.props.competitionId) {
           result += timeObj.points;
         }
       } else {

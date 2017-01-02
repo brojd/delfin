@@ -22,7 +22,7 @@ class Classifications extends Component {
   }
   _getRaceTime(swimmer, raceId) {
     let timeObj = swimmer.times.filter(
-      (n) => n.raceId === raceId && n.competitionId == localStorage.getItem('currentCompetitionId')
+      (n) => n.raceId === raceId && n.competitionId == this.props.competitionId
     );
     if (timeObj.length > 0) {
       return Number(timeObj[0].time);
@@ -47,8 +47,6 @@ class Classifications extends Component {
     this.setState({ activeLinkIndex: linkIndex });
   }
   componentDidMount() {
-    let currentCompetitionId = localStorage.getItem('currentCompetitionId');
-    this.setState({ currentCompetitionId: currentCompetitionId });
     let raceSwimmers = this.props.competitionSwimmers.filter((n) => n.raceIds.includes(this.state.raceId));
     let sortedSwimmers = raceSwimmers.sort((a, b) =>
       this._getRaceTime(a, this.state.raceId) - this._getRaceTime(b, this.state.raceId)
@@ -59,7 +57,7 @@ class Classifications extends Component {
     this._updateRaceId(1);
   }
   render() {
-    let competitionId = localStorage.getItem('currentCompetitionId');
+    let competitionId = this.props.competitionId;
     let raceSwimmers = this.state.raceSwimmers.filter((swimmer) => isSwimmerRanked(swimmer, this.props.schools));
     let competitionSwimmers = this.props.competitionSwimmers.filter(
       (swimmer) => isSwimmerRanked(swimmer, this.props.schools)
@@ -78,14 +76,14 @@ class Classifications extends Component {
             </Link>
           </div>
           <div className={classNames(styles.tab, {[styles.activeTab]:this.state.activeLinkIndex===1})}>
-            <Link to='/competition-swimmers'
+            <Link to={`/competition/${competitionId}/swimmers`}
                   className='item'
                   onClick={() => { this._setActiveLink(1); }}>
               <span className={styles.navbar_label}>Ranking zawodników</span>
             </Link>
           </div>
           <div className={classNames(styles.tab, {[styles.activeTab]:this.state.activeLinkIndex===2})}>
-            <Link to='/competition-schools'
+            <Link to={`/competition/${competitionId}/schools`}
                   className='item'
                   onClick={() => { this._setActiveLink(2); }}>
               <span className={styles.navbar_label}>Ranking szkół</span>

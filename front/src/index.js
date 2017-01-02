@@ -9,10 +9,10 @@ import ClassificationSwimmersListByRace from './routeComponents/ClassificationSw
 import ClassificationSwimmersList from './routeComponents/ClassificationSwimmersList/ClassificationSwimmersList.component';
 import ClassificationSchoolsList from './routeComponents/ClassificationSchoolsList/ClassificationSchoolsList.component';
 import './index.css';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 
 ReactDOM.render(
-  <Router history={browserHistory}>
+  <Router history={hashHistory}>
     <Route path='/' component={App}>
       <Route component={OuterMain}>
           <Route component={GeneralRankings}>
@@ -20,10 +20,10 @@ ReactDOM.render(
             <Route path='general-ranking-swimmers' component={ClassificationSwimmersList} />
             <Route path='general-ranking-schools' component={ClassificationSchoolsList} />
           </Route>
-          <Route component={OuterClassifications}>
-            <Route path='competition/:competitionId'  component={ClassificationSwimmersListByRace} />
-            <Route path='competition-swimmers' component={ClassificationSwimmersList} />
-            <Route path='competition-schools' component={ClassificationSchoolsList} />
+          <Route path='competition/:competitionId' component={OuterClassifications}>
+            <IndexRoute component={ClassificationSwimmersListByRace} />
+            <Route path='swimmers' component={ClassificationSwimmersList} />
+            <Route path='schools' component={ClassificationSchoolsList} />
           </Route>
       </Route>
     </Route>

@@ -23,7 +23,8 @@ class OuterMain extends Component {
                          schools={schools}
                          competitions={competitions}
                          competitionSwimmers={competitionSwimmers}
-                         children={this.props.children} />
+                         children={this.props.children}
+                         competitionId={this.props.params.competitionId} />
       );
     }
   }
@@ -36,9 +37,6 @@ OuterMain.propTypes = {
   competitionSwimmers: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
 };
 
-export default connect(() => ({
-  swimmers: `${API_URL}/swimmers`,
-  schools: `${API_URL}/schools`,
-  competitions: `${API_URL}/competitions`,
-  competitionSwimmers: `${API_URL}/competitions/${localStorage.currentCompetitionId}/swimmers`
+export default connect(props => ({
+  competitionSwimmers: `${API_URL}/competitions/${props.params.competitionId}/swimmers`
 }))(OuterMain);
