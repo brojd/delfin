@@ -53,21 +53,27 @@ class ChooseRace extends Component {
               name='sex'
               value={this.state.sex}
               options={this.sexOptions}
-              onChange={this._handleSexChange} />
+              onChange={this._handleSexChange}
+              searchable={false}
+              clearable={false}/>
           </div>
           <div className={classNames('column')}>
             <Select
               name='style'
               value={this.state.style}
               options={this.styleOptions}
-              onChange={this._handleStyleChange} />
+              onChange={this._handleStyleChange}
+              searchable={false}
+              clearable={false}/>
           </div>
           <div className={classNames('column')}>
             <Select
               name='age'
               value={this.state.age}
               options={this.ageOptions}
-              onChange={this._handleAgeChange} />
+              onChange={this._handleAgeChange}
+              searchable={false}
+              clearable={false}/>
           </div>
         </form>
       </div>
