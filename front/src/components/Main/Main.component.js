@@ -14,7 +14,8 @@ class Main extends Component {
           <div className='twelve wide column'>
             {this.props.children && React.cloneElement(this.props.children, {
               schools: this.props.schools,
-              swimmers: this.props.swimmers
+              swimmers: this.props.swimmers,
+              competitions: this.props.competitions
             })}
           </div>
         </main>
