@@ -1,55 +1,62 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import getRaceTimeInCompetition from '../../helpers/getRaceTimeInCompetition';
 import getRacePlaceInCompetition from '../../helpers/getRacePlaceInCompetition';
 import getRacePointsInCompetition from '../../helpers/getRacePointsInCompetition';
 import getSchoolNameById from '../../helpers/getSchoolNameById';
 import styles from './ClassificationSwimmersListByRace.stylesheet.css';
-import classNames from 'classnames';
 
-class ClassificationSwimmersListByRace extends Component {
-  constructor() {
-    super();
-    this.state = {
-      sortedSwimmers: []
-    };
-  }
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      sortedSwimmers: nextProps.raceSwimmers,
-      schools: nextProps.schools
-    });
-  }
-  render() {
-    return (
-      <div className={classNames(styles.ClassificationSwimmersListByRaceWrapper, 'uk-width-8-10 uk-align-center')}>
-        <table className={classNames(styles.ClassificationSwimmersListByRace, 'uk-table')}>
-          <caption>Zawodnicy</caption>
-          <tbody>
-            {this.state.sortedSwimmers.map((n, i) => (
-              <tr className={styles.ClassificationSwimmersListByRace_tr} key={i}>
-                <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-1-10')}>
-                  {getRacePlaceInCompetition(n, this.props.raceId, this.props.competitionId)}
+const ClassificationSwimmersListByRace = ({ raceSwimmers, raceId, competitionId, schools }) => {
+  return (
+    <section className={styles.ClassificationSwimmersListByRace}>
+      <div className='ui one column grid center aligned'>
+        <div className='fourteen wide column'>
+          <table className='ui striped compact table'>
+            <thead>
+            <tr>
+              <th className='center aligned two wide column'>
+                <span className={styles.th_name}>Miejsce</span>
+              </th>
+              <th className='five wide column'>
+                <span className={styles.th_name}>Imię i nazwisko</span>
+              </th>
+              <th className='five wide column'>
+                <span className={styles.th_name}>Szkoła</span>
+              </th>
+              <th className='center aligned two wide column'>
+                <span className={styles.th_name}>Czas</span>
+              </th>
+              <th className='center aligned two wide column'>
+                <span className={styles.th_name}>Punkty</span>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            {raceSwimmers.map((n, i) => (
+              <tr key={i}>
+                <td className='center aligned'>
+                  {getRacePlaceInCompetition(n, raceId, competitionId)}
                 </td>
-                <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-3-10')}>
+                <td>
                   {n.name} {n.surname}
                 </td>
-                <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-3-10')}>
-                  {getSchoolNameById(this.state.schools, n.schoolId)}
+                <td>
+                  {getSchoolNameById(schools, n.schoolId)}
                 </td>
-                <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-2-10')}>
-                  {getRaceTimeInCompetition(n, this.props.raceId, this.props.competitionId)} sek
+                <td className='center aligned'>
+                  {getRaceTimeInCompetition(n, raceId, competitionId)} sek
                 </td>
-                <td className={classNames(styles.ClassificationSwimmersListByRace_td, 'uk-width-1-10')}>
-                  {getRacePointsInCompetition(n, this.props.raceId, this.props.competitionId)} pkt
+                <td className='center aligned'>
+                  {getRacePointsInCompetition(n, raceId, competitionId)} pkt
                 </td>
               </tr>
             ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
-    );
-  }
-}
+    </section>
+  );
+};
 
 ClassificationSwimmersListByRace.propTypes = {
   raceSwimmers: PropTypes.array,

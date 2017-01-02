@@ -14,7 +14,7 @@ class Classifications extends Component {
     this._getRaceTime = this._getRaceTime.bind(this);
     this._setActiveLink = this._setActiveLink.bind(this);
     this.state = {
-      raceId: '',
+      raceId: 1,
       raceSwimmers: [],
       schools: [],
       activeLinkIndex: 0
@@ -56,6 +56,7 @@ class Classifications extends Component {
     this.setState({
       raceSwimmers: sortedSwimmers
     });
+    this._updateRaceId(1);
   }
   render() {
     let competitionId = localStorage.getItem('currentCompetitionId');
@@ -64,6 +65,8 @@ class Classifications extends Component {
       (swimmer) => isSwimmerRanked(swimmer, this.props.schools)
     );
     let rankedSchools = this.props.schools.filter((n) => n.isRanked);
+    let formHidden = window.location.pathname === '/competition-swimmers' ||
+      window.location.pathname === '/competition-schools';
     return (
       <section>
         <nav className={classNames('ui top attached tabular menu', styles.navbar)}>
@@ -90,7 +93,7 @@ class Classifications extends Component {
           </div>
         </nav>
         <section className={classNames('bottom attached segment', styles.rankingSection)}>
-          <div>
+          <div className={classNames({[styles.displayNone]: formHidden})}>
             <ChooseRace getCategory={this._getCategory}/>
           </div>
           {this.props.children && React.cloneElement(this.props.children, {
