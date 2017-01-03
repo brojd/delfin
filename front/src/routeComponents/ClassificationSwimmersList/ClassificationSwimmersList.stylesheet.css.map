@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,2BAA4B;EAC1B,OAAO,EAAE,MAAM;;AAGjB,QAAS;EACP,KAAK,EAAE,OAAO",
+"sources": ["ClassificationSwimmersList.stylesheet.scss"],
+"names": [],
+"file": "ClassificationSwimmersList.stylesheet.css"
+}

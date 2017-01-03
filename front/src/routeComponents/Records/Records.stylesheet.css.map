@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,QAAS;EACP,UAAU,EAAE,yBAAyB;EACrC,cAAc,EAAE,IAAI;;AAGtB,cAAe;EACb,MAAM,EAAE,iBAAiB;EACzB,KAAK,EAAE,IAAI",
+"sources": ["Records.stylesheet.scss"],
+"names": [],
+"file": "Records.stylesheet.css"
+}

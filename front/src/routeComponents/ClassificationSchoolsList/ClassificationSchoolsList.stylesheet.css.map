@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,0BAA2B;EACzB,OAAO,EAAE,MAAM",
+"sources": ["ClassificationSchoolsList.stylesheet.scss"],
+"names": [],
+"file": "ClassificationSchoolsList.stylesheet.css"
+}

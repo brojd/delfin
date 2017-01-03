@@ -1,0 +1,12 @@
+:global {
+  @import "./_react-select.stylesheet.scss";
+  @import "../../../node_modules/react-select/scss/components.scss";
+}
+
+.ChooseRaceWrapper {
+  padding-top: 50px
+}
+
+.ChooseRace {
+  margin: 0 !important;
+}

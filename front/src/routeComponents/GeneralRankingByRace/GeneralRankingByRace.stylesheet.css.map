@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,qBAAsB;EACpB,OAAO,EAAE,MAAM;;AAGjB,QAAS;EACP,KAAK,EAAE,OAAO",
+"sources": ["GeneralRankingByRace.stylesheet.scss"],
+"names": [],
+"file": "GeneralRankingByRace.stylesheet.css"
+}
