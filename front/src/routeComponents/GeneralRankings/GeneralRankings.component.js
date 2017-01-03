@@ -62,21 +62,21 @@ class GeneralRankings extends Component {
             <Link to='/'
                   className='item'
                   onClick={() => { this._setActiveLink(0); }}>
-              <span className={styles.navbar_label}>Ranking wg kategorii</span>
+              <span className={styles.navbar_label}>Klasyfikacja wg kategorii</span>
             </Link>
           </div>
           <div className={classNames(styles.tab, {[styles.activeTab]:this.state.activeLinkIndex===1})}>
             <Link to='/general-ranking-swimmers'
                   className='item'
                   onClick={() => { this._setActiveLink(1); }}>
-              <span className={styles.navbar_label}>Ranking ogólny zawodników</span>
+              <span className={styles.navbar_label}>Klasyfikacja zawodników</span>
             </Link>
           </div>
           <div className={classNames(styles.tab, {[styles.activeTab]:this.state.activeLinkIndex===2})}>
             <Link to='/general-ranking-schools'
                   className='item'
                   onClick={() => { this._setActiveLink(2); }}>
-              <span className={styles.navbar_label}>Ranking ogólny szkół</span>
+              <span className={styles.navbar_label}>Klasyfikacja szkół</span>
             </Link>
           </div>
         </nav>

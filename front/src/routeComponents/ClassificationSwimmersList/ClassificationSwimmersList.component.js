@@ -25,7 +25,7 @@ class ClassificationSwimmersList extends Component {
     let result = 0;
     swimmer.times.forEach((timeObj) => {
       if (!this.props.isGeneral) {
-        if (timeObj.competitionId === localStorage.getItem('currentCompetitionId')) {
+        if (timeObj.competitionId === this.props.competitionId) {
           result += timeObj.points;
         }
       } else {
@@ -62,16 +62,16 @@ class ClassificationSwimmersList extends Component {
               <tbody>
                 {sortedSwimmers.map((n, i) => (
                   <tr key={i}>
-                    <td className='uk-width-1-10 center aligned'>
+                    <td className='center aligned'>
                       {this._getPlace(sortedSwimmers, i)}
                     </td>
-                    <td className='uk-width-4-10'>
+                    <td>
                      {n.name} {n.surname}
                     </td>
-                    <td className='uk-width-4-10'>
+                    <td>
                       ({getSchoolNameById(this.props.schools, n.schoolId)})
                     </td>
-                    <td className='uk-width-1-10 center aligned'>
+                    <td className='center aligned'>
                       {this._getSwimmerPoints(n)} pkt
                     </td>
                   </tr>
