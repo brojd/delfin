@@ -40,7 +40,7 @@ class Nav extends Component {
               <div className='menu'>
                 {this.props.competitions.map((n, i) => (
                   <Link to={`competition/${n.id}`} key={i} className="item">
-                    {n.name}s
+                    {n.name}
                   </Link>
                 ))}
               </div>
