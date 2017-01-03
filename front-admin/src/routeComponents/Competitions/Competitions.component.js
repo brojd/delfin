@@ -63,22 +63,27 @@ class Competitions extends Component {
     return null;
   }
   componentDidMount() {
-    let currentCompetitionId = localStorage.getItem('currentCompetitionId');
-    this.setState({ currentCompetitionId: currentCompetitionId });
     axios.all([
       axios.get(`${CONFIG.API_URL}/swimmers`),
-      axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/swimmers`),
       axios.get(`${CONFIG.API_URL}/schools`),
       axios.get(`${CONFIG.API_URL}/competitions`)
     ])
-      .then(axios.spread((swimmersRes, competitionSwimmers, schoolsRes, competitionsRes) => {
-        this.setState({
-          allSwimmers: swimmersRes.data,
-          competitionSwimmers: competitionSwimmers.data,
-          allSchools: schoolsRes.data,
-          competitions: competitionsRes.data,
-          currentCompetition: competitionsRes.data.filter((n) => n.id === currentCompetitionId)[0]
-        });
+      .then(axios.spread((swimmersRes, schoolsRes, competitionsRes) => {
+        let currentCompetitionId = localStorage.currentCompetitionId || competitionsRes.data[0].id;
+        if (currentCompetitionId) {
+          axios.get(`${CONFIG.API_URL}/competitions/${currentCompetitionId}/swimmers`)
+            .then(competitionSwimmers => {
+              this.setState({
+                allSwimmers: swimmersRes.data,
+                competitionSwimmers: competitionSwimmers.data,
+                allSchools: schoolsRes.data,
+                competitions: competitionsRes.data,
+                currentCompetition: competitionsRes.data.filter((n) => n.id === currentCompetitionId)[0],
+                currentCompetitionId: currentCompetitionId
+              });
+            })
+            .catch((error) => console.error(error));
+        }
       }))
       .catch((error) => console.error(error));
   }

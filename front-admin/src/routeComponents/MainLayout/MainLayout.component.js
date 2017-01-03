@@ -25,15 +25,21 @@ class MainLayout extends Component {
   componentDidMount() {
     axios.get(`${CONFIG.API_URL}/competitions`)
       .then((response) => {
-        this.setState({competitions: response.data});
+        if (!localStorage.getItem('currentCompetitionId')) {
+          debugger;
+          localStorage.setItem('currentCompetitionId', response.data[0].id);
+          this.setState({
+            currentCompetitionId: response.data[0].id,
+            competitions: response.data
+          });
+        } else {
+          this.setState({
+            currentCompetitionId: localStorage.getItem('currentCompetitionId'),
+            competitions: response.data
+          });
+        }
       })
       .catch((error) => console.error(error));
-    if (!localStorage.getItem('currentCompetitionId')) {
-      localStorage.setItem('currentCompetitionId', CONFIG.DEFAULT_COMPETITION_ID);
-      this.setState({currentCompetitionId: CONFIG.DEFAULT_COMPETITION_ID});
-    } else {
-      this.setState({currentCompetitionId: localStorage.getItem('currentCompetitionId')});
-    }
   }
   render() {
     return (

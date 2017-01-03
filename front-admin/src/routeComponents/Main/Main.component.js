@@ -13,6 +13,7 @@ class Main extends Component {
     this.props.passCompetitionId(id);
   }
   render() {
+    debugger;
     return (
       <main className={classNames('uk-float-right uk-width-5-6', styles.Main)}>
         {this.props.children && React.cloneElement(this.props.children, {
