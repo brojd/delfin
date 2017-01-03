@@ -4,4 +4,6 @@ body {
   font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;;
   background: url('./images/back-photo.png') no-repeat center center fixed;
   background-size: cover;
+  position: relative;
+  height: 100%;
 }
