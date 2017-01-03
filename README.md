@@ -22,6 +22,13 @@ You should see:
 
 ![Delfin index page](./readmeImg.png)
 
+Currently deployed and available on: http://slp-krapkowice.info.pl/
+
+Admin app deployed on: http://slp-admin.info.pl/ . 
+
+Looks like this:
+![Delfin admin](./readmeImg2.png)
+
 
 ## Built With
 
