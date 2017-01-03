@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Select from 'react-select';
+import classNames from 'classnames';
+import styles from './ChooseRace.stylesheet.css';
 
 class ChooseRace extends Component {
   constructor() {
@@ -44,29 +46,37 @@ class ChooseRace extends Component {
   }
   render() {
     return (
-      <form className='uk-width-7-10 uk-align-center'>
-        <Select
-          name='sex'
-          value={this.state.sex}
-          options={this.sexOptions}
-          onChange={this._handleSexChange}
-          className='uk-width-3-10 uk-display-inline-block uk-margin-right'
-        />
-        <Select
-          name='style'
-          value={this.state.style}
-          options={this.styleOptions}
-          onChange={this._handleStyleChange}
-          className='uk-width-3-10 uk-display-inline-block uk-margin-right'
-        />
-        <Select
-          name='age'
-          value={this.state.age}
-          options={this.ageOptions}
-          onChange={this._handleAgeChange}
-          className='uk-width-3-10 uk-display-inline-block'
-        />
-      </form>
+      <div className={styles.ChooseRaceWrapper}>
+        <form className={classNames(styles.ChooseRace, 'ui three column grid')}>
+          <div className={classNames('column')}>
+            <Select
+              name='sex'
+              value={this.state.sex}
+              options={this.sexOptions}
+              onChange={this._handleSexChange}
+              searchable={false}
+              clearable={false}/>
+          </div>
+          <div className={classNames('column')}>
+            <Select
+              name='style'
+              value={this.state.style}
+              options={this.styleOptions}
+              onChange={this._handleStyleChange}
+              searchable={false}
+              clearable={false}/>
+          </div>
+          <div className={classNames('column')}>
+            <Select
+              name='age'
+              value={this.state.age}
+              options={this.ageOptions}
+              onChange={this._handleAgeChange}
+              searchable={false}
+              clearable={false}/>
+          </div>
+        </form>
+      </div>
     );
   }
 }

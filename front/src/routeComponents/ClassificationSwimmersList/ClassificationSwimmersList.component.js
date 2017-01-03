@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import getSchoolNameById from '../../helpers/getSchoolNameById';
 import styles from './ClassificationSwimmersList.stylesheet.css';
-import classNames from 'classnames';
 
 class ClassificationSwimmersList extends Component {
   constructor() {
@@ -26,7 +25,7 @@ class ClassificationSwimmersList extends Component {
     let result = 0;
     swimmer.times.forEach((timeObj) => {
       if (!this.props.isGeneral) {
-        if (timeObj.competitionId === localStorage.getItem('currentCompetitionId')) {
+        if (timeObj.competitionId === this.props.competitionId) {
           result += timeObj.points;
         }
       } else {
@@ -40,30 +39,48 @@ class ClassificationSwimmersList extends Component {
       (a, b) => this._getSwimmerPoints(b) - this._getSwimmerPoints(a)
     );
     return (
-      <div className={classNames(styles.ClassificationSwimmersListWrapper, 'uk-width-8-10 uk-align-center')}>
-        <h3 className=''>Klasyfikacja ogólna zawodników</h3>
-        <table className={classNames(styles.ClassificationSwimmersList, 'uk-table')}>
-          <caption>Zawodnicy</caption>
-          <tbody>
-            {sortedSwimmers.map((n, i) => (
-              <tr className={styles.ClassificationSwimmersList_tr} key={i}>
-                <td className={classNames(styles.ClassificationSwimmersList_td, 'uk-width-1-10')}>
-                  {this._getPlace(sortedSwimmers, i)}
-                </td>
-                <td className={classNames(styles.ClassificationSwimmersList_td, 'uk-width-4-10')}>
-                 {n.name} {n.surname}
-                </td>
-                <td className={classNames(styles.ClassificationSwimmersList_td, 'uk-width-4-10')}>
-                  ({getSchoolNameById(this.props.schools, n.schoolId)})
-                </td>
-                <td className={classNames(styles.ClassificationSwimmersList_td, 'uk-width-1-10')}>
-                  {this._getSwimmerPoints(n)} pkt
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <section className={styles.ClassificationSwimmersList}>
+        <div className='ui one column grid center aligned'>
+          <div className='fourteen wide column'>
+            <table className='ui striped compact table'>
+              <thead>
+                <tr>
+                  <th className='center aligned'>
+                    <span className={styles.th_name}>Miejsce</span>
+                  </th>
+                  <th>
+                    <span className={styles.th_name}>Imię i nazwisko</span>
+                  </th>
+                  <th>
+                    <span className={styles.th_name}>Szkoła</span>
+                  </th>
+                  <th className='center aligned'>
+                    <span className={styles.th_name}>Punkty</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedSwimmers.map((n, i) => (
+                  <tr key={i}>
+                    <td className='center aligned'>
+                      {this._getPlace(sortedSwimmers, i)}
+                    </td>
+                    <td>
+                     {n.name} {n.surname}
+                    </td>
+                    <td>
+                      ({getSchoolNameById(this.props.schools, n.schoolId)})
+                    </td>
+                    <td className='center aligned'>
+                      {this._getSwimmerPoints(n)} pkt
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
     );
   }
 }

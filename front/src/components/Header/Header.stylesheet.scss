@@ -18,3 +18,26 @@
   color: white;
   text-shadow: 2px 2px 3px black;
 }
+
+@media only screen and (max-width: 930px) {
+  .Header_title {
+    font-size: 1.8rem;
+    line-height: 140px;
+    height: 140px;
+  }
+  .Header_logo {
+    width: 80px;
+  }
+}
+
+@media only screen and (max-width: 670px) {
+  .Header_title {
+    font-size: 1.5rem;
+    line-height: 85px;
+    height: 85px;
+  }
+  .Header_logo {
+    width: 60px;
+    margin: 10px;
+  }
+}
