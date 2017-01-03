@@ -1,0 +1,32 @@
+.displayNone {
+  display: none;
+}
+
+.rankingSection {
+  background: rgba(255, 255, 255, 0.54);
+}
+
+.activeTab {
+  background: rgb(0, 108, 170) !important;
+  color: rgba(243, 243, 243, 0.95) !important;
+}
+
+.navbar_label {
+  color: white;
+  text-shadow: 2px 2px 2px black;
+}
+
+.tab {
+  background: rgba(70, 70, 70, 0.41);
+  border-left: 1px solid rgba(255, 255, 255, 0.54);
+  border-top: 1px solid rgba(255, 255, 255, 0.54);
+  z-index: 3;
+}
+
+.tab:hover {
+  background: rgba(21, 59, 86, 0.88);
+}
+
+.tab:last-child {
+  border-right: 1px solid rgba(255, 255, 255, 0.54);
+}
