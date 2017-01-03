@@ -1,9 +1,10 @@
 # Delfin - swimming tournaments manager
 
 Delfin is a web system that consists of:
-1) Admin application to manage tournaments/competitions, teams, swimmers, times of races and calculate different types of classification
-2) Front application to present results of races and classifications
-3) Backend for both parts
+
+1. Admin application to manage tournaments/competitions, teams, swimmers, times of races and calculate different types of classification
+2. Front application to present results of races and classifications
+3. Backend for both parts
 
 
 ## Getting Started
