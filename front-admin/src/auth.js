@@ -29,6 +29,7 @@ module.exports = {
   },
   logout(cb) {
     delete localStorage.token;
+    delete localStorage.currentCompetitionId;
     if (cb) cb();
     this.onChange(false);
   },

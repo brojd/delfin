@@ -26,7 +26,6 @@ class MainLayout extends Component {
     axios.get(`${CONFIG.API_URL}/competitions`)
       .then((response) => {
         if (!localStorage.getItem('currentCompetitionId')) {
-          debugger;
           localStorage.setItem('currentCompetitionId', response.data[0].id);
           this.setState({
             currentCompetitionId: response.data[0].id,
