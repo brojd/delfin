@@ -31,7 +31,7 @@ class ClassificationSchoolsList extends Component {
       return 1;
     } else if (index > 0 && this._getSchoolPoints(school.id) === this._getSchoolPoints(upperSchool.id)) {
       school.place = upperSchool.place;
-    } else if (this._getSchoolPoints(school.id) === this._getSchoolPoints(upperSchool.id)) {
+    } else if (index > 0 && this._getSchoolPoints(school.id) !== this._getSchoolPoints(upperSchool.id)) {
       school.place = index + 1;
     }
     return school.place;
