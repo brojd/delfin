@@ -29,5 +29,26 @@ Dodatkowo możesz edytować domyślną punktację zawodów.
 
 ![wybierz_zawody](./instruction_gifs/4.Wybierz_zawody.gif)<br/><br/>
 
+### 7. Wpisz wyniki
+W sekcji wyniki wybierz kategorię, w której wpisesz wyniki, a następnie wybierz i wpisz wynik zawodnika
+
+![wpisz_wyniki](./instruction_gifs/5.Wpisywanie_wynikow.gif)<br/><br/>
+
+### 8. Przeglądaj rankingi aktualnych zawodów
+
+![ranking_zawodow](./instruction_gifs/6.Ranking_zawodow.gif)<br/><br/>
+
+### 9. Przeglądaj klasyfikację generalną wszystkich zawodów
+
+![klasyfikacje_generalne](./instruction_gifs/7.Ranking_ogolny.gif)<br/><br/>
+
+### 10. Przeglądaj rekordy
+
+![rekordy](./instruction_gifs/8.Rekordy.gif)<br/><br/>
+
+### 10. Wszystkie wyniki dostępne są na stronie: [www.slp-krapkowice.info.pl](http://slp-krapkowice.info.pl)
+
+![strona_z_wynikami](./instruction_gifs/9.Strona_z_wynikami.gif)<br/><br/>
+
 
 
