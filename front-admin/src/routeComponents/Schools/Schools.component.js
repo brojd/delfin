@@ -35,7 +35,7 @@ class Schools extends Component {
       .catch((error) => { console.error(error); this.props.history.push('/logout'); });
   }
   _deleteSchool(id) {
-    let toDelete = confirm('Czy chcesz skasować zawodnika?');
+    let toDelete = confirm('Czy chcesz skasować szkołę?');
     if (toDelete) {
       axios.delete(`${CONFIG.API_URL}/schools/${id}?access_token=${auth.getToken()}`)
         .then((response) => {
