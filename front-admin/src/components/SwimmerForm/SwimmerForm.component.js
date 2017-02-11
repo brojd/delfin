@@ -51,7 +51,7 @@ class SwimmerForm extends Component {
         </div>
         <div className='uk-form-row'>
           <label className='uk-form-label'>Szkoła:</label>
-          <select value={this.state.selectValue}
+          <select value={this.state.schoolId}
                   onChange={this._handleSelectChange}>
             {this.props.schools.map((n, i) => {
               return (
