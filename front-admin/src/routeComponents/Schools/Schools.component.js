@@ -35,15 +35,18 @@ class Schools extends Component {
       .catch((error) => { console.error(error); this.props.history.push('/logout'); });
   }
   _deleteSchool(id) {
-    axios.delete(`${CONFIG.API_URL}/schools/${id}?access_token=${auth.getToken()}`)
-      .then((response) => {
-        if (response.status === 200) {
-          let currentSchools = this.state.schools;
-          _remove(currentSchools, (n) => n.id == id);
-          this.setState({ schools: currentSchools });
-        }
-      })
-      .catch((error) => { console.error(error); this.props.history.push('/logout'); });
+    let toDelete = confirm('Czy chcesz skasować zawodnika?');
+    if (toDelete) {
+      axios.delete(`${CONFIG.API_URL}/schools/${id}?access_token=${auth.getToken()}`)
+        .then((response) => {
+          if (response.status === 200) {
+            let currentSchools = this.state.schools;
+            _remove(currentSchools, (n) => n.id == id);
+            this.setState({ schools: currentSchools });
+          }
+        })
+        .catch((error) => { console.error(error); this.props.history.push('/logout'); });
+    }
   }
   _saveSchool(name, isRanked) {
     let schoolToSave = {

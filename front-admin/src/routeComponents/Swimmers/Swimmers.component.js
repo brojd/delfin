@@ -36,15 +36,18 @@ class Nav extends Component {
       .catch((err) => { console.error(err); this.props.history.push('/logout'); });
   }
   _deleteSwimmer(id) {
-    axios.delete(`${CONFIG.API_URL}/swimmers/${id}?access_token=${auth.getToken()}`)
-      .then((response) => {
-        if (response.status === 200) {
-          let currentSwimmers = this.state.swimmers;
-          _remove(currentSwimmers, (n) => n.id == id);
-          this.setState({ swimmers: currentSwimmers });
-        }
-      })
-      .catch((err) => { console.error(err); this.props.history.push('/logout'); });
+    let toDelete = confirm('Czy chcesz skasować zawodnika?');
+    if (toDelete) {
+      axios.delete(`${CONFIG.API_URL}/swimmers/${id}?access_token=${auth.getToken()}`)
+        .then((response) => {
+          if (response.status === 200) {
+            let currentSwimmers = this.state.swimmers;
+            _remove(currentSwimmers, (n) => n.id == id);
+            this.setState({ swimmers: currentSwimmers });
+          }
+        })
+        .catch((err) => { console.error(err); this.props.history.push('/logout'); });
+    }
   }
   _saveSwimmer(name, surname, schoolId) {
     let swimmerToSave = {
