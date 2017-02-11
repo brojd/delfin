@@ -26,6 +26,7 @@ class SwimmerForm extends Component {
   }
   _handleSubmit(e) {
     e.preventDefault();
+    this.setState({ name: '', surname: '' });
     this.props.addSwimmer(this.state.name, this.state.surname, this.state.schoolId);
   }
   componentWillReceiveProps(nextProps) {
@@ -41,12 +42,14 @@ class SwimmerForm extends Component {
           <label className='uk-form-label'>Imię:</label>
           <input type='text'
                  name='name'
+                 value={this.state.name}
                  onChange={this._handleNameChange} />
         </div>
         <div className='uk-form-row'>
           <label className='uk-form-label'>Nazwisko:</label>
           <input type='text'
                  name='surname'
+                 value={this.state.surname}
                  onChange={this._handleSurnameChange} />
         </div>
         <div className='uk-form-row'>
