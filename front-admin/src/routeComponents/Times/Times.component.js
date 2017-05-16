@@ -14,6 +14,7 @@ import auth from '../../auth';
 class Times extends Component {
   constructor() {
     super();
+    this._getRaceSwimmers = this._getRaceSwimmers.bind(this);
     this._getCategory = this._getCategory.bind(this);
     this._handleSwimmerChosen = this._handleSwimmerChosen.bind(this);
     this._deleteSwimmer = this._deleteSwimmer.bind(this);
@@ -25,6 +26,16 @@ class Times extends Component {
       competitionSwimmers: [],
       raceSwimmers: []
     };
+  }
+  _getRaceSwimmers(swimmers, raceId, competitionId) {
+    return swimmers.filter((swimmer) => {
+      if (swimmer.name === 'Jonasz') { debugger; }
+      let swimmerTimes = swimmer.times.filter(time =>
+        time.raceId == raceId &&
+        time.competitionId == competitionId
+      );
+      return swimmerTimes.length > 0;
+    });
   }
   _updateRaceId(raceId) {
     let competitionId = this.props.currentCompetitionId;
@@ -111,8 +122,11 @@ class Times extends Component {
     let raceSwimmers = this.state.raceSwimmers;
     for (let swimmer of raceSwimmers) {
       if (swimmer.id == id) {
+        debugger;
         _remove(swimmer.raceIds, (n) => n === this.state.raceId);
-        _remove(swimmer.times, (n) => n.raceId === this.state.raceId);
+        _remove(swimmer.times, (n) => n.raceId == this.state.raceId && n.competitionId == this.props.currentCompetitionId);
+        debugger;
+        console.log(localStorage.currentCompetitionId)
         axios.put(`${CONFIG.API_URL}/competitions/${this.props.currentCompetitionId}/swimmers/${id}?access_token=${auth.getToken()}`, swimmer)
           .then(() => {
             let newRaceSwimmers = raceSwimmers.filter((n) => n.id !== id);
@@ -164,7 +178,7 @@ class Times extends Component {
       axios.get(`${CONFIG.API_URL}/competitions`)
     ])
       .then(axios.spread((swimmersRes, schoolsRes, competitionsRes) => {
-        let raceSwimmers = swimmersRes.data.filter((n) => n.raceIds.includes(this.state.raceId));
+        let raceSwimmers = this._getRaceSwimmers(swimmersRes.data, this.state.raceId, localStorage.currentCompetitionId)
         this.setState({
           competitionSwimmers: swimmersRes.data,
           raceSwimmers: raceSwimmers,
