@@ -29,7 +29,6 @@ class Times extends Component {
   }
   _getRaceSwimmers(swimmers, raceId, competitionId) {
     return swimmers.filter((swimmer) => {
-      if (swimmer.name === 'Jonasz') { debugger; }
       let swimmerTimes = swimmer.times.filter(time =>
         time.raceId == raceId &&
         time.competitionId == competitionId
@@ -39,7 +38,8 @@ class Times extends Component {
   }
   _updateRaceId(raceId) {
     let competitionId = this.props.currentCompetitionId;
-    let raceSwimmers = this.state.competitionSwimmers.filter((n) => n.raceIds.includes(raceId));
+    // let raceSwimmers = this.state.competitionSwimmers.filter((n) => n.raceIds.includes(raceId));
+    let raceSwimmers = this._getRaceSwimmers(this.state.competitionSwimmers, raceId, competitionId);
     let sortedSwimmers = raceSwimmers.sort((a, b) =>
       getRaceTimeInCompetition(a, raceId, competitionId) - getRaceTimeInCompetition(b, raceId, competitionId)
     );
@@ -97,7 +97,7 @@ class Times extends Component {
       .catch((err) => { console.error(err); this.props.history.push('/logout'); });
   }
   _handleSwimmerChosen(val) {
-    let raceSwimmers = this.state.competitionSwimmers.filter((n) => n.raceIds.includes(this.state.raceId));
+    let raceSwimmers = this._getRaceSwimmers(this.state.competitionSwimmers, this.state.raceId, this.props.currentCompetitionId);
     let competitionTimes = val.value.times.filter(
       (n) => n.competitionId === this.props.currentCompetitionId
     );
@@ -122,10 +122,8 @@ class Times extends Component {
     let raceSwimmers = this.state.raceSwimmers;
     for (let swimmer of raceSwimmers) {
       if (swimmer.id == id) {
-        debugger;
         _remove(swimmer.raceIds, (n) => n === this.state.raceId);
         _remove(swimmer.times, (n) => n.raceId == this.state.raceId && n.competitionId == this.props.currentCompetitionId);
-        debugger;
         console.log(localStorage.currentCompetitionId)
         axios.put(`${CONFIG.API_URL}/competitions/${this.props.currentCompetitionId}/swimmers/${id}?access_token=${auth.getToken()}`, swimmer)
           .then(() => {
