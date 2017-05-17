@@ -9,6 +9,7 @@ import { Link } from 'react-router';
 class Classifications extends Component {
   constructor() {
     super();
+    this._getRaceSwimmers = this._getRaceSwimmers.bind(this);
     this._getCategory = this._getCategory.bind(this);
     this._updateRaceId = this._updateRaceId.bind(this);
     this._getRaceTime = this._getRaceTime.bind(this);
@@ -20,6 +21,15 @@ class Classifications extends Component {
       activeLinkIndex: 0
     };
   }
+  _getRaceSwimmers(swimmers, raceId, competitionId) {
+    return swimmers.filter((swimmer) => {
+      let swimmerTimes = swimmer.times.filter(time =>
+        time.raceId == raceId &&
+        time.competitionId == competitionId
+      );
+      return swimmerTimes.length > 0;
+    });
+  }
   _getRaceTime(swimmer, raceId) {
     let timeObj = swimmer.times.filter(
       (n) => n.raceId === raceId && n.competitionId == this.props.competitionId
@@ -30,7 +40,7 @@ class Classifications extends Component {
     return 0;
   }
   _updateRaceId(raceId) {
-    let raceSwimmers = this.props.competitionSwimmers.filter((n) => n.raceIds.includes(raceId));
+    let raceSwimmers = this._getRaceSwimmers(this.props.competitionSwimmers, raceId, this.props.competitionId)
     let sortedSwimmers = raceSwimmers.sort((a, b) =>
       this._getRaceTime(a, raceId) - this._getRaceTime(b, raceId)
     );
@@ -47,7 +57,7 @@ class Classifications extends Component {
     this.setState({ activeLinkIndex: linkIndex });
   }
   componentDidMount() {
-    let raceSwimmers = this.props.competitionSwimmers.filter((n) => n.raceIds.includes(this.state.raceId));
+    let raceSwimmers = this._getRaceSwimmers(this.props.competitionSwimmers, this.state.raceId, this.props.competitionId)
     let sortedSwimmers = raceSwimmers.sort((a, b) =>
       this._getRaceTime(a, this.state.raceId) - this._getRaceTime(b, this.state.raceId)
     );
